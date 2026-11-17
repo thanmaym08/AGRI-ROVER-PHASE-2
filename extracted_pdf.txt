@@ -1,0 +1,571 @@
+--- PAGE 1 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 1 
+1. INTRODUCTION 
+The rapid advancement of technology has transformed agricultural practices, making 
+autonomous robotics and IoT platforms the primary solution for crop management, selective 
+spraying, and soil monitoring. These platforms simplify farming operations, reduce chemical 
+wastage, and improve food production efficiency. However, traditional farming methods rely 
+heavily on broadcast spraying across entire fields, making it difficult to deliver localized crop 
+care and leading to soil contamination and environmental toxicity. 
+To address these challenges, Agri Rover is developed as an autonomous cyber-physical mobile 
+robot specifically for precision agriculture and crop care. The platform enables automated crop 
+row guidance, computer vision-based pest and weed detection, directio nal solenoid spraying, 
+and electrochemical soil nutrient probing using Raspberry Pi microcomputers and Three.js 3D 
+WebGL Digital Twin simulation, providing a scalable, safe, and cost -effective solution for 
+agricultural operators. 
+1.1 Project Description 
+Every harvesting season, agricultural producers face significant crop losses from pest 
+infestations and weed competition, yet conventional chemical spraying relies on broad -area 
+tractor boom sprayers designed for uniform broadcasting. Farmers are left applying expensive, 
+toxic pesticides across healthy and diseased plants alike, with no real -time feedback on soil 
+nutrient health or crop status. "Agri Rover" is proposed and built as an autonomous, fresher -
+focused agricultural vehicle that closes this gap on bo th hardware actuation and digital 
+monitoring sides. 
+On the field side, Agri Rover utilizes a heavy -duty 6-wheel skid-steer chassis driven by dual 
+BTS7960 43A motor drivers carrying a 5 to 10 liter pesticide tank. An onboard camera feeds 
+real-time video to an OpenCV computer vision pipeline, automatically identifying crop rows, 
+invasive weeds, and insect pests. Upon detection, directional solenoid valves fire pressurized 
+micro-bursts strictly to infected zones, reducing pesticide usage by up to 80%. On the 
+monitoring side, an integrated linear actuator lowers an electrochemical probe to log 
+georeferenced NPK, pH, and moisture data into a real-time dashboard. 
+
+--- PAGE 2 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 2 
+The distinguishing engineering decision behind Agri Rover is the inclusion of a high -fidelity 
+3D WebGL Digital Twin Simulator: there is no physical risk during initial algorithm testing. 
+The React and Three.js front end runs a real-time WebGL canvas with zero-radius point turns, 
+tight lane-lock row keeping, and dynamic battery/charging models. This keeps t esting fast, 
+safe, and zero-cost prior to physical field deployment. 
+1.2 Company Profile 
+Agri Rover is not built for or under a hosting company; it is a self -initiated Project Based 
+Learning (PBL) exercise carried out by MCA students of the Department of M aster of 
+Computer Applications, BMS Institute of Technology & Management (BMSITM), Bengaluru, 
+an autonomous institution affiliated to Visvesvaraya Technological University (VTU). In place 
+of an external company profile, this section frames the problem doma in the project responds 
+to: the modern precision agriculture robotics industry, dominated by expensive monolithic 
+machinery or specialized drones that serve large industrial farms. Agri Rover narrows that 
+scope deliberately — a modular, accessible cyber -physical vehicle for localized farm 
+automation — so that the whole system, from UI control to computer vision algorithms, can 
+be optimized for small-to-medium farming applications. 
+  
+
+--- PAGE 3 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 3 
+2. LITERATURE SURVEY 
+A study of existing agricultural sprayers and recent research on autonomous field robotics was 
+carried out to understand current farming practices and their limitations. Popular platforms 
+such as tractor boom sprayers and commercial agricultural drones provide general spraying 
+but are primarily designed for b road-area broadcasting. Research on edge computing and 
+computer vision highlights the benefits of localized chemical actuation, reduced soil toxicity, 
+and automated nutrient monitoring. Based on these findings, Agri Rover was designed as a 
+cyber-physical v ehicle focused on precision crop care, integrating OpenCV -based threat 
+detection and real -time 3D simulation to improve the farming experience for agricultural 
+operators. 
+2.1 Existing and Proposed System 
+Existing System 
+General-purpose spraying systems such as tractor-mounted booms and aerial spraying drones 
+dominate the current market. They are built to serve large open fields at once, which brings 
+three recurring problems for precision crop care in particular. First, chemical application is 
+uniform rather than threat -driven, so healthy plants receive the same chemical dosage as 
+diseased plants. Second, these platforms give operators little to no visibility into real-time soil 
+nutrient levels (NPK/pH) — there is typically no integrated ground probing mechanism. Third, 
+most commercial autonomous machines are expensive, proprietary systems that are neither 
+designed nor priced for accessible institution-level deployment or digital twin virtual testing. 
+Proposed System 
+Agri Rover addresses each of the above gaps directly. It restricts its operational scope to row-
+crop environments so that every design decision — the skid -steer wheel alignment, the 
+OpenCV color segmentation algorithms, the UI teleoperation controls — can be tuned for 
+precision targeting. It introduces an automatic, transparent AI threat detection score computed 
+the moment a camera frame scans a crop, replacing blind broadcasting with localized solenoid 
+valve bursts. It gives operators a real-time status dashboard and automated soil probe sampling, 
+reducing chemical pesticide volume by up to 80%. Finally, the entire virtual system is built on 
+
+--- PAGE 4 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 4 
+HTML5 WebGL and Three.js rather than proprietary software, keeping hardware validation 
+safe and cost-effective. 
+2.2 Feasibility Study 
+2.2.1 Technical Feasibility 
+All components used in Agri Rover - Raspberry Pi 4, BTS7960 motor drivers, solenoid valves, 
+OpenCV, NumPy, RPi.GPIO, HTML5 WebGL, Three.js and OrbitControls - are mature, well-
+documented tools, and the development team already has working fami liarity with Python, 
+JavaScript, and hardware interfacing. No specialized proprietary hardware is required; the 
+application is developed and tested on standard development workstations and deployed to 
+Raspberry Pi hardware. The project is therefore technic ally feasible within the time and skill 
+constraints of a II-Semester PBL exercise. 
+2.2.2 Operational Feasibility 
+The end-user workflows - driving via WASD, selecting spray modes (Option 1 Blanket vs 
+Option 2 Targeted AI), toggling Lane Lock, and deploying the soil probe - mirror patterns that 
+operators easily understand, minimizing the learning curve. The single -page digital twin 
+simulator is responsive and requires only a modern web browser, with no client -side 
+installation. The system requires no complex dedicated maintenance once configured. 
+2.2.3 Economic Feasibility 
+Because the control software relies on open -source libraries and affordable off -the-shelf 
+microcontroller components, the system incurs minimal fixed cost. The software simulator 
+runs entirely offline in -browser at zero operational expense. This makes the project 
+economically feasible to build, run and maintain for academic demonstration and field 
+deployment. 
+  
+
+--- PAGE 5 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 5 
+3. TOOLS AND TECHNOLOGIES USED 
+The development of Agri Rover involves the use of modern web technologies, computer vision 
+frameworks, and microcontroller hardware drivers to build a secure, scalable cyber -physical 
+robot. The frontend digital twin is developed using Three.js and WebGL, while the physical 
+hardware controller is implemented using Raspberry Pi OS, Python, OpenCV, and RPi.GPIO. 
+These technologies work together to provide efficient motor driving, vision processing, 
+solenoid actuation, and telemetry display. 
+3.1 React.js / Three.js 3D Web Engine 
+The digital twin client dashboard is built using HTML5, CSS3, JavaScript (ES6+), and Three.js 
+v0.128.0 with OrbitControls.js for 3D WebGL scene rendering. Three.js was chosen for its 
+component-driven 3D structure, lighting and shadow capabilities, and suitability for building 
+a fast, browser-based simulation that executes without client-side plugins. 
+3.2 Raspberry Pi Controller 
+All hardware control logic - motor PWM speed modulation, solenoid valve opening, OpenCV 
+frame processing, and soil probe stepping - is implemented as mod ular Python 3.10+ scripts 
+(`motor_control_pi.py`, `pesticide_sprayer.py`, `camera_stream.py`). Each script is single -
+purpose, stateless, and reads GPIO pin configuration from central definitions, keeping code 
+portable across simulation and physical Pi hardware. 
+3.3 OpenCV Vision Pipeline 
+Real-time video processing is handled by OpenCV 4.x (`cv2`). The vision pipeline converts 
+video frames into HSV color space, applies morphological noise filtering, and extracts crop 
+row guidelines using Hough Line Transforms. It detects caterpillars (purple mask) and weeds 
+(red mask), calculating spatial offsets to trigger directional solenoid valves. 
+3.4 Safety & Emergency Shutdown 
+Power management and safety lockouts are enforced by the controller loop. If simulated 
+battery voltage drops below 12.0V (<= 12%), the system automatically triggers an emergency 
+halt, locking motor PWM outputs and closing all chemical valves to prevent brownouts. 
+
+--- PAGE 6 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 6 
+3.5 Soil Sensor & Telemetry Storage 
+Georeferenced soil testing points (NPK, pH, moist ure) and operational telemetry logs are 
+stored in structured JS objects and local storage arrays, displaying permanent heat -map rings 
+on the 3D farmland ground plane. 
+3.6 Digital Twin Hosting 
+Static simulation assets, 3D CAD renders, and dashboard UI files are served locally or hosted 
+on cloud storage, ensuring smooth asset loading and responsive user interaction. 
+3.7 Development Environment and Supporting Libraries 
+• VS Code on Windows as primary IDE with Python and DevTools extensions.  
+• OpenCV (cv2) & Nu mPy for image array processing and color space transformation.  
+• RPi.GPIO  for Raspberry Pi hardware pin pulse -width modulation.  
+• Three.js & OrbitControls for 3D WebGL rendering. 
+3.8 Hardware and Software Requirements 
+Table 3.1: Hardware and Software Requirements 
+Category Requirement 
+Development machine Windows 10/11 PC or laptop, 8 GB RAM minimum, 
+broadband internet connection 
+Microcontroller Node Raspberry Pi 4 Model B (4GB LPDDR4, Quad-Core 
+1.5GHz ARM) 
+Motor Drivers Dual BTS7960 43A High-Power H-Bridge Drivers 
+(24V DC Configuration) 
+Vision Sensor Raspberry Pi Camera Module v2 or USB 1080p HD 
+Webcam 
+Actuators & Valves Dual 12V Solenoid Valves + 100Hz PWM MOSFET 
+Pump + NEMA Stepper Probe 
+Software Runtime Python 3.10+, OpenCV 4.x, NumPy, Three.js v0.128.0, 
+WebGL Browser 
+  
+
+--- PAGE 7 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 7 
+4. SOFTWARE REQUIREMENTS SPECIFICATION 
+The Software Requirements Specification (SRS) defines the functional and non -functional 
+requirements of Agri Rover. It describes the system's users, their interactions with the 
+application, and the features required to meet the project objectives. The SRS serves as a 
+blueprint for design and implementation. 
+4.1 Users 
+4.1.1 Scope and Objective 
+Agri Rover serves two distinct operational roles behind an intuitive interface: the Farm 
+Operator (teleoperator or field manager) and the Automated AI Guidance Node. The scope 
+covers vehicle driving, mode selection, crop row tracking, AI threat recognition, directional 
+chemical spraying, soil nutrient probing, and 3D digita l twin monitoring. The objective is to 
+let an operator manage crops with minimal effort while reducing chemical usage by 80%. 
+4.1.2 Assumptions and Dependencies 
+• Crop rows are planted with reasonably uniform spacing (approx. 50 –70 cm apart).  
+• Camera feed  provides sufficient lighting for HSV color masking.  
+• Battery voltage remains above 12.0V during active patrol.  
+• Physical solenoid valves respond within 50ms of GPIO trigger. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+--- PAGE 8 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 8 
+4.2 Functional Requirements 
+Table 4.1: Summary of Functional Requirements 
+ID Requirement Primary Actor 
+FR-1 Teleoperate rover using WASD 
+keys and select speed presets (30%, 
+60%, 100% PWM). 
+Operator 
+FR-2 Enable Autonomous Guidance 
+mode for proportional crop row 
+centerline tracking. 
+Operator / AI 
+FR-3 Enable Lane Lock mode enforcing 
+single-row navigation and zero-
+radius U-turns. 
+Operator 
+FR-4 Execute Option 1 Blanket Coverage 
+spraying (continuous dual-nozzle 
+output). 
+Operator 
+FR-5 Execute Option 2 Precision AI 
+Spraying (OpenCV pest/weed 
+spatial detection). 
+AI Node 
+FR-6 Immobilize rover and deploy linear 
+actuator probe for 
+NPK/pH/moisture logging. 
+Operator 
+FR-7 Enforce battery emergency 
+shutdown when voltage drops 
+below 12.0V (<= 12%). 
+System 
+FR-8 Render 3D WebGL Digital Twin 
+with OrbitControls, wheel spin, and 
+particle mists. 
+Operator 
+ 
+ 
+ 
+ 
+
+--- PAGE 9 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 9 
+4.3 Non-Functional Requirements 
+Table 4.2: Non-Functional Requirements 
+Category Requirement 
+Security Control signals and serial GPIO pins are restricted to 
+authenticated Raspberry Pi sessions. 
+Availability The 3D WebGL simulator runs offline in-browser 
+without external server dependency. 
+Scalability Modular Python controller scripts independently handle 
+additional sensors or nozzle booms. 
+Performance OpenCV vision processing maintains > 15 FPS frame 
+rate on Raspberry Pi 4. 
+Usability Responsive dashboard layout with clear status 
+indicators and real-time console logging. 
+Maintainability Separation of concerns across motor control, sprayer 
+logic, vision, and 3D rendering. 
+  
+
+--- PAGE 10 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 10 
+5. SYSTEM DESIGN 
+System design desc ribes the overall structure and organization of Agri Rover, including its 
+architecture, major components, and interaction between hardware actuators and software 
+services. It provides a clear view of how the system is designed to ensure scalability, safety , 
+reliability, and efficient communication between the frontend digital twin, backend Python 
+controllers, and physical actuators. The following sections explain the architecture, system 
+perspective, and context diagram. 
+5.1 System Architecture 
+Agri Rover f ollows a modular, event -driven cyber -physical architecture. The React and 
+Three.js single-page simulation client is compiled to static assets and executed in WebGL. 
+Onboard the physical vehicle, a Raspberry Pi 4 processes video streams via OpenCV and issues 
+PWM motor signals to dual BTS7960 H-bridges and relay signals to 12V solenoid valves. 
+ 
+Fig. 5.1: System Architecture of Agri Rover 
+
+
+--- PAGE 11 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 11 
+5.2 System Perspective 
+From a system -of-systems perspective, Agri Rover operates autonomously within the field 
+environment while providing real -time telemetry to the farm operator's browser dashboard. 
+The front end is a responsive presentation layer; all physical actuation logic (lane keeping, 
+zero-radius point turns, threat classification) is executed server -side inside Python controller 
+nodes. 
+5.3 Context Diagram 
+At the highest level of abstraction, Agri Rover is a single cyber -physical process mediating 
+between the Farm Operator, the Crop Environment, and the Actuator Hardware. 
+ 
+Fig. 5.2: Context Diagram (Level 0 DFD) 
+  
+
+
+--- PAGE 12 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 12 
+6. DETAILED DESIGN 
+6.1 Data Flow Diagram 
+The Level -1 data flow diagram decomposes the Agri Rover process into five principal 
+functions: teleoperation & mode selection, OpenCV vision & threat segmentation, solenoid 
+actuation & spray control, steering kinematics & motor PWM, and soil NPK data acquisition. 
+ 
+Fig. 6.1: Data Flow Diagram — Level 1 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- PAGE 13 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 13 
+6.2 Activity Diagram 
+The activity diagram below traces the core autonomous patrol and precision spraying 
+workflow, including battery diagnostic checks, crop row masking, target classification, 
+directional solenoid triggering, and soil probe deployment. 
+ 
+Fig. 6.2: Activity Diagram — Autonomous Patrol 
+ 
+ 
+ 
+
+
+--- PAGE 14 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 14 
+6.3 Use Case Diagram 
+The use case diagram summarizes the system boundary for its two primary actors: the Farm 
+Operator and the Raspberry Pi AI Vision Engine. 
+ 
+Fig. 6.3: Use Case Diagram 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- PAGE 15 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 15 
+6.4 Sequence Diagram 
+The sequence diagram traces a complete autonomous patrol scenario across every hardware 
+tier, from camera frame acquisition to OpenCV threat detection, solenoid valve triggering, and 
+soil probe sampling. 
+ 
+Fig. 6.4: Sequence Diagram — Targeted AI Spraying 
+  
+
+
+--- PAGE 16 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 16 
+7. IMPLEMENTATION 
+7.1 Data Model 
+The hardware GPIO pin assignment mappings and data structures that back Agri Rover are 
+summarized below. All pins use standard BCM numbering on the Raspberry Pi 4. 
+Table 7.1: Subsystem Pin Assignment & Hardware Specifications Summary  
+Subsystem GPIO Pin / Channel Hardware Description 
+Left Motor Driver GPIO 17 (L_EN), GPIO 27 
+(R_EN), GPIO 12/13 (PWM) 
+BTS7960 43A H-Bridge (Left Bank 
+Wheels) 
+Right Motor Driver GPIO 22 (L_EN), GPIO 23 
+(R_EN), GPIO 18/19 (PWM) 
+BTS7960 43A H-Bridge (Right 
+Bank Wheels) 
+Left Spray Valve GPIO 24 (Pin 18) 12V DC Solenoid Valve (Left 
+Boom Nozzle) 
+Right Spray Valve GPIO 25 (Pin 22) 12V DC Solenoid Valve (Right 
+Boom Nozzle) 
+Water Pump PWM GPIO 26 (Pin 37) 100Hz MOSFET Speed Control 
+Pump 
+Soil NPK Probe GPIO Stepper Pins NEMA Stepper Motor Linear 
+Actuator Arm 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+--- PAGE 17 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 17 
+7.2 Snippet Code 
+7.2.1 OpenCV AI Threat Detection & Solenoid Control (Python) 
+def detect_pests_and_spray(frame, width): 
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV) 
+    purple_mask = cv2.inRange(hsv, np.array([130, 50, 50]), np.array([160, 255, 255])) 
+    contours_p, _ = cv2.findContours(purple_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE) 
+    for c in contours_p: 
+        if cv2.contourArea(c) > 150: 
+            x, y, w, h = cv2.boundingRect(c) 
+            side = 'left' if (x + w/2) < (width / 2) else 'right' 
+            pesticide_sprayer.execute_sprayer_logic(rover_is_moving=True, detected_targets=[{'side': side}]) 
+7.2.2 BTS7960 Motor Control & PWM Kinematics (Python) 
+def set_motors(left_speed, right_speed): 
+    left_speed = max(min(left_speed, 100), -100) 
+    right_speed = max(min(right_speed, 100), -100) 
+    pwm_left_f.ChangeDutyCycle(abs(left_speed) if left_speed > 0 else 0) 
+    pwm_right_f.ChangeDutyCycle(abs(right_speed) if right_speed > 0 else 0) 
+7.2.3 Three.js 3D WebGL Autonomous Guidance & Point Turns (JS) 
+function runAutonomousRowFollow() { 
+    const dy = targetY - state.y; 
+    let angleDiff = targetAngle + steerAngle - state.angle; 
+    if (Math.abs(angleDiff) > 0.35) { 
+        state.speed = 0.0; // Point turn 
+        state.angularSpeed = angleDiff * 0.25; 
+    } else { 
+        state.speed = 1.0; // Cruise speed 
+        state.angularSpeed = angleDiff * 0.18; 
+    } 
+} 
+ 
+ 
+ 
+ 
+ 
+ 
+
+--- PAGE 18 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 18 
+7.3 Screenshots 
+This section contains annotated screenshots of the running Agri Rover system  — the 3D 
+Digital Twin simulator dashboard, camera vision node feed, wiring schematic, farmland 
+environment, physical chassis assembly, and CAD design mockup. 
+ 
+Fig. 7.1: Agri Rover 3D Digital Twin Simulator Main Dashboard 
+ 
+Fig. 7.2: First-Person Camera Feed with OpenCV Bounding Box Annotations 
+
+
+--- PAGE 19 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 19 
+ 
+Fig. 7.3: Interactive Raspberry Pi Wiring Schematic & Motor Status  
+ 
+Fig. 7.4: 3D Farmland View with Rocker-Bogie Suspension & Mud Tread Wheels 
+
+
+--- PAGE 20 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 20 
+ 
+Fig. 7.5: Physical Hardware Chassis and Motor Driver Assembly 
+ 
+Fig. 7.6: Industrial 3D CAD Mockup of the Agri Rover 
+  
+
+
+--- PAGE 21 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 21 
+8. SOFTWARE TESTING 
+8.1 Unit Testing 
+Each Python driver and JavaScript function was tested in isolation to verify request validation, 
+motor speed bounds (-100 to 100), direction pin state logic (`L_EN`/`R_EN`), and GPIO output 
+safety. On the simulator side, kinematics functions were benchmarked to assert correct angular 
+velocity scaling and collision radius limits. 
+8.2 Automation Testing 
+The digital twin physics loop executes automated regression  checks during development, 
+verifying that steering corrections smoothly align the vehicle to row centerlines without infinite 
+oscillation or boundary clipping. 
+8.3 Test Cases 
+Table 8.1: Sample Test Cases 
+ID Test Case Expected Result Status 
+TC-01 Press 'W' key in Manual 
+Mode 
+Rover accelerates 
+forward, PWM set to 
+selected % 
+Pass 
+TC-02 Press 'A' key in Manual 
+Mode 
+Rover turns left smoothly Pass 
+TC-03 Enable Lane Lock & 
+Auto Mode 
+Rover follows row 
+centerline, executes zero-
+radius U-turn at edge 
+Pass 
+TC-04 Pest detected on Left 
+frame 
+GPIO 24 (Left Solenoid) 
+sets HIGH, Right stays 
+LOW, Pump PWM 75% 
+Pass 
+TC-05 Press 'P' key / Click Soil 
+Probe 
+Rover stops, linear probe 
+extends downward, 
+NPK/pH logged 
+Pass 
+TC-06 Battery drops <= 12% Emergency shutdown 
+triggers, all motor and 
+valve outputs locked 
+Pass 
+
+--- PAGE 22 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 22 
+ 
+9. CONCLUSION 
+Agri Rover demonstrates that a fully autonomous, cyber-physical robotic vehicle — powered 
+by Raspberry Pi for hardware control, OpenCV for computer vision threat segmentat ion, 
+BTS7960 motor drivers for heavy payload transit, and Three.js 3D WebGL for digital twin 
+simulation — can support a complete precision agriculture workflow with zero physical risk 
+during initial testing. Framing the system specifically around fresher t echnical innovation 
+made it possible to bake in localized solenoid micro -bursts and automated NPK soil probing, 
+achieving up to 80% chemical reduction. 
+Future enhancements identified during the project include: replacing basic color thresholding 
+with lightweight YOLOv8 edge models; adding LoRaWAN transceivers for long -range field 
+telemetry; and deploying an automated solar docking station for continuous autonomous 
+operations. 
+  
+
+--- PAGE 23 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 23 
+10. BIBLIOGAPHY 
+• Raspberry Pi Foundation, "Raspberry Pi 4 Model B Hardware & RPi.GPIO Documentation," 
+raspberrypi.com. 
+• OpenCV Team, "OpenCV Image Processing and Computer Vision Reference Manual," 
+docs.opencv.org. 
+• Mrdoob, "Three.js JavaScript 3D Library Documentation," threejs.org. 
+• Zhang, Q., & Pierce, F. J., "Precision Agriculture Technology for Crop Farming," CRC Press, 
+2018. 
+• United Nations, "Sustainable Development Goals (SDGs 2, 12, 15)," sdgs.un.org. 
+  
+
+--- PAGE 24 ---
+Agri Rover – Autonomous IoT Agricultural Vehicle  
+BMSITM Department of MCA 24 
+APPENDIX A: SDG COMPLIANCE REPORT 
+Compliance with Sustainable Development Goals (SDGs) 
+Identified SDG along with Target and Indicator 
+Agri Rover is aligned with SDG 2: Zero Hunger (Target 2.4 - Sustainable Food Production) 
+and SDG 12: Responsible Consumption & Production (Target 12.4 - Environmentally Sound 
+Management of Chemicals). It is also aligned with SDG 15: Life on Land through soil health 
+preservation. 
+Contribution of the Project towards the Identified SDG 
+• Directly targets agricultural pesticide overuse by delivering precision micro -burst targeted 
+spraying. 
+• Reduces chemical consumption by up to 80%, mitigating soil toxicity and groundwater 
+pollution. 
+• Provides automated electrochemical NPK probing for optimal soil nutrient management.  
+• Eliminates human chemical exposure through autonomous field operation. 
+ 
+ 
+Signature of the Student                                           Signature of the Project Guide 
+

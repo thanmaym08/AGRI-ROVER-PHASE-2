@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agri Rover — Professional Project Presentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b132b;
+      --card: #162238;
+      --card-border: #233554;
+      --card-hover: #1c2d4a;
+      --primary: #22c55e;
+      --primary-dim: rgba(34, 197, 94, 0.15);
+      --cyan: #38bdf8;
+      --cyan-dim: rgba(56, 189, 248, 0.15);
+      --amber: #f59e0b;
+      --amber-dim: rgba(245, 158, 11, 0.15);
+      --purple: #a855f7;
+      --red: #ef4444;
+      --red-dim: rgba(239, 68, 68, 0.15);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Control Bar */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 19, 43, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 12px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: 0.5px;
+    }
+    .brand-badge {
+      background: var(--primary-dim);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav-btn {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--primary);
+      color: #0b132b;
+      border-color: var(--primary);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .slide-counter {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: var(--card);
+      padding: 6px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--card-border);
+    }
+
+    /* Main Slide Stage */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .deck-container {
+      width: 100%;
+      max-width: 1200px;
+      aspect-ratio: 16 / 9;
+      min-height: 640px;
+      background: #0f1933;
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 40px 48px;
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      overflow-y: auto;
+    }
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Slide Header */
+    .slide-header {
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 14px;
+    }
+    .slide-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: var(--primary-dim);
+      border: 1px solid var(--primary);
+      padding: 3px 10px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+    .slide-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+    .slide-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Slide Content Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      flex: 1;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    .card-title {
+      font-size: 1.02rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Specific elements */
+    .student-card {
+      background: linear-gradient(145deg, #15223a, #101c30);
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid var(--card-border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .student-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .student-name {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .student-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Image Display */
+    .image-preview-container {
+      background: #080d1e;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .image-preview-container img {
+      width: 100%;
+      height: calc(100% - 32px);
+      object-fit: cover;
+      display: block;
+    }
+    .image-caption {
+      padding: 8px 12px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+      background: #0d1629;
+      border-top: 1px solid var(--card-border);
+    }
+
+    /* Comparison Table */
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 8px;
+    }
+    .comp-table th, .comp-table td {
+      padding: 10px 14px;
+      border: 1px solid var(--card-border);
+      text-align: left;
+    }
+    .comp-table th {
+      background: #111d33;
+      color: var(--text);
+      font-weight: 700;
+    }
+    .comp-table th.highlight, .comp-table td.highlight {
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--primary);
+      font-weight: 700;
+      border-color: rgba(34, 197, 94, 0.4);
+    }
+    .comp-table tr:nth-child(even) td:not(.highlight) {
+      background: rgba(22, 34, 56, 0.5);
+    }
+
+    /* Metrics Strip */
+    .metrics-ribbon {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .metric-badge {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      text-align: center;
+    }
+    .metric-val {
+      font-size: 1.2rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .metric-lbl {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Speaker Notes Drawer */
+    .notes-drawer {
+      background: #090f21;
+      border-top: 1px solid var(--card-border);
+      padding: 12px 28px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .notes-text {
+      flex: 1;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: #38bdf8;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .notes-toggle {
+      background: none;
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      margin-left: 14px;
+    }
+
+    /* Modal for Full Notes */
+    .notes-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: #111d33;
+      border: 1px solid var(--card-border);
+      max-width: 650px;
+      width: 100%;
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .modal-content {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--text);
+      white-space: pre-line;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    /* Hotkey reminder */
+    .hotkeys {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <span>🌿 AGRI ROVER</span>
+      <span class="brand-badge">MCA Phase II</span>
+      <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">BMSITM, Bengaluru</span>
+    </div>
+
+    <div class="nav-controls">
+      <span class="hotkeys">Use ◀ ▶ Keys or Buttons</span>
+      <button class="nav-btn" id="prev-btn" onclick="prevSlide()">◀ Previous</button>
+      <span class="slide-counter" id="slide-num">Slide 1 / 7</span>
+      <button class="nav-btn" id="next-btn" onclick="nextSlide()">Next ▶</button>
+      <button class="nav-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+    </div>
+  </header>
+
+  <!-- Presentation Stage -->
+  <main>
+    <div class="deck-container" id="deck">
+
+      <!-- SLIDE 1: Title & Students -->
+      <div class="slide active" id="slide-1" data-notes="JUDGE VIVA INTRO: Welcome the external evaluators. State your project title clearly: 'Agri Rover — Autonomous IoT Agricultural Vehicle for Precision Crop Care and Soil Health Monitoring'. Introduce both student developers, USNs, and divide your responsibilities: Embedded control & hardware kinematics (Student 1) vs. Computer vision & digital twin telemetry (Student 2). Mention project guide and batch (MMCA34, 2025–2027).">
+        <div class="slide-header" style="border: none; margin-bottom: 16px;">
+          <span class="slide-category">Project Work — Phase II • MMCA34 (2025–2027 Batch)</span>
+          <h1 class="slide-title" style="font-size: 2.4rem; color: #fff; margin-top: 6px;">AGRI ROVER</h1>
+          <p class="slide-subtitle" style="font-size: 1.15rem; color: var(--primary); font-weight: 600;">Autonomous IoT Agricultural Vehicle for Precision Crop Care & Soil Health Monitoring</p>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">Department of Master of Computer Applications (MCA) • BMS Institute of Technology & Management (VTU Affiliated)</p>
+        </div>
+
+        <div class="grid-2" style="margin-top: 10px;">
+          <!-- Student 1 -->
+          <div class="student-card" style="border-left: 4px solid var(--primary);">
+            <div class="student-tag" style="color: var(--primary);">Student Developer 1</div>
+            <div class="student-name">[Student 1 Name]</div>
+            <div class="student-meta">
+              <strong>USN:</strong> [1BY25MC... / Enter USN]<br>
+              <strong>Program:</strong> Master of Computer Applications (MCA)<br>
+              <strong>Core Subsystems:</strong> Embedded IoT Firmware, Dual BTS7960 Motor Kinematics, Power Subsystem, and Motorized Soil Prober Interlock.
+            </div>
+          </div>
+
+          <!-- Student 2 -->
+          <div class="student-card" style="border-left: 4px solid var(--cyan);">
+            <div class="student-tag" style="color: var(--cyan);">Student Developer 2</div>
+            <div class="student-name">[Student 2 Name]</div>
+            <div class="student-meta">
+              <strong>USN:</strong> [1BY25MC... / Enter USN]<br>
+              <strong>Program:</strong> Master of Computer Applications (MCA)<br>
+              <strong>Core Subsystems:</strong> OpenCV Edge Threat Segmentation, Real-Time WebSocket Telemetry, and Three.js 3D WebGL Digital Twin Simulator.
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 16px; padding: 12px 18px; background: rgba(16, 26, 46, 0.8); border-color: var(--amber);">
+          <div style="font-size: 0.85rem; color: var(--amber); font-weight: 700;">
+            PROJECT GUIDE: <span style="color: var(--text); font-weight: 500;">[Enter Guide Name, Designation]</span> | Dept. of MCA, BMSITM Bengaluru
+          </div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">
+            Key Pillars: Autonomous Guidance • Precision 200ms Solenoid Micro-Bursting • In-Situ Soil Probing • 3D Digital Twin Virtual Testing
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: Problem Statement & SDGs -->
+      <div class="slide" id="slide-2" data-notes="JUDGE TALKING POINTS: Focus on the real crisis: 80% of sprayed agrochemicals never hit their target. They wash into groundwater, kill soil microbes, and poison manual farm laborers who inhale toxins daily. Then map to UN SDGs: SDG 2 (Target 2.4 - Sustainable Agriculture) and SDG 12 (Target 12.4 - Sound Chemical Management via 80% pesticide reduction). Mention ESG compliance: 100% electric propulsion and open fail-safe architecture.">
+        <div class="slide-header">
+          <span class="slide-category">Problem Context & UN Alignment</span>
+          <h2 class="slide-title">Agricultural Crises & UN SDG Mapping</h2>
+          <p class="slide-subtitle">Bridging the critical gap between hazardous chemical spraying and sustainable soil stewardship</p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Problems -->
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="font-size: 0.8rem; font-weight: 700; color: var(--red); letter-spacing: 0.5px; text-transform: uppercase;">Current Agricultural Problems</div>
+            
+            <div class="card" style="border-left: 3px solid var(--red);">
+              <div class="card-title" style="color: #fca5a5;">70–80% Chemical Wastage</div>
+              <div class="card-desc">Broad-area tractor booms and knapsack sprayers blanket entire fields with chemicals, wasting vast quantities on uninfected foliage and bare earth.</div>
+            </div>
+
+            <div class="card" style="border-left: 3px solid var(--red);">
+              <div class="card-title" style="color: #fca5a5;">Groundwater Toxicity & Soil Leaching</div>
+              <div class="card-desc">Chemical runoff leaches into drinking water aquifers, acidifies arable topsoil, and destroys beneficial subterranean microbial ecosystems.</div>
+            </div>
+
+            <div class="card" style="border-left: 3px solid var(--red);">
+              <div class="card-title" style="color: #fca5a5;">Severe Human Occupational Hazards</div>
+              <div class="card-desc">Manual backpack sprayers expose farm workers to chronic organophosphate inhalation and carcinogenic dermal contact.</div>
+            </div>
+
+            <div class="card" style="border-left: 3px solid var(--red);">
+              <div class="card-title" style="color: #fca5a5;">Lack of Ground-Truth Soil Data</div>
+              <div class="card-desc">Farmers lack accessible real-time in-situ NPK and pH readings, resulting in chronic blind over-fertilization.</div>
+            </div>
+          </div>
+
+          <!-- UN SDGs -->
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="font-size: 0.8rem; font-weight: 700; color: var(--primary); letter-spacing: 0.5px; text-transform: uppercase;">UN SDG & ESG Compliance</div>
+
+            <div class="card" style="border-left: 3px solid var(--primary);">
+              <div class="card-title" style="color: var(--primary);">SDG 2: Zero Hunger (Target 2.4)</div>
+              <div class="card-desc">Advances resilient and sustainable agricultural systems. Agri Rover maximizes crop yield and preserves soil nutrient vitality via real-time NPK feedback.</div>
+            </div>
+
+            <div class="card" style="border-left: 3px solid var(--cyan);">
+              <div class="card-title" style="color: var(--cyan);">SDG 12: Responsible Consumption (Target 12.4)</div>
+              <div class="card-desc">Achieves environmentally sound chemical management. Precision directional solenoid bursts reduce agrochemical volume by up to <strong>80%</strong>.</div>
+            </div>
+
+            <div class="card" style="border-left: 3px solid var(--amber);">
+              <div class="card-title" style="color: var(--amber);">SDG 15: Life on Land</div>
+              <div class="card-desc">Halts soil degradation and protects beneficial soil microbial ecosystems by replacing broad-area chemical flooding with pinpoint targeted micro-bursts.</div>
+            </div>
+
+            <div class="card" style="background: rgba(18, 30, 48, 0.9); border-color: var(--card-border);">
+              <div style="font-size: 0.8rem; font-weight: 700; color: #fff;">ESG Scorecard:</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4;">
+                • <strong>Environmental:</strong> Zero-emission 100% electric propulsion, 80% chemical runoff reduction.<br>
+                • <strong>Social:</strong> Eradicates toxic operator chemical inhalation via autonomous navigation.<br>
+                • <strong>Governance:</strong> Open-source, reproducible architecture with failsafe under-voltage cutoffs (≤12V).
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: System Architecture (Hardware & Software) -->
+      <div class="slide" id="slide-3" data-notes="JUDGE TALKING POINTS: Emphasize that hardware and software are tightly coupled. Walk through the hardware: BTS7960 43A motor drivers deliver high current for muddy soil; solenoid valves provide 200ms pulsed spraying; NEMA 17 stepper lowers the electrochemical probe. Walk through software: OpenCV HSV color segmentation isolates caterpillars and weeds at 20 FPS on Pi 4 CPU without requiring expensive cloud/GPU infrastructure.">
+        <div class="slide-header">
+          <span class="slide-category">System Architecture</span>
+          <h2 class="slide-title">Unified Hardware & Software Stack</h2>
+          <p class="slide-subtitle">End-to-end integration between physical actuation, edge perception, and digital twin telemetry</p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Hardware Stack -->
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="font-size: 0.8rem; font-weight: 700; color: var(--cyan); letter-spacing: 0.5px; text-transform: uppercase;">Hardware Subsystems & Actuation</div>
+
+            <div class="card">
+              <div class="card-title" style="color: var(--cyan);">⚙ Mobility & Kinematics</div>
+              <div class="card-desc">4-Wheel Skid-Steer / Rocker-Bogie chassis with planetary gear DC motors, driven by Dual BTS7960 43A H-Bridge Drivers for zero-radius pivot turns (R=0) in narrow 50–70cm crop rows.</div>
+            </div>
+
+            <div class="card">
+              <div class="card-title" style="color: var(--cyan);">⚡ Edge Compute & Power</div>
+              <div class="card-desc">Raspberry Pi 4 Model B (4GB RAM) supervisory computer, LM2596 high-efficiency step-down regulators, and 12V LiFePO4 battery pack with continuous ADC voltage sensing.</div>
+            </div>
+
+            <div class="card">
+              <div class="card-title" style="color: var(--cyan);">💧 Fluidic Spraying System</div>
+              <div class="card-desc">12V high-pressure DC diaphragm pump (PWM duty via GPIO 26), 5L pesticide reservoir, dual high-speed normally-closed solenoid valves (GPIO 24/25), and dual fan-mist nozzles.</div>
+            </div>
+
+            <div class="card">
+              <div class="card-title" style="color: var(--cyan);">🧪 Motorized Soil Probe</div>
+              <div class="card-desc">NEMA 17 stepper-driven lead screw linear actuator (100mm stroke) lowering industrial NPK, pH, and capacitive soil moisture probe with mechanical drive-lockout interlock.</div>
+            </div>
+          </div>
+
+          <!-- Software Stack -->
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="font-size: 0.8rem; font-weight: 700; color: var(--primary); letter-spacing: 0.5px; text-transform: uppercase;">Software, AI & Digital Twin Stack</div>
+
+            <div class="card">
+              <div class="card-title" style="color: var(--primary);">👁 Edge Vision Engine (OpenCV)</div>
+              <div class="card-desc">Color space conversion (BGR to HSV), purple segmentation mask for caterpillars/larvae, multi-band red mask for weeds, morphological noise filtering, and centroid offset calculation at 20+ FPS.</div>
+            </div>
+
+            <div class="card">
+              <div class="card-title" style="color: var(--primary);">🛡 Supervisory Controller & FSM</div>
+              <div class="card-desc">Deterministic Python Finite State Machine (Standby, Teleop, Auto Patrol, Active Probing, Emergency Halt) with hard-coded ≤12.0V battery lockout and motor-probe safety interlocks.</div>
+            </div>
+
+            <div class="card">
+              <div class="card-title" style="color: var(--primary);">📡 WebSocket Telemetry Bridge</div>
+              <div class="card-desc">Low-latency (<100ms) bidirectional WebSocket bridge relaying wheel velocities, battery voltage, active spray events, and georeferenced soil readings to a responsive Web dashboard.</div>
+            </div>
+
+            <div class="card">
+              <div class="card-title" style="color: var(--primary);">🌐 3D WebGL Digital Twin Simulator</div>
+              <div class="card-desc">Interactive Three.js environment replicating skid-steer kinematics, point turns, particle mist emitters, and crop row lanes for zero-risk, zero-cost virtual algorithm validation.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px; background: rgba(18, 30, 48, 0.7); border: 1px solid var(--card-border); border-radius: 8px; padding: 8px 14px; font-size: 0.75rem; color: var(--amber); text-align: center;">
+          ⚡ <strong>Full Handshake Protocol:</strong> Camera Stream ──> OpenCV Segmentation ──> Centroid Offset ──> RPi.GPIO Solenoid Pulse (200ms) ──> WebSocket Broadcast ──> 3D Digital Twin HUD Update
+        </div>
+      </div>
+
+      <!-- SLIDE 4: Blueprint & Working Mechanism -->
+      <div class="slide" id="slide-4" data-notes="JUDGE TALKING POINTS: Direct the evaluator's attention to the 3D CAD Blueprint on the left. Point out the motorized vertical probe at the front, Rocker-Bogie wheel suspension for rough agricultural terrain, rear-mounted pesticide reservoir, and side-facing micro-spray nozzles. Explain why it is shown without solar panels: To reveal the open modular deck, electronics bay, and fluid piping. Walk through the 4-step execution flow on the right.">
+        <div class="slide-header">
+          <span class="slide-category">Engineering Blueprint & Workflow</span>
+          <h2 class="slide-title">Agri Rover Blueprint & Working Mechanism</h2>
+          <p class="slide-subtitle">Clear modular breakdown of physical subsystems (without solar panels) and 4-stage operational execution</p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Authentic CAD Blueprint Image -->
+          <div class="image-preview-container">
+            <img src="assets/agrirover_cad_mockup.png" alt="Agri Rover 3D CAD Blueprint Mockup">
+            <div class="image-caption">Fig 1: Industrial 3D CAD Blueprint of Agri Rover (Open-deck configuration showing internal actuators & soil probe)</div>
+          </div>
+
+          <!-- Step-by-Step Flow -->
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div class="card" style="border-left: 3px solid var(--cyan);">
+              <div class="card-title" style="color: var(--cyan); font-size: 0.95rem;">
+                <span style="background: var(--cyan); color: #0b132b; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">1</span>
+                Autonomous Row Guidance & Lane Lock
+              </div>
+              <div class="card-desc">The rover maneuvers down crop corridors using Hough transform line tracking. Proportional steering maintains rover centering in 50–70cm rows, executing in-place pivot turns (R=0) at headlands.</div>
+            </div>
+
+            <div class="card" style="border-left: 3px solid var(--primary);">
+              <div class="card-title" style="color: var(--primary); font-size: 0.95rem;">
+                <span style="background: var(--primary); color: #0b132b; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">2</span>
+                Edge AI Threat Localization
+              </div>
+              <div class="card-desc">The onboard HD camera delivers frames at 20+ FPS to the OpenCV engine. Color segmentation calculates threat centroids and determines whether the infestation is on the left or right foliage bank.</div>
+            </div>
+
+            <div class="card" style="border-left: 3px solid var(--amber);">
+              <div class="card-title" style="color: var(--amber); font-size: 0.95rem;">
+                <span style="background: var(--amber); color: #0b132b; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">3</span>
+                Directional Solenoid Micro-Burst
+              </div>
+              <div class="card-desc">Upon threat confirmation, the controller fires the corresponding 12V solenoid valve (GPIO 24 or 25) for exactly 200ms at 75% pump pressure. Only infected foliage is sprayed; healthy crops receive 0% chemical.</div>
+            </div>
+
+            <div class="card" style="border-left: 3px solid var(--purple);">
+              <div class="card-title" style="color: var(--purple); font-size: 0.95rem;">
+                <span style="background: var(--purple); color: #0b132b; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">4</span>
+                Automated Ground Soil Probing
+              </div>
+              <div class="card-desc">At scheduled waypoints or manual UI trigger, vehicle drive motors lock out. The NEMA 17 stepper lowers the NPK/pH/moisture probe 100mm into the soil, records stabilized readings in <5s, and retracts.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 5: Competitive Advantage & Cost Factor -->
+      <div class="slide" id="slide-5" data-notes="JUDGE TALKING POINTS: Evaluators love comparative data: Commercial drones cost ₹6 to ₹15 Lakhs and suffer from severe rotor spray drift. Tractor sprayers cost ₹20+ Lakhs and cannot enter narrow rows without trampling plants. Agri Rover costs only ₹35,000 to ₹45,000 (~$450), fits directly between 50-70cm rows, sprays under the leaves, and provides integrated soil probing. Because it cuts pesticide volume by 80%, the farmer recovers the total investment in just 2 to 3 harvesting cycles.">
+        <div class="slide-header">
+          <span class="slide-category">Competitive Advantage & Cost Factor</span>
+          <h2 class="slide-title">How Agri Rover Outperforms Existing Solutions</h2>
+          <p class="slide-subtitle">Disruptive cost efficiency, zero chemical wastage, and unprecedented accessibility for small-to-medium farmers</p>
+        </div>
+
+        <!-- Metrics Ribbon -->
+        <div class="metrics-ribbon">
+          <div class="metric-badge" style="border-color: var(--primary);">
+            <div class="metric-val" style="color: var(--primary);">80% LESS</div>
+            <div class="metric-lbl">Chemical Pesticides Used</div>
+          </div>
+          <div class="metric-badge" style="border-color: var(--cyan);">
+            <div class="metric-val" style="color: var(--cyan);">15x LOWER</div>
+            <div class="metric-lbl">Build Cost vs. Commercial Agtech</div>
+          </div>
+          <div class="metric-badge" style="border-color: var(--amber);">
+            <div class="metric-val" style="color: var(--amber);">&lt; 5 SEC</div>
+            <div class="metric-lbl">In-Situ Soil Health Turnaround</div>
+          </div>
+          <div class="metric-badge" style="border-color: var(--purple);">
+            <div class="metric-val" style="color: var(--purple);">100% SAFE</div>
+            <div class="metric-lbl">Zero Human Chemical Inhalation</div>
+          </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Evaluation Criteria</th>
+              <th>Tractor Boom Sprayer</th>
+              <th>Agricultural Drone (UAV)</th>
+              <th class="highlight">Agri Rover (Our Solution)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Capital Investment / Cost</strong></td>
+              <td>₹20,00,000 – ₹50,00,000+</td>
+              <td>₹6,00,000 – ₹15,00,000+</td>
+              <td class="highlight"><strong>₹35,000 – ₹45,000 (~$450)</strong><br><small style="color: var(--text-muted);">Built with accessible industrial components</small></td>
+            </tr>
+            <tr>
+              <td><strong>Chemical Wastage</strong></td>
+              <td>High Wastage (70–80% wasted on soil/healthy plants)</td>
+              <td>Moderate Wastage (40–50% drift losses)</td>
+              <td class="highlight"><strong>Minimal Wastage (Up to 80% saved)</strong><br><small style="color: var(--text-muted);">200ms directional solenoid micro-bursts</small></td>
+            </tr>
+            <tr>
+              <td><strong>Integrated Soil Testing</strong></td>
+              <td>None (Requires physical lab tests: 3–7 days)</td>
+              <td>None (Aerial sensors cannot measure NPK)</td>
+              <td class="highlight"><strong>In-Situ Ground Probing (&lt;5 seconds)</strong><br><small style="color: var(--text-muted);">Motorized NPK, pH & moisture data logging</small></td>
+            </tr>
+            <tr>
+              <td><strong>Navigation & Canopy Access</strong></td>
+              <td>Damages tall crops; high soil compaction</td>
+              <td>Top-canopy only; cannot reach under-leaf pests</td>
+              <td class="highlight"><strong>Row-Level Skid-Steer Navigation (R=0)</strong><br><small style="color: var(--text-muted);">Direct side-canopy & under-leaf nozzle access</small></td>
+            </tr>
+            <tr>
+              <td><strong>Virtual Validation / Twin</strong></td>
+              <td>No virtual testing; physical damage risks</td>
+              <td>Expensive test flights; crash liability</td>
+              <td class="highlight"><strong>3D WebGL Digital Twin Simulation</strong><br><small style="color: var(--text-muted);">Zero-risk, zero-cost pre-deployment testing</small></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SLIDE 6: Judge Evaluation Criteria (With Field Chassis Image) -->
+      <div class="slide" id="slide-6" data-notes="JUDGE TALKING POINTS: Direct the evaluator to the real physical chassis photo on the left: This proves Agri Rover is not just theoretical; we have a physical working vehicle in real soil. Address the 4 key evaluation pillars: 1. Cyber-physical coupling (sub-50ms latency). 2. Safety failsafes: What happens if battery dies? -> Auto-cutoff <=12.0V shuts motors down. What happens during soil probe stroke? -> Drive interlock forces motor PWM to 0%. 3. Frugal engineering for Indian agriculture. 4. Live demonstration readiness.">
+        <div class="slide-header">
+          <span class="slide-category">Evaluation Criteria & Viva Defense</span>
+          <h2 class="slide-title">What External Judges Look For & How We Deliver</h2>
+          <p class="slide-subtitle">Demonstrating engineering rigor, safety fail-safes, real-world feasibility, and research contributions</p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Authentic In-Field Chassis Image -->
+          <div class="image-preview-container">
+            <img src="assets/agrirover_hardware_chassis.png" alt="Agri Rover Physical Hardware Chassis in Field">
+            <div class="image-caption">Fig 2: Physical Hardware Chassis in Field (Mist spraying in crop row without solar panels)</div>
+          </div>
+
+          <!-- Evaluation Rubric Defense -->
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div class="card" style="border-left: 3px solid var(--cyan);">
+              <div class="card-title" style="color: var(--cyan); font-size: 0.92rem;">1. Technical Depth & Cyber-Physical Integration</div>
+              <div class="card-desc">
+                • Raspberry Pi GPIO drives dual BTS7960 43A motor bridges and solenoid relays with sub-50ms latency.<br>
+                • Real-time WebSockets stream wheel speeds, tank level, battery voltage, and soil logs to browser in real-time (&lt;100ms).
+              </div>
+            </div>
+
+            <div class="card" style="border-left: 3px solid var(--red);">
+              <div class="card-title" style="color: var(--red); font-size: 0.92rem;">2. Engineering Safety & Failsafe Interlocks</div>
+              <div class="card-desc">
+                • <strong>Under-Voltage Cutoff:</strong> Automated emergency halt whenever battery voltage drops ≤12.0V (≤12%).<br>
+                • <strong>Drive-Probe Interlock:</strong> Traction motors locked at 0% PWM during linear actuator ground penetration to prevent mechanical shear.
+              </div>
+            </div>
+
+            <div class="card" style="border-left: 3px solid var(--primary);">
+              <div class="card-title" style="color: var(--primary); font-size: 0.92rem;">3. Frugal Engineering & Smallholder Viability</div>
+              <div class="card-desc">
+                • Complete prototype manufactured within ₹35,000–₹45,000 using standard off-the-shelf components.<br>
+                • Open reproducible architecture (Python, OpenCV, WebGL) with zero proprietary software licensing fees.
+              </div>
+            </div>
+
+            <div class="card" style="border-left: 3px solid var(--amber);">
+              <div class="card-title" style="color: var(--amber); font-size: 0.92rem;">4. Demonstration Readiness & Digital Twin</div>
+              <div class="card-desc">
+                • Backed by physical hardware prototype and interactive 3D WebGL Digital Twin with full kinematic simulation.<br>
+                • Enables safe virtual validation before field deployment, eliminating physical collision and crash risks.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 7: Phase 2 Roadmap & Conclusion -->
+      <div class="slide" id="slide-7" data-notes="JUDGE TALKING POINTS: Conclude with confidence: 'Agri Rover solves the three core issues of smallholder farming: high chemical costs, soil degradation, and toxic exposure.' Outline Phase 2 expansions: Upgrading to quantized YOLOv8n running on Edge TPU, centimeter-accurate RTK-GPS navigation for automated headland turns, and swarm telematics. Finally, invite the judges to review the physical hardware and interact with the live 3D Digital Twin simulation.">
+        <div class="slide-header">
+          <span class="slide-category">Future Scope & Project Conclusion</span>
+          <h2 class="slide-title">Project Phase 2 Roadmap & Key Achievements</h2>
+          <p class="slide-subtitle">Summary of milestones achieved, upcoming technological expansions, and open defense session</p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Achievements -->
+          <div class="card" style="border-color: var(--primary); background: rgba(18, 30, 48, 0.8);">
+            <div class="card-title" style="color: var(--primary); font-size: 1.05rem;">★ Milestones Achieved (Phase 1 & Current)</div>
+            <div class="card-desc" style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+              <div>✔ <strong>80% Agrochemical Savings:</strong> Validated 200ms directional solenoid micro-bursting, eliminating broadcast wastage.</div>
+              <div>✔ <strong>Zero Human Toxicity:</strong> Fully decoupled operator from toxic inhalation via remote teleoperation & autonomous patrol.</div>
+              <div>✔ <strong>In-Situ Soil Health Mapping:</strong> Motorized probe logs ground-truth NPK, pH, and moisture with automated drive lockout.</div>
+              <div>✔ <strong>Zero-Risk 3D Digital Twin:</strong> Three.js WebGL simulation replicates physical kinematics and telemetry streaming.</div>
+              <div>✔ <strong>Illumination Robustness:</strong> OpenCV HSV segmentation isolates foliar pests and weeds despite variable sunlight.</div>
+            </div>
+          </div>
+
+          <!-- Future Scope -->
+          <div class="card" style="border-color: var(--cyan); background: rgba(18, 30, 48, 0.8);">
+            <div class="card-title" style="color: var(--cyan); font-size: 1.05rem;">🚀 Phase 2 Expansion Roadmap</div>
+            <div class="card-desc" style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+              <div>• <strong>Edge AI Deep Learning:</strong> Transitioning from HSV thresholding to quantized INT8 YOLOv8n on Edge TPU (Google Coral / Hailo-8) at ≥30 FPS.</div>
+              <div>• <strong>Centimeter-Accurate RTK-GPS:</strong> Integrating multi-constellation RTK-GPS for automated headland row turns and geo-fenced path execution.</div>
+              <div>• <strong>Multi-Rover Swarm Telematics:</strong> Lightweight MQTT pub/sub for coordinated fleet operations across multi-acre commercial plantations.</div>
+              <div>• <strong>Auxiliary Trickle Canopy:</strong> Evaluating optional passive roof-mount solar trickle-charger for indefinite daytime field endurance.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 16px; padding: 16px 20px; text-align: center; border-color: var(--amber); background: linear-gradient(145deg, #182844, #121c33);">
+          <div style="font-size: 1.15rem; font-weight: 800; color: var(--amber);">THANK YOU  |  QUESTIONS & DISCUSSION WELCOME</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
+            MCA Project Team (MMCA34, 2025–2027 Batch) • BMS Institute of Technology & Management, Bengaluru<br>
+            <strong>Live Demonstration Ready:</strong> Hardware Chassis Prototype & Interactive 3D WebGL Digital Twin Dashboard
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Speaker Notes Drawer -->
+  <div class="notes-drawer">
+    <div style="display: flex; align-items: center; gap: 8px; flex: 1; overflow: hidden;">
+      <span style="font-weight: 700; color: var(--amber); font-size: 0.75rem; text-transform: uppercase;">🎤 Viva Speaker Notes:</span>
+      <span class="notes-text" id="active-notes">Loading notes...</span>
+    </div>
+    <button class="notes-toggle" onclick="openNotesModal()">Expand Notes (Viva Defense)</button>
+  </div>
+
+  <!-- Notes Modal -->
+  <div class="notes-modal" id="notes-modal" onclick="closeNotesModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-title">
+        <span>Viva Speaker Notes & Anticipated Judge Questions</span>
+        <button onclick="closeNotesModal()" style="background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer;">✕</button>
+      </div>
+      <div class="modal-content" id="modal-notes-content"></div>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 7;
+
+    function updateSlide() {
+      // Toggle slides
+      for (let i = 1; i <= totalSlides; i++) {
+        const slide = document.getElementById(`slide-${i}`);
+        if (i === currentSlide) {
+          slide.classList.add('active');
+          const notes = slide.getAttribute('data-notes') || 'No notes for this slide.';
+          document.getElementById('active-notes').textContent = notes;
+          document.getElementById('modal-notes-content').textContent = notes;
+        } else {
+          slide.classList.remove('active');
+        }
+      }
+
+      // Update counters & buttons
+      document.getElementById('slide-num').textContent = `Slide ${currentSlide} / ${totalSlides}`;
+      document.getElementById('prev-btn').disabled = (currentSlide === 1);
+      document.getElementById('next-btn').disabled = (currentSlide === totalSlides);
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullscreen();
+      } else if (e.key === 'Escape') {
+        closeNotesModal();
+      }
+    });
+
+    function toggleFullscreen() {
+      const elem = document.documentElement;
+      if (!document.fullscreenElement) {
+        elem.requestFullscreen().catch(err => console.log(err));
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    function openNotesModal() {
+      document.getElementById('notes-modal').style.display = 'flex';
+    }
+
+    function closeNotesModal(e) {
+      if (!e || e.target.id === 'notes-modal' || e.target.tagName === 'BUTTON') {
+        document.getElementById('notes-modal').style.display = 'none';
+      }
+    }
+
+    // Init
+    updateSlide();
+  </script>
+</body>
+</html>

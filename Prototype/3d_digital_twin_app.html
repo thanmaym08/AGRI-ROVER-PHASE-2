@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agri Rover Phase 2 — 3D Digital Twin & Teleoperation App Simulator</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; }
+    body { background-color: #0c1017; color: #fff; overflow: hidden; height: 100vh; display: flex; }
+
+    /* LEFT: 3D VIEWPORT */
+    #viewport-container {
+      flex: 1;
+      height: 100vh;
+      position: relative;
+      background: #090d13;
+    }
+    #three-canvas { width: 100%; height: 100%; display: block; }
+
+    /* TOP HUD */
+    .viewport-hud {
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: rgba(16, 24, 34, 0.9);
+      backdrop-filter: blur(8px);
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: 1px solid #233348;
+      z-index: 10;
+    }
+    .hud-title { font-size: 15px; font-weight: 800; color: #2ecc71; letter-spacing: 0.5px; }
+    .hud-badge { font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; background: #27ae60; color: #fff; }
+    .demo-btn {
+      background: #3498db;
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .demo-btn:hover { background: #2980b9; transform: scale(1.03); }
+    .demo-btn.playing { background: #e67e22; }
+
+    /* PiP Camera */
+    .pip-camera {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      width: 260px;
+      height: 180px;
+      background: #000;
+      border: 2px solid #2ecc71;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+      z-index: 10;
+    }
+    .pip-header {
+      background: rgba(16, 24, 34, 0.95);
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      color: #2ecc71;
+      border-bottom: 1px solid #233348;
+    }
+    #povCanvas { width: 100%; height: calc(100% - 24px); display: block; background: #111; }
+
+    /* LOGIC ANALYZER OVERLAY */
+    .logic-hud {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      width: 380px;
+      background: rgba(16, 24, 34, 0.9);
+      backdrop-filter: blur(8px);
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #233348;
+      z-index: 10;
+      font-size: 12px;
+    }
+    .logic-hud h4 { color: #8b9bb4; font-size: 11px; margin-bottom: 8px; text-transform: uppercase; }
+    .logic-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .val-high { color: #2ecc71; font-weight: bold; }
+    .val-low { color: #64748b; }
+    .val-pulse { color: #3498db; font-weight: bold; }
+
+    /* RIGHT: MOBILE TELEOPERATION APP EMULATOR */
+    #phone-container {
+      width: 380px;
+      height: 100vh;
+      background: #141b24;
+      border-left: 2px solid #233348;
+      display: flex;
+      flex-direction: column;
+      z-index: 20;
+      box-shadow: -8px 0 24px rgba(0,0,0,0.5);
+    }
+    .phone-header {
+      background: #101720;
+      padding: 14px 18px;
+      border-bottom: 1px solid #233348;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .phone-title { font-size: 14px; font-weight: 800; color: #2ecc71; }
+    .wifi-status { font-size: 11px; color: #2ecc71; font-weight: 600; }
+
+    /* 60% App Stream */
+    .app-stream {
+      height: 48%;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 2px solid #1c2736;
+    }
+    #appCamCanvas { width: 100%; height: 100%; object-fit: cover; }
+    .stream-overlay {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 11px;
+      background: rgba(0,0,0,0.6);
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: #2ecc71;
+    }
+    .stream-crosshair {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(46, 204, 113, 0.7);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .stream-crosshair::before, .stream-crosshair::after {
+      content: '';
+      position: absolute;
+      background: rgba(46, 204, 113, 0.7);
+    }
+    .stream-crosshair::before { width: 100%; height: 1px; top: 50%; }
+    .stream-crosshair::after { height: 100%; width: 1px; left: 50%; }
+
+    /* 40% Control Cockpit */
+    .app-controls {
+      flex: 1;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #101720;
+    }
+
+    /* Joystick Area */
+    .joystick-zone {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 6px 0;
+    }
+    .dpad-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      width: 190px;
+    }
+    .ctrl-btn {
+      background: #1e293b;
+      color: #fff;
+      border: 1px solid #334155;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+    .ctrl-btn:active, .ctrl-btn.active {
+      background: #2ecc71;
+      color: #000;
+      border-color: #27ae60;
+    }
+    .ctrl-btn.stop { background: #e74c3c; border-color: #c0392b; }
+
+    /* Speed Presets */
+    .speed-row {
+      display: flex;
+      gap: 8px;
+    }
+    .sp-btn {
+      flex: 1;
+      background: #182230;
+      border: 1px solid #28374d;
+      color: #cbd5e1;
+      padding: 6px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+    }
+    .sp-btn.active { background: #3498db; color: #fff; border-color: #2980b9; }
+
+    /* Action Buttons */
+    .action-row {
+      display: flex;
+      gap: 8px;
+    }
+    .spray-btn {
+      flex: 2;
+      background: #2980b9;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .spray-btn:active, .spray-btn.active { background: #e74c3c; transform: scale(0.98); }
+    .flash-btn {
+      flex: 1;
+      background: #f39c12;
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 12px;
+      cursor: pointer;
+    }
+  </style>
+
+  <!-- Three.js + OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+  <!-- LEFT: 3D VIEWPORT -->
+  <div id="viewport-container">
+    <div class="viewport-hud">
+      <div class="hud-title">🌿 AGRI ROVER 3D WORKING SIMULATION</div>
+      <div class="hud-badge" id="hudStatus">CONNECTED (AgriRover-CAM-AP)</div>
+      <button class="demo-btn" id="demoBtn" onclick="toggleDemoVideo()">▶ PLAY 3D WORKING DEMO VIDEO</button>
+    </div>
+
+    <!-- PiP Camera Feed -->
+    <div class="pip-camera">
+      <div class="pip-header">
+        <span>ESP32-CAM POV VIEW</span>
+        <span id="povFps">25 FPS</span>
+      </div>
+      <canvas id="povCanvas" width="260" height="156"></canvas>
+    </div>
+
+    <!-- Logic Analyzer Live HUD -->
+    <div class="logic-hud">
+      <h4>AgriRover_ESP32CAM.ino Logic Analyzer</h4>
+      <div class="logic-row"><span>GPIO 14 [IN1 Left Fwd]:</span><span class="val-low" id="hudIN1">0 PWM</span></div>
+      <div class="logic-row"><span>GPIO 15 [IN2 Left Rev]:</span><span class="val-low" id="hudIN2">0 PWM</span></div>
+      <div class="logic-row"><span>GPIO 13 [IN3 Right Fwd]:</span><span class="val-low" id="hudIN3">0 PWM</span></div>
+      <div class="logic-row"><span>GPIO 12 [IN4 Right Rev]:</span><span class="val-low" id="hudIN4">0 PWM</span></div>
+      <div class="logic-row"><span>GPIO 2  [RELAY PUMP]:</span><span class="val-low" id="hudPump">OFF (LOW)</span></div>
+      <div class="logic-row"><span>Buck Rail:</span><span class="val-high">+5.10V DC STABLE</span></div>
+      <div class="logic-row"><span>Failsafe Watchdog:</span><span class="val-high" id="hudWatchdog">500 ms</span></div>
+    </div>
+
+    <div id="three-canvas"></div>
+  </div>
+
+  <!-- RIGHT: MOBILE TELEOPERATION APP EMULATOR -->
+  <div id="phone-container">
+    <div class="phone-header">
+      <div class="phone-title">AGRI ROVER COCKPIT</div>
+      <div class="wifi-status">● 192.168.4.1</div>
+    </div>
+
+    <!-- 60% Video Stream -->
+    <div class="app-stream">
+      <canvas id="appCamCanvas" width="380" height="280"></canvas>
+      <div class="stream-overlay">OV2640 VGA 640x480</div>
+      <div class="stream-crosshair" id="streamCrosshair"></div>
+    </div>
+
+    <!-- 40% Control Cockpit -->
+    <div class="app-controls">
+      <!-- Speed Buttons -->
+      <div class="speed-row">
+        <button class="sp-btn" onclick="setSpeed(0.35, this)">SLOW 35%</button>
+        <button class="sp-btn active" onclick="setSpeed(0.65, this)">MED 65%</button>
+        <button class="sp-btn" onclick="setSpeed(1.0, this)">FAST 100%</button>
+      </div>
+
+      <!-- D-Pad Controls -->
+      <div class="joystick-zone">
+        <div class="dpad-grid">
+          <div></div>
+          <button class="ctrl-btn" id="btnFwd" onmousedown="drive(1,1)" onmouseup="drive(0,0)">▲ FWD</button>
+          <div></div>
+          <button class="ctrl-btn" id="btnLeft" onmousedown="drive(-0.8,0.8)" onmouseup="drive(0,0)">◄ LEFT</button>
+          <button class="ctrl-btn stop" onclick="drive(0,0)">■ STOP</button>
+          <button class="ctrl-btn" id="btnRight" onmousedown="drive(0.8,-0.8)" onmouseup="drive(0,0)">RIGHT ►</button>
+          <div></div>
+          <button class="ctrl-btn" id="btnRev" onmousedown="drive(-1,-1)" onmouseup="drive(0,0)">▼ REV</button>
+          <div></div>
+        </div>
+      </div>
+
+      <!-- Tactical Triggers -->
+      <div class="action-row">
+        <button class="spray-btn" id="sprayBtn" onclick="triggerSpray()">💧 SPRAY BURST (200ms)</button>
+        <button class="flash-btn" id="flashBtn" onclick="toggleFlash()">💡 FLASH</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIMULATION LOGIC & THREE.JS ENGINE -->
+  <script>
+    // State variables
+    let speedMult = 0.65;
+    let leftSpeed = 0;
+    let rightSpeed = 0;
+    let roverPos = new THREE.Vector3(0, 0, 0);
+    let roverAngle = 0;
+    let isSpraying = false;
+    let sprayEnd = 0;
+    let lastCmd = Date.now();
+    let isFlashOn = false;
+    let isDemoRunning = false;
+    let demoTimer = 0;
+
+    // --- THREE.JS SCENE SETUP ---
+    const container = document.getElementById('three-canvas');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0c1017);
+    scene.fog = new THREE.FogExp2(0x0c1017, 0.04);
+
+    const camera = new THREE.PerspectiveCamera(45, (window.innerWidth - 380) / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 4.5, 6.5);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth - 380, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.maxPolarAngle = Math.PI / 2 - 0.05;
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+    scene.add(ambientLight);
+    const sunLight = new THREE.DirectionalLight(0xfff5e6, 0.9);
+    sunLight.position.set(5, 10, 5);
+    sunLight.castShadow = true;
+    scene.add(sunLight);
+
+    // Farmland Ground
+    const groundGeo = new THREE.PlaneGeometry(35, 35);
+    const groundMat = new THREE.MeshStandardMaterial({ color: 0x3d2b1f, roughness: 0.95 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // Crops
+    const cropMat = new THREE.MeshStandardMaterial({ color: 0x228b22, roughness: 0.8 });
+    for (let x = -8; x <= 8; x += 3.0) {
+      if (Math.abs(x) < 1.2) continue; // Pathway
+      for (let z = -14; z <= 14; z += 1.0) {
+        const crop = new THREE.Mesh(new THREE.ConeGeometry(0.35, 0.7, 5), cropMat);
+        crop.position.set(x + (Math.random()*0.1), 0.35, z + (Math.random()*0.1));
+        scene.add(crop);
+      }
+    }
+
+    // --- 3D ROVER MODEL ---
+    const rover = new THREE.Group();
+
+    // Chassis
+    const chassis = new THREE.Mesh(
+      new THREE.BoxGeometry(1.2, 0.3, 1.6),
+      new THREE.MeshStandardMaterial({ color: 0x1e272e, roughness: 0.4 })
+    );
+    chassis.position.y = 0.5;
+    rover.add(chassis);
+
+    // Accent Stripe
+    const stripe = new THREE.Mesh(
+      new THREE.BoxGeometry(1.22, 0.04, 1.2),
+      new THREE.MeshStandardMaterial({ color: 0x2ecc71, emissive: 0x2ecc71, emissiveIntensity: 0.3 })
+    );
+    stripe.position.y = 0.55;
+    rover.add(stripe);
+
+    // L298N Red Module on Chassis
+    const l298n = new THREE.Mesh(
+      new THREE.BoxGeometry(0.5, 0.15, 0.5),
+      new THREE.MeshStandardMaterial({ color: 0xc0392b })
+    );
+    l298n.position.set(0, 0.7, 0.1);
+    rover.add(l298n);
+
+    // ESP32-CAM Module with Camera Mast
+    const mast = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.03, 0.03, 0.45),
+      new THREE.MeshStandardMaterial({ color: 0x7f8c8d })
+    );
+    mast.position.set(0, 0.85, 0.65);
+    rover.add(mast);
+
+    const camHead = new THREE.Mesh(
+      new THREE.BoxGeometry(0.2, 0.16, 0.12),
+      new THREE.MeshStandardMaterial({ color: 0x111111 })
+    );
+    camHead.position.set(0, 1.1, 0.65);
+    rover.add(camHead);
+
+    const lens = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.045, 0.045, 0.06),
+      new THREE.MeshStandardMaterial({ color: 0x000, metalness: 0.8, roughness: 0.1 })
+    );
+    lens.rotation.x = Math.PI / 2;
+    lens.position.set(0, 1.1, 0.72);
+    rover.add(lens);
+
+    // Flash Spotlight
+    const flashLight = new THREE.SpotLight(0xffffff, 0, 10, Math.PI / 4, 0.3);
+    flashLight.position.set(0, 1.1, 0.75);
+    flashLight.target.position.set(0, 0.5, 3.5);
+    rover.add(flashLight);
+    rover.add(flashLight.target);
+
+    // 4 Wheels
+    const wheels = [];
+    const wheelPositions = [
+      [-0.72, 0.28, 0.55],  // FL
+      [-0.72, 0.28, -0.55], // RL
+      [ 0.72, 0.28, 0.55],  // FR
+      [ 0.72, 0.28, -0.55]  // RR
+    ];
+    wheelPositions.forEach(pos => {
+      const wGroup = new THREE.Group();
+      // Yellow gearbox
+      const gb = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.25), new THREE.MeshStandardMaterial({ color: 0xf1c40f }));
+      wGroup.add(gb);
+      // Black tire
+      const tire = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.18, 16), new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.9 }));
+      tire.rotation.z = Math.PI / 2;
+      wGroup.add(tire);
+      wGroup.position.set(...pos);
+      rover.add(wGroup);
+      wheels.push(tire);
+    });
+
+    // --- 3D PARTICLE MIST SPRAY NOZZLE ---
+    const pCount = 200;
+    const pGeo = new THREE.BufferGeometry();
+    const pPos = new Float32Array(pCount * 3);
+    const pVels = [];
+    for (let i = 0; i < pCount; i++) {
+      pPos[i*3] = 0; pPos[i*3+1] = 0; pPos[i*3+2] = 0;
+      pVels.push(new THREE.Vector3((Math.random()-0.5)*0.03, -(Math.random()*0.02+0.01), Math.random()*0.07+0.04));
+    }
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    const pMat = new THREE.PointsMaterial({ color: 0x3498db, size: 0.08, transparent: true, opacity: 0 });
+    const mist = new THREE.Points(pGeo, pMat);
+    mist.position.set(0, 0.45, 0.85);
+    rover.add(mist);
+
+    scene.add(rover);
+
+    // --- CONTROLS & FIRMWARE INTERFACE ---
+    function setSpeed(v, btn) {
+      speedMult = v;
+      document.querySelectorAll('.sp-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function drive(l, r) {
+      lastCmd = Date.now();
+      leftSpeed = Math.round(l * speedMult * 255);
+      rightSpeed = Math.round(r * speedMult * 255);
+      updateLogicHUD();
+    }
+
+    function triggerSpray() {
+      lastCmd = Date.now();
+      isSpraying = true;
+      sprayEnd = Date.now() + 200;
+      pMat.opacity = 0.85;
+      document.getElementById('sprayBtn').classList.add('active');
+      document.getElementById('hudPump').innerText = 'HIGH (PUMP ON)';
+      document.getElementById('hudPump').className = 'val-pulse';
+      setTimeout(() => {
+        isSpraying = false;
+        pMat.opacity = 0;
+        document.getElementById('sprayBtn').classList.remove('active');
+        document.getElementById('hudPump').innerText = 'OFF (LOW)';
+        document.getElementById('hudPump').className = 'val-low';
+      }, 200);
+    }
+
+    function toggleFlash() {
+      isFlashOn = !isFlashOn;
+      flashLight.intensity = isFlashOn ? 2.5 : 0;
+      document.getElementById('flashBtn').style.background = isFlashOn ? '#fff' : '#f39c12';
+    }
+
+    function updateLogicHUD() {
+      const in1 = leftSpeed > 0 ? leftSpeed : 0;
+      const in2 = leftSpeed < 0 ? Math.abs(leftSpeed) : 0;
+      const in3 = rightSpeed > 0 ? rightSpeed : 0;
+      const in4 = rightSpeed < 0 ? Math.abs(rightSpeed) : 0;
+
+      const h1 = document.getElementById('hudIN1');
+      const h2 = document.getElementById('hudIN2');
+      const h3 = document.getElementById('hudIN3');
+      const h4 = document.getElementById('hudIN4');
+
+      h1.innerText = `${in1} PWM`; h1.className = in1 > 0 ? 'val-high' : 'val-low';
+      h2.innerText = `${in2} PWM`; h2.className = in2 > 0 ? 'val-high' : 'val-low';
+      h3.innerText = `${in3} PWM`; h3.className = in3 > 0 ? 'val-high' : 'val-low';
+      h4.innerText = `${in4} PWM`; h4.className = in4 > 0 ? 'val-high' : 'val-low';
+    }
+
+    // --- AUTOMATED 3D DEMO VIDEO TOUR ---
+    let demoStep = 0;
+    function toggleDemoVideo() {
+      isDemoRunning = !isDemoRunning;
+      const btn = document.getElementById('demoBtn');
+      if (isDemoRunning) {
+        btn.innerText = '⏸ PAUSE 3D DEMO VIDEO';
+        btn.classList.add('playing');
+        demoStep = 0;
+        demoTimer = Date.now();
+      } else {
+        btn.innerText = '▶ PLAY 3D WORKING DEMO VIDEO';
+        btn.classList.remove('playing');
+        drive(0, 0);
+      }
+    }
+
+    // --- MAIN ANIMATION & KINEMATICS LOOP ---
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // Automated Demo Director
+      if (isDemoRunning) {
+        const elapsed = (Date.now() - demoTimer) / 1000;
+        if (elapsed < 3) {
+          drive(1, 1); // FWD
+          document.getElementById('hudStatus').innerText = 'DEMO: Driving Forward down crop row';
+        } else if (elapsed < 5.5) {
+          drive(-0.8, 0.8); // Pivot Left
+          document.getElementById('hudStatus').innerText = 'DEMO: Skid-Steer Pivot Turn Left';
+        } else if (elapsed < 8) {
+          drive(0, 0);
+          if (elapsed > 6.2 && elapsed < 6.4 && !isSpraying) triggerSpray();
+          document.getElementById('hudStatus').innerText = 'DEMO: Target Lock -> 200ms Chemical Mist Burst';
+        } else if (elapsed < 11) {
+          drive(1, 1);
+          document.getElementById('hudStatus').innerText = 'DEMO: Advancing to next zone';
+        } else {
+          demoTimer = Date.now(); // Loop demo
+        }
+      }
+
+      // Watchdog Check (500ms)
+      const silence = Date.now() - lastCmd;
+      const rem = Math.max(0, 500 - silence);
+      document.getElementById('hudWatchdog').innerText = `${rem} ms`;
+      if (silence > 500 && (leftSpeed !== 0 || rightSpeed !== 0)) {
+        leftSpeed = 0;
+        rightSpeed = 0;
+        updateLogicHUD();
+        document.getElementById('hudWatchdog').innerText = 'WATCHDOG BRAKE';
+      }
+
+      // Rover Kinematics
+      const fwd = ((leftSpeed + rightSpeed) / 2) / 255 * 0.05;
+      const turn = ((rightSpeed - leftSpeed) / 2) / 255 * 0.035;
+
+      roverAngle += turn;
+      rover.rotation.y = roverAngle;
+      rover.position.x += Math.sin(roverAngle) * fwd;
+      rover.position.z += Math.cos(roverAngle) * fwd;
+
+      // Rotate Wheels
+      wheels[0].rotation.x += (leftSpeed / 255) * 0.2;
+      wheels[1].rotation.x += (leftSpeed / 255) * 0.2;
+      wheels[2].rotation.x += (rightSpeed / 255) * 0.2;
+      wheels[3].rotation.x += (rightSpeed / 255) * 0.2;
+
+      // Animate Spray Particles
+      if (isSpraying) {
+        const pos = pGeo.attributes.position.array;
+        for (let i = 0; i < pCount; i++) {
+          pos[i*3] += pVels[i].x;
+          pos[i*3+1] += pVels[i].y;
+          pos[i*3+2] += pVels[i].z;
+          if (pos[i*3+1] < -0.4) {
+            pos[i*3] = (Math.random()-0.5)*0.1;
+            pos[i*3+1] = 0;
+            pos[i*3+2] = (Math.random()-0.5)*0.1;
+          }
+        }
+        pGeo.attributes.position.needsUpdate = true;
+      }
+
+      // Camera follow rover smoothly
+      controls.target.copy(rover.position);
+      controls.update();
+
+      renderer.render(scene, camera);
+
+      // Render simulated POV in 2D canvases
+      renderPOVCanvases();
+    }
+
+    // Render simulated camera view
+    const povCtx = document.getElementById('povCanvas').getContext('2d');
+    const appCtx = document.getElementById('appCamCanvas').getContext('2d');
+    let povOffset = 0;
+
+    function renderPOVCanvases() {
+      povOffset += fwd * 30;
+      [povCtx, appCtx].forEach(ctx => {
+        ctx.fillStyle = '#1e293b';
+        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+        // Ground & sky
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height / 2);
+        ctx.fillStyle = '#3d2b1f';
+        ctx.fillRect(0, ctx.canvas.height / 2, ctx.canvas.width, ctx.canvas.height / 2);
+
+        // Crop bushes scrolling by
+        ctx.fillStyle = '#22c55e';
+        const scroll = (Date.now() * 0.05 * (leftSpeed/255)) % 60;
+        for (let i = 0; i < 6; i++) {
+          ctx.beginPath();
+          ctx.arc(40 + i * 50 - scroll, ctx.canvas.height / 2 + 10, 18, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Crosshair
+        ctx.strokeStyle = '#22c55e';
+        ctx.strokeRect(ctx.canvas.width/2 - 20, ctx.canvas.height/2 - 20, 40, 40);
+      });
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = (window.innerWidth - 380) / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth - 380, window.innerHeight);
+    });
+  </script>
+</body>
+</html>

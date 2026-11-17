@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agri Rover — 3D WebGL Digital Twin Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    body { background-color: #0d131a; color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow: hidden; height: 100vh; }
+    #canvas-container { width: 100%; height: 100%; display: block; }
+    
+    /* Top HUD */
+    .top-hud {
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      z-index: 10;
+      background: rgba(16, 24, 34, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: 1px solid #233348;
+    }
+    .brand { font-size: 16px; font-weight: 800; color: #2ecc71; letter-spacing: 0.5px; }
+    .badge { font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; background: #27ae60; color: #fff; }
+    .badge.offline { background: #e74c3c; }
+
+    /* PiP Camera Viewport */
+    .pip-camera {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      width: 320px;
+      height: 220px;
+      background: #000;
+      border: 2px solid #2ecc71;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+      z-index: 10;
+    }
+    .pip-header {
+      background: rgba(16, 24, 34, 0.9);
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      color: #2ecc71;
+      border-bottom: 1px solid #233348;
+    }
+    #cam-feed { width: 100%; height: calc(100% - 28px); object-fit: cover; display: block; }
+
+    /* Telemetry Overlay */
+    .telemetry-card {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      width: 280px;
+      background: rgba(16, 24, 34, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #233348;
+      z-index: 10;
+      font-size: 12px;
+    }
+    .telemetry-card h4 { color: #8b9bb4; font-size: 11px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .metric-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+    .metric-val { font-family: monospace; font-weight: 700; color: #2ecc71; }
+    .spray-indicator { color: #3498db; font-weight: bold; }
+
+    /* Help overlay */
+    .controls-help {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(16, 24, 34, 0.7);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 11px;
+      color: #8b9bb4;
+      pointer-events: none;
+    }
+  </style>
+  <!-- Three.js and OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+  <div class="top-hud">
+    <div class="brand">🌿 AGRI ROVER 3D DIGITAL TWIN</div>
+    <div class="badge" id="ws-status">WS CONNECTING...</div>
+  </div>
+
+  <div class="pip-camera">
+    <div class="pip-header">
+      <span>ESP32-CAM STREAM</span>
+      <span id="stream-fps">25 FPS</span>
+    </div>
+    <img id="cam-feed" src="http://localhost:8081/stream" alt="ESP32-CAM Video Stream">
+  </div>
+
+  <div class="telemetry-card">
+    <h4>Cyber-Physical Telemetry</h4>
+    <div class="metric-row"><span>Vision Target:</span><span class="metric-val" id="val-target">NONE</span></div>
+    <div class="metric-row"><span>Target Lock:</span><span class="metric-val" id="val-locked">NO</span></div>
+    <div class="metric-row"><span>Threats Detected:</span><span class="metric-val" id="val-threats">0</span></div>
+    <div class="metric-row"><span>Vision FPS:</span><span class="metric-val" id="val-fps">0.0</span></div>
+    <div class="metric-row"><span>Chemical Actuation:</span><span class="metric-val spray-indicator" id="val-spray">STANDBY</span></div>
+  </div>
+
+  <div class="controls-help">
+    Left Click + Drag: Orbit | Right Click: Pan | Scroll: Zoom
+  </div>
+
+  <div id="canvas-container"></div>
+
+  <script>
+    // ======================== THREE.JS 3D SCENE SETUP ========================
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0d131a);
+    scene.fog = new THREE.FogExp2(0x0d131a, 0.035);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 3.5, 6);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.maxPolarAngle = Math.PI / 2 - 0.05;
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0xfff5e6, 0.9);
+    dirLight.position.set(5, 10, 5);
+    dirLight.castShadow = true;
+    scene.add(dirLight);
+
+    // Ground Plane (Farmland Dirt)
+    const groundGeo = new THREE.PlaneGeometry(30, 30);
+    const groundMat = new THREE.MeshStandardMaterial({ color: 0x3d2b1f, roughness: 0.9 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // Crop Rows
+    const cropMat = new THREE.MeshStandardMaterial({ color: 0x228b22, roughness: 0.8 });
+    for (let x = -6; x <= 6; x += 2.5) {
+      if (Math.abs(x) < 1.0) continue; // Leave central rover pathway open
+      for (let z = -12; z <= 12; z += 0.8) {
+        const cropGeo = new THREE.ConeGeometry(0.3, 0.7, 5);
+        const crop = new THREE.Mesh(cropGeo, cropMat);
+        crop.position.set(x + (Math.random() * 0.1), 0.35, z + (Math.random() * 0.1));
+        crop.castShadow = true;
+        scene.add(crop);
+      }
+    }
+
+    // ======================== ROVER 3D MODEL ========================
+    const roverGroup = new THREE.Group();
+
+    // Chassis Body
+    const bodyGeo = new THREE.BoxGeometry(1.2, 0.35, 1.6);
+    const bodyMat = new THREE.MeshStandardMaterial({ color: 0x1e272e, roughness: 0.4, metalness: 0.3 });
+    const chassis = new THREE.Mesh(bodyGeo, bodyMat);
+    chassis.position.y = 0.55;
+    chassis.castShadow = true;
+    roverGroup.add(chassis);
+
+    // Accent Stripes
+    const stripeGeo = new THREE.BoxGeometry(1.22, 0.05, 1.2);
+    const stripeMat = new THREE.MeshStandardMaterial({ color: 0x2ecc71, emissive: 0x2ecc71, emissiveIntensity: 0.2 });
+    const stripe = new THREE.Mesh(stripeGeo, stripeMat);
+    stripe.position.y = 0.6;
+    roverGroup.add(stripe);
+
+    // Camera Mast
+    const mastGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.5);
+    const mastMat = new THREE.MeshStandardMaterial({ color: 0x7f8c8d });
+    const mast = new THREE.Mesh(mastGeo, mastMat);
+    mast.position.set(0, 0.9, 0.65);
+    roverGroup.add(mast);
+
+    // Camera Head
+    const camGeo = new THREE.BoxGeometry(0.2, 0.15, 0.15);
+    const camMat = new THREE.MeshStandardMaterial({ color: 0x2c3e50 });
+    const camHead = new THREE.Mesh(camGeo, camMat);
+    camHead.position.set(0, 1.15, 0.65);
+    roverGroup.add(camHead);
+
+    // Camera Lens
+    const lensGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.06);
+    const lensMat = new THREE.MeshStandardMaterial({ color: 0x000000, roughness: 0.1 });
+    const lens = new THREE.Mesh(lensGeo, lensMat);
+    lens.rotation.x = Math.PI / 2;
+    lens.position.set(0, 1.15, 0.74);
+    roverGroup.add(lens);
+
+    // Wheels
+    const wheels = [];
+    const wheelGeo = new THREE.CylinderGeometry(0.28, 0.28, 0.22, 16);
+    const wheelMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.9 });
+
+    const wheelPositions = [
+      [-0.72, 0.28, 0.55],  // Front Left
+      [ 0.72, 0.28, 0.55],  // Front Right
+      [-0.72, 0.28, -0.55], // Rear Left
+      [ 0.72, 0.28, -0.55]  // Rear Right
+    ];
+
+    wheelPositions.forEach(pos => {
+      const wheel = new THREE.Mesh(wheelGeo, wheelMat);
+      wheel.rotation.z = Math.PI / 2;
+      wheel.position.set(...pos);
+      wheel.castShadow = true;
+      roverGroup.add(wheel);
+      wheels.push(wheel);
+    });
+
+    // ======================== PARTICLE MIST SPRAY EMITTER ========================
+    const particleCount = 180;
+    const particleGeo = new THREE.BufferGeometry();
+    const particlePositions = new Float32Array(particleCount * 3);
+    const particleVelocities = [];
+
+    for (let i = 0; i < particleCount; i++) {
+      particlePositions[i * 3] = 0;
+      particlePositions[i * 3 + 1] = 0;
+      particlePositions[i * 3 + 2] = 0;
+      particleVelocities.push(new THREE.Vector3(
+        (Math.random() - 0.5) * 0.04,
+        -(Math.random() * 0.04 + 0.02),
+        (Math.random() - 0.5) * 0.04
+      ));
+    }
+
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+    const particleMat = new THREE.PointsMaterial({
+      color: 0x3498db,
+      size: 0.08,
+      transparent: true,
+      opacity: 0.0
+    });
+
+    const sprayParticles = new THREE.Points(particleGeo, particleMat);
+    sprayParticles.position.set(0, 0.5, 0.85); // Spray nozzle position
+    roverGroup.add(sprayParticles);
+
+    scene.add(roverGroup);
+
+    // ======================== WEBSOCKET TELEMETRY CLIENT ========================
+    let lastSprayTimestamp = 0;
+    let isSpraying = false;
+    let sprayTimer = 0;
+
+    const wsStatus = document.getElementById('ws-status');
+    const valTarget = document.getElementById('val-target');
+    const valLocked = document.getElementById('val-locked');
+    const valThreats = document.getElementById('val-threats');
+    const valFps = document.getElementById('val-fps');
+    const valSpray = document.getElementById('val-spray');
+
+    function connectWebSocket() {
+      const ws = new WebSocket('ws://localhost:8765');
+
+      ws.onopen = () => {
+        wsStatus.textContent = 'WS CONNECTED';
+        wsStatus.className = 'badge';
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          valTarget.textContent = data.target_type || 'NONE';
+          valLocked.textContent = data.target_locked ? 'YES (LOCKED)' : 'NO';
+          valLocked.style.color = data.target_locked ? '#e74c3c' : '#2ecc71';
+          valThreats.textContent = data.threats_detected || 0;
+          valFps.textContent = data.fps || 0.0;
+
+          // Check spray trigger event
+          if (data.last_spray_event && data.last_spray_event !== lastSprayTimestamp) {
+            lastSprayTimestamp = data.last_spray_event;
+            triggerDigitalSpray();
+          }
+        } catch (e) {}
+      };
+
+      ws.onclose = () => {
+        wsStatus.textContent = 'WS OFFLINE';
+        wsStatus.className = 'badge offline';
+        setTimeout(connectWebSocket, 2000);
+      };
+
+      ws.onerror = () => ws.close();
+    }
+
+    function triggerDigitalSpray() {
+      isSpraying = true;
+      sprayTimer = Date.now() + 250;
+      particleMat.opacity = 0.85;
+      valSpray.textContent = 'MICRO-BURST (200ms)';
+      valSpray.style.color = '#e74c3c';
+    }
+
+    connectWebSocket();
+
+    // ======================== ANIMATION LOOP ========================
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // Rotate wheels slowly for demo kinematics
+      wheels.forEach(w => w.rotation.x += 0.02);
+
+      // Handle spray particle animation
+      if (isSpraying) {
+        const positions = particleGeo.attributes.position.array;
+        for (let i = 0; i < particleCount; i++) {
+          positions[i * 3] += particleVelocities[i].x;
+          positions[i * 3 + 1] += particleVelocities[i].y;
+          positions[i * 3 + 2] += particleVelocities[i].z;
+
+          // Reset fallen particles
+          if (positions[i * 3 + 1] < -0.45) {
+            positions[i * 3] = (Math.random() - 0.5) * 0.15;
+            positions[i * 3 + 1] = 0;
+            positions[i * 3 + 2] = (Math.random() - 0.5) * 0.15;
+          }
+        }
+        particleGeo.attributes.position.needsUpdate = true;
+
+        if (Date.now() > sprayTimer) {
+          isSpraying = false;
+          particleMat.opacity = 0.0;
+          valSpray.textContent = 'STANDBY';
+          valSpray.style.color = '#3498db';
+        }
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>

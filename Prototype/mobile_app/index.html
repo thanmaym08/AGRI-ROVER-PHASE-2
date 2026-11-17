@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0f14">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Agri Rover — 60/40 Teleoperation Cockpit</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ======================== UPPER SECTION: 60% VIDEO VIEWPORT ======================== -->
+  <main class="viewport-section" id="viewport-section">
+    <!-- Floating Minimalist HUD -->
+    <header class="floating-hud">
+      <div class="brand">
+        <span class="brand-icon">🌿</span>
+        <span class="brand-name">AGRI ROVER</span>
+        <span class="prototype-tag">CAM</span>
+      </div>
+      <div class="hud-metrics">
+        <div class="metric">
+          <span class="label">BAT</span>
+          <span class="value" id="hud-battery">12.4V</span>
+        </div>
+        <div class="metric">
+          <span class="label">PING</span>
+          <span class="value" id="hud-ping">-- ms</span>
+        </div>
+        <div class="connection-badge status-disconnected" id="conn-badge">OFFLINE</div>
+        <button class="icon-btn" id="btn-settings" title="Settings & Calibration">⚙️</button>
+      </div>
+    </header>
+
+    <!-- Camera Stream Viewport -->
+    <div class="stream-container" id="stream-container">
+      <img id="camera-stream" src="" alt="Live Video Feed" crossorigin="anonymous">
+      
+      <!-- Placeholder when stream connecting or disconnected -->
+      <div class="stream-placeholder" id="stream-placeholder">
+        <div class="loader"></div>
+        <p>Connecting to ESP32-CAM...</p>
+        <span class="target-url" id="stream-target-label">http://192.168.4.1:81/stream</span>
+        <button class="btn-retry" id="btn-reconnect-stream">🔄 Reconnect Stream</button>
+      </div>
+      
+      <!-- Targeting Reticle -->
+      <div class="targeting-reticle" id="reticle">
+        <div class="corner corner-tl"></div>
+        <div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div>
+        <div class="corner corner-br"></div>
+        <div class="crosshair-h"></div>
+        <div class="crosshair-v"></div>
+        <div class="reticle-label">AI SPRAY RETICLE</div>
+      </div>
+
+      <!-- Real-time Motion Direction & Motor Power Overlay -->
+      <div class="motion-hud">
+        <div class="motion-vector" id="hud-motion-vector">■ STOPPED</div>
+        <div class="motor-bars">
+          <span id="hud-left-pwm">L: 0</span>
+          <div class="motor-divider">|</div>
+          <span id="hud-right-pwm">R: 0</span>
+        </div>
+      </div>
+
+      <!-- Chemical Micro-Burst Alert Banner -->
+      <div class="spray-alert-banner" id="spray-banner">💦 MICRO-BURST ACTIVE (200ms)</div>
+    </div>
+  </main>
+
+  <!-- ======================== LOWER SECTION: 40% CONTROL COCKPIT ======================== -->
+  <section class="controls-section" id="controls-section">
+    <!-- Virtual Touch Joystick -->
+    <div class="joystick-wrapper">
+      <div class="joystick-base" id="joystick-base">
+        <div class="joystick-thumb" id="joystick-thumb"></div>
+        <div class="stick-label">DRIVE & STEER</div>
+      </div>
+    </div>
+
+    <!-- Tactical Control Dashboard -->
+    <div class="tactical-panel">
+      <!-- Speed Regime Buttons + Slider -->
+      <div class="control-card speed-card">
+        <div class="speed-header">
+          <span class="section-title">SPEED REGIME</span>
+          <span class="speed-badge" id="speed-display-label">65% (MED)</span>
+        </div>
+        
+        <!-- Preset Speed Buttons: Slow, Medium, Fast -->
+        <div class="speed-toggle-bar">
+          <button class="speed-btn" data-speed="35" id="btn-speed-slow">SLOW (35%)</button>
+          <button class="speed-btn active" data-speed="65" id="btn-speed-med">MED (65%)</button>
+          <button class="speed-btn" data-speed="100" id="btn-speed-fast">FAST (100%)</button>
+        </div>
+
+        <!-- Continuous Speed Fine-Tuning Slider -->
+        <div class="slider-row">
+          <span class="slider-icon">🐢</span>
+          <input type="range" class="tactical-slider" id="speed-slider" min="25" max="100" value="65" step="1">
+          <span class="slider-icon">🐇</span>
+        </div>
+      </div>
+
+      <!-- Chemical Spray Trigger Button -->
+      <button class="action-btn btn-spray" id="btn-spray">
+        <span class="btn-icon">💦</span>
+        <span class="btn-text">SPRAY BURST (200ms)</span>
+      </button>
+
+      <!-- Auxiliary Command Row -->
+      <div class="aux-row">
+        <button class="aux-btn" id="btn-flash">
+          <span class="aux-icon">💡</span>
+          <span class="aux-label">FLASH</span>
+        </button>
+        <button class="aux-btn" id="btn-calibrate">
+          <span class="aux-icon">📐</span>
+          <span class="aux-label">CALIBRATE</span>
+        </button>
+        <button class="aux-btn btn-stop" id="btn-stop">
+          <span class="aux-icon">🛑</span>
+          <span class="aux-label">E-STOP</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================== SETTINGS & CALIBRATION MODAL ======================== -->
+  <div class="modal-backdrop" id="settings-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Rover Calibration & Connection</h3>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Turning Angle / Steering Sensitivity -->
+        <div class="calib-group">
+          <div class="calib-header">
+            <label for="cfg-turn-sens">Turn Sensitivity / Angle Scale ($K_{\text{steer}}$):</label>
+            <span class="calib-val" id="val-turn-sens">0.75x</span>
+          </div>
+          <input type="range" id="cfg-turn-sens" min="0.30" max="1.20" step="0.05" value="0.75">
+          <div class="calib-hints">
+            <span>0.3x (Gentle Arc)</span>
+            <span>0.75x (Balanced)</span>
+            <span>1.2x (Sharp Pivot)</span>
+          </div>
+        </div>
+
+        <!-- Steering Trim / Motor Drift Calibration -->
+        <div class="calib-group">
+          <div class="calib-header">
+            <label for="cfg-steering-trim">Motor Drift Trim (Straight-Line Balance):</label>
+            <span class="calib-val" id="val-steering-trim">0%</span>
+          </div>
+          <input type="range" id="cfg-steering-trim" min="-25" max="25" step="1" value="0">
+          <div class="calib-hints">
+            <span>◀ Bias Left</span>
+            <span>Centered (0%)</span>
+            <span>Bias Right ▶</span>
+          </div>
+        </div>
+
+        <!-- Invert Motor Axes Checkboxes -->
+        <div class="checkbox-row">
+          <label class="toggle-label">
+            <input type="checkbox" id="cfg-invert-steer">
+            <span>Invert Steering (Left ↔ Right)</span>
+          </label>
+          <label class="toggle-label">
+            <input type="checkbox" id="cfg-invert-throttle">
+            <span>Invert Throttle (Forward ↔ Reverse)</span>
+          </label>
+        </div>
+
+        <!-- Connection Parameters -->
+        <div class="conn-grid">
+          <div>
+            <label>ESP32 Host / IP:</label>
+            <input type="text" id="cfg-host" value="192.168.4.1" placeholder="192.168.4.1">
+          </div>
+          <div>
+            <label>Control Port:</label>
+            <input type="number" id="cfg-ctrl-port" value="80">
+          </div>
+          <div>
+            <label>Stream Port:</label>
+            <input type="number" id="cfg-stream-port" value="81">
+          </div>
+          <div>
+            <label>Spray Time (ms):</label>
+            <input type="number" id="cfg-spray-ms" value="200" min="50" max="2000">
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <button class="btn-primary" id="btn-save-settings">Save & Apply</button>
+          <button class="btn-secondary" id="btn-reset-settings">Reset Defaults</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

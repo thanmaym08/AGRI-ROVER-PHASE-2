@@ -1,0 +1,79 @@
+=== FILE: Synopsis documenetation format.docx ===
+P: 1. INTRODUCTION
+P: SubHeading – 12 pt, TimesNewRoman, Bold
+P: Body of the text – 12 point Times new Roman, 1.5 spacing, Justified
+P: All figures should be captioned as 	Fig. No: <Caption> (10 font size) (At the bottom of the Figure)
+P: All tables should be captioned as 	Table No: <Table Caption) (10 font size) (At the top of the table)
+
+=== FILE: SDG Alignment.docx ===
+P: Project Work – Phase-I
+P: SDG & ESG Compliance 
+P: A.  Section A — SDG Compliance
+P: i. Project tle:
+P: ii. Identified SDG (Goal No. & Name):
+P: • Example format: "SDG 6 — Clean Water and Sanitation". Refer https://sdgs.un.org/goals to pick the closest-fitting goal
+P: iii. Target & Indicator under this SDG:
+P: • The specific sub-target/indicator your project addresses (found on the SDG website under your chosen goal).
+P: iv. Contribution of the Project towards the identified SDG:
+P: • 2–3 bullet points on how your project's features/outcomes actually advance this goal.
+P: v. Supporting Documents / Evidence:
+P: • List what you are attaching as proof — see the sample evidence list in Section C.
+P: B.  Section B — ESG Compliance
+P: (Fill in how your project contributes under each pillar, and list the evidence you will attach for each.)
+P: Signature of Student						             Signature of Project Guide
+P: Sample Evidence You Can Attach
+P: Evidence for SDG Compliance (proof of impact on the goal)
+P: Evidence for ESG Compliance (proof of responsible design & operation)
+--- Table 1 ---
+SDG vs ESG — what's the difference? SDG (Sustainable Development Goals): 17 global goals set by the UN (e.g., Clean Water, Good Health, Climate Action). You pick ONE goal your project supports, along with a specific target/indicator under it. ESG (Environmental, Social, Governance): A broader framework for how responsibly a project is built and run. You describe your project's contribution under all THREE categories — Environmental, Social, and Governance. In short: SDG = "which global goal does my project support” and ESG = "how sustainably/responsibly is my project designed, built, and governed." A project usually maps to ONE SDG, but should address ALL THREE ESG categories.
+--- Table 2 ---
+ESG Category | Project Contribution | Supporting Documents
+Environmental (E) |  | 
+Social (S) |  | 
+Governance (G) |  | 
+--- Table 3 ---
+Category | Sample Evidence / Supporting Documents
+Impact Data / Metrics | Before–after comparison tied to the SDG indicator (e.g., % water/energy saved, users reached, time saved)
+Field / Beneficiary Data | Survey of target beneficiaries, usage statistics from pilot deployment, case-study write-up
+Reference Alignment | Mapping table/paragraph showing how your feature list maps to the official SDG indicator wording (cite sdgs.un.org)
+Third-party Validation | Guide/mentor sign-off, NGO or municipal body letter (if applicable), any award/recognition tied to the theme
+--- Table 4 ---
+Pillar | Category | Sample Evidence / Supporting Documents
+Environmental (E) | Resource Efficiency | Energy/storage savings calculations, cloud-vs-paper usage estimate, sustainability/green-hosting proof
+Environmental (E) | Process Screenshots | Dashboard outputs, cloud storage screenshots, database/report showing reduced physical resource use
+Social (S) | Privacy & Access | Encryption workflow screenshots, upload/download proof, data-handling policy statement
+Social (S) | User Wellbeing | User feedback forms, accessibility testing notes, survey results on usability/trust
+Governance (G) | Security & Access Control | Authentication module screenshots, role-based access control (RBAC) config, JWT/session logs
+Governance (G) | Accountability | System/audit logs, version-control (GitHub) commit history, code review records, README/deployment docs
+
+=== FILE: Rubrics synopsis.docx ===
+--- Table 1 ---
+PROJECT WORK - PHASE I - MMCA34(2025–27 Batch)  Synopsis Evaluation
+--- Table 2 ---
+Student Name |  | USN | 
+Project Title |  |  | 
+Project Guide |  |  | 
+--- Table 3 ---
+Criteria | Excellent (8–10) | Good (5–7) | Needs Improvement (1–4)
+Overall Synopsis Quality (Problem, Literature Survey, Objectives, Methodology, Timeline) | Well-defined problem, good literature review, clear objectives, sound methodology, realistic timeline | Covers all points but lacks depth or clarity in some areas | Problem/objectives vague; methodology or timeline unclear or missing
+--- Table 4 ---
+Component | Component | Maximum Marks | Marks Obtained
+Synopsis Evaluation | Synopsis Evaluation | 10 | 
+Project Guide
+--- Table 5 ---
+PROJECT WORK - PHASE I - MMCA34(2025–27 Batch)  Synopsis
+--- Table 6 ---
+Student Name |  | USN | 
+Project Title |  |  | 
+Project Guide |  |  | 
+--- Table 7 ---
+Sl. No | Contents | Page No.
+1. | Introduction | 
+2. | Literature Survey | 
+3. | Problem Statement with aim and objectives | 
+4. | SDG Alignment | 
+5. | Methodology | 
+6. | Modules Identified | 
+7. | Tools and Technologies identified | 
+8. | Timeline using Gantt chart | 
+

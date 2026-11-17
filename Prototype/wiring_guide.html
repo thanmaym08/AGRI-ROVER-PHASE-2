@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agri Rover Phase 2 — 100% Complete Master Wiring Diagram</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: #0c1017; color: #f0f4f8; padding: 20px; overflow-x: auto; }
+    .header { text-align: center; margin-bottom: 20px; }
+    .header h1 { color: #2ecc71; font-size: 24px; letter-spacing: 0.5px; }
+    .header p { color: #8b9bb4; font-size: 14px; margin-top: 4px; }
+    
+    .guide-container {
+      background: #141b24;
+      border: 2px solid #233348;
+      border-radius: 14px;
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+    }
+    
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #0d131a;
+      border-radius: 10px;
+      border: 1px solid #1c2736;
+    }
+    
+    /* Interactive highlighting */
+    .wire { stroke-linecap: round; stroke-linejoin: round; transition: stroke-width 0.2s, stroke 0.2s; cursor: pointer; }
+    .wire:hover { stroke-width: 7 !important; filter: drop-shadow(0 0 8px #fff); }
+    .component { transition: transform 0.2s; cursor: pointer; }
+    .component:hover { filter: drop-shadow(0 0 10px rgba(46, 204, 113, 0.5)); }
+
+    /* Legend & Checklist below */
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+      margin-top: 25px;
+    }
+    .card {
+      background: #182230;
+      border: 1px solid #28374d;
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .card h3 { font-size: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .card h3.m-left { color: #3498db; }
+    .card h3.m-right { color: #f1c40f; }
+    .card h3.m-pump { color: #e74c3c; }
+    .card h3.m-pwr { color: #2ecc71; }
+    
+    .wire-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      margin-bottom: 8px;
+      padding: 6px 10px;
+      background: #101720;
+      border-radius: 6px;
+      border-left: 4px solid #4a5d78;
+    }
+    .wire-step.red { border-left-color: #e74c3c; }
+    .wire-step.black { border-left-color: #95a5a6; }
+    .wire-step.green { border-left-color: #2ecc71; }
+    .wire-step.blue { border-left-color: #3498db; }
+    .wire-step.yellow { border-left-color: #f1c40f; }
+    .wire-step.orange { border-left-color: #e67e22; }
+    
+    .pin-badge {
+      background: #233348;
+      color: #fff;
+      font-family: monospace;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>🌿 AGRI ROVER PHASE 2 — 100% COMPLETE MASTER WIRING GUIDE</h1>
+    <p>Every single red & black wire for all 4 DC Gear Motors, the 12V Water Pump, ESP32-CAM, L298N, Relay & Buck Converter</p>
+  </div>
+
+  <div class="guide-container">
+    <!-- MASTER VECTOR SVG SCHEMATIC -->
+    <svg viewBox="0 0 1300 950" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Gradients -->
+        <linearGradient id="grad-batt" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#1e3799"/>
+          <stop offset="100%" stop-color="#0984e3"/>
+        </linearGradient>
+        <linearGradient id="grad-l298n" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#c0392b"/>
+          <stop offset="100%" stop-color="#962d22"/>
+        </linearGradient>
+        <linearGradient id="grad-buck" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#0984e3"/>
+          <stop offset="100%" stop-color="#2980b9"/>
+        </linearGradient>
+        <linearGradient id="grad-esp" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#1e272e"/>
+          <stop offset="100%" stop-color="#0b0f14"/>
+        </linearGradient>
+        <linearGradient id="grad-tt" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f1c40f"/>
+          <stop offset="100%" stop-color="#d4ac0d"/>
+        </linearGradient>
+        <linearGradient id="grad-pump" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2c3e50"/>
+          <stop offset="100%" stop-color="#1a252f"/>
+        </linearGradient>
+        <linearGradient id="grad-relay" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2980b9"/>
+          <stop offset="100%" stop-color="#1f618d"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Grid Guide Background Lines -->
+      <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+      </pattern>
+      <rect width="1300" height="950" fill="url(#grid)" />
+
+      <!-- ===================================================================
+           WIRES LAYER (DRAWN FIRST SO THEY SIT BEHIND TERMINALS)
+           =================================================================== -->
+      
+      <!-- 1. LEFT MOTORS (Front-Left + Rear-Left) to L298N OUT1 & OUT2 -->
+      <!-- Front-Left RED to OUT1 -->
+      <path d="M 190 120 C 300 120, 420 330, 470 330" fill="none" stroke="#e74c3c" stroke-width="4" class="wire"/>
+      <!-- Rear-Left RED to OUT1 -->
+      <path d="M 190 780 C 300 780, 420 330, 470 330" fill="none" stroke="#e74c3c" stroke-width="4" class="wire"/>
+
+      <!-- Front-Left BLACK to OUT2 -->
+      <path d="M 190 150 C 320 150, 420 380, 470 380" fill="none" stroke="#2d3436" stroke-width="4" stroke-dasharray="8,4" class="wire"/>
+      <path d="M 190 150 C 320 150, 420 380, 470 380" fill="none" stroke="#7f8c8d" stroke-width="2" class="wire"/>
+      <!-- Rear-Left BLACK to OUT2 -->
+      <path d="M 190 810 C 320 810, 420 380, 470 380" fill="none" stroke="#2d3436" stroke-width="4" stroke-dasharray="8,4" class="wire"/>
+      <path d="M 190 810 C 320 810, 420 380, 470 380" fill="none" stroke="#7f8c8d" stroke-width="2" class="wire"/>
+
+      <!-- 2. RIGHT MOTORS (Front-Right + Rear-Right) to L298N OUT3 & OUT4 -->
+      <!-- Front-Right RED to OUT3 -->
+      <path d="M 1110 120 C 1000 120, 880 330, 830 330" fill="none" stroke="#e74c3c" stroke-width="4" class="wire"/>
+      <!-- Rear-Right RED to OUT3 -->
+      <path d="M 1110 780 C 1000 780, 880 330, 830 330" fill="none" stroke="#e74c3c" stroke-width="4" class="wire"/>
+
+      <!-- Front-Right BLACK to OUT4 -->
+      <path d="M 1110 150 C 980 150, 880 380, 830 380" fill="none" stroke="#2d3436" stroke-width="4" stroke-dasharray="8,4" class="wire"/>
+      <path d="M 1110 150 C 980 150, 880 380, 830 380" fill="none" stroke="#7f8c8d" stroke-width="2" class="wire"/>
+      <!-- Rear-Right BLACK to OUT4 -->
+      <path d="M 1110 810 C 980 810, 880 380, 830 380" fill="none" stroke="#2d3436" stroke-width="4" stroke-dasharray="8,4" class="wire"/>
+      <path d="M 1110 810 C 980 810, 880 380, 830 380" fill="none" stroke="#7f8c8d" stroke-width="2" class="wire"/>
+
+      <!-- 3. POWER WIRES (12V Battery to L298N, Buck, and Relay COM) -->
+      <!-- Battery 12V(+) to Master Switch to L298N 12V -->
+      <path d="M 520 850 L 520 540" fill="none" stroke="#e74c3c" stroke-width="6" class="wire"/>
+      <!-- 12V Splice to Buck IN+ -->
+      <path d="M 520 700 C 520 660, 410 660, 410 660 L 360 660" fill="none" stroke="#e74c3c" stroke-width="4" class="wire"/>
+      <!-- 12V Splice to Relay COM -->
+      <path d="M 520 780 C 520 800, 710 800, 710 790 L 710 770" fill="none" stroke="#e74c3c" stroke-width="4" class="wire"/>
+
+      <!-- Battery GND(-) Common Star Ground -->
+      <!-- Battery GND to L298N GND -->
+      <path d="M 560 850 L 560 540" fill="none" stroke="#2c3e50" stroke-width="6" class="wire"/>
+      <path d="M 560 850 L 560 540" fill="none" stroke="#1abc9c" stroke-width="2" stroke-dasharray="6,6" class="wire"/>
+      <!-- GND Splice to Buck IN- -->
+      <path d="M 560 720 C 560 690, 410 690, 360 690" fill="none" stroke="#2c3e50" stroke-width="4" class="wire"/>
+      <!-- GND Splice to ESP32 GND -->
+      <path d="M 560 540 C 560 480, 600 240, 600 200" fill="none" stroke="#2c3e50" stroke-width="4" class="wire"/>
+      <!-- GND Splice to Relay GND & Pump (-) -->
+      <path d="M 560 750 C 560 810, 750 810, 750 770" fill="none" stroke="#2c3e50" stroke-width="4" class="wire"/>
+      <path d="M 750 810 L 910 810 L 910 840" fill="none" stroke="#2c3e50" stroke-width="4" class="wire"/>
+
+      <!-- 4. CLEAN 5.1V LOGIC POWER -->
+      <!-- Buck OUT+ to ESP32 5V -->
+      <path d="M 230 660 C 150 660, 150 200, 560 200" fill="none" stroke="#e67e22" stroke-width="4" class="wire"/>
+      <!-- Buck OUT- to Common GND -->
+      <path d="M 230 690 C 180 690, 180 880, 560 880" fill="none" stroke="#2c3e50" stroke-width="4" class="wire"/>
+      <!-- 5V Splice to Relay VCC -->
+      <path d="M 150 480 C 150 740, 670 740, 670 770" fill="none" stroke="#e67e22" stroke-width="3" class="wire"/>
+
+      <!-- 5. LOGIC SIGNALS (ESP32 to L298N & Relay) -->
+      <!-- GPIO 12 -> IN1 -->
+      <path d="M 680 140 C 680 180, 580 430, 580 470" fill="none" stroke="#2ecc71" stroke-width="3" class="wire"/>
+      <!-- GPIO 13 -> IN2 -->
+      <path d="M 680 160 C 680 200, 610 430, 610 470" fill="none" stroke="#3498db" stroke-width="3" class="wire"/>
+      <!-- GPIO 14 -> IN3 -->
+      <path d="M 680 180 C 680 220, 690 430, 690 470" fill="none" stroke="#f1c40f" stroke-width="3" class="wire"/>
+      <!-- GPIO 15 -> IN4 -->
+      <path d="M 680 200 C 680 240, 720 430, 720 470" fill="none" stroke="#e67e22" stroke-width="3" class="wire"/>
+      <!-- GPIO 2 -> Relay IN -->
+      <path d="M 680 120 C 760 120, 790 650, 790 770" fill="none" stroke="#9b59b6" stroke-width="3" class="wire"/>
+
+      <!-- 6. PUMP SWITCHED POWER (Relay NO to Pump Red +) -->
+      <path d="M 750 670 C 750 650, 870 650, 870 760" fill="none" stroke="#e74c3c" stroke-width="4" class="wire"/>
+
+
+      <!-- ===================================================================
+           COMPONENTS LAYER (GRAPHICS, LABELS, SCREW TERMINALS)
+           =================================================================== -->
+
+      <!-- [COMPONENT 1]: 12V BATTERY (BOTTOM CENTER-LEFT) -->
+      <g class="component" transform="translate(470, 840)">
+        <rect width="160" height="90" rx="8" fill="url(#grad-batt)" stroke="#74b9ff" stroke-width="2"/>
+        <rect x="15" y="-12" width="40" height="12" rx="3" fill="#e74c3c"/>
+        <rect x="105" y="-12" width="40" height="12" rx="3" fill="#2d3436"/>
+        <text x="80" y="45" fill="#fff" font-size="14" font-weight="800" text-anchor="middle">12V Li-ion BATTERY</text>
+        <text x="80" y="65" fill="#dfe6e9" font-size="11" text-anchor="middle">3S Pack (11.1V - 12.6V)</text>
+        <circle cx="35" cy="10" r="7" fill="#e74c3c"/>
+        <text x="35" y="14" fill="#fff" font-size="12" font-weight="900" text-anchor="middle">+</text>
+        <circle cx="125" cy="10" r="7" fill="#2d3436"/>
+        <text x="125" y="14" fill="#fff" font-size="12" font-weight="900" text-anchor="middle">-</text>
+      </g>
+
+      <!-- [COMPONENT 2]: LM2596 BUCK CONVERTER (LEFT CENTER) -->
+      <g class="component" transform="translate(210, 630)">
+        <rect width="170" height="90" rx="6" fill="url(#grad-buck)" stroke="#00cec9" stroke-width="1.5"/>
+        <text x="85" y="24" fill="#fff" font-size="12" font-weight="800" text-anchor="middle">LM2596 BUCK CONVERTER</text>
+        <rect x="70" y="36" width="30" height="24" rx="2" fill="#d63031"/>
+        <circle cx="85" cy="48" r="6" fill="#f1c40f"/>
+        <text x="85" y="75" fill="#f5f6fa" font-size="9" text-anchor="middle">TRIMPOT (Tuned to 5.10V)</text>
+        <!-- Terminals -->
+        <rect x="140" y="25" width="20" height="18" fill="#2f3640"/>
+        <text x="150" y="38" fill="#e74c3c" font-size="9" font-weight="bold" text-anchor="middle">IN+</text>
+        <rect x="140" y="55" width="20" height="18" fill="#2f3640"/>
+        <text x="150" y="68" fill="#74b9ff" font-size="9" font-weight="bold" text-anchor="middle">IN-</text>
+        <rect x="10" y="25" width="25" height="18" fill="#2f3640"/>
+        <text x="22" y="38" fill="#e67e22" font-size="9" font-weight="bold" text-anchor="middle">5.1V</text>
+        <rect x="10" y="55" width="25" height="18" fill="#2f3640"/>
+        <text x="22" y="68" fill="#a4b0be" font-size="9" font-weight="bold" text-anchor="middle">GND</text>
+      </g>
+
+      <!-- [COMPONENT 3]: L298N DUAL H-BRIDGE MOTOR DRIVER (CENTER) -->
+      <g class="component" transform="translate(470, 270)">
+        <rect width="360" height="280" rx="10" fill="url(#grad-l298n)" stroke="#ff7675" stroke-width="2"/>
+        <!-- Big Black Heatsink -->
+        <rect x="60" y="20" width="240" height="60" rx="4" fill="#2d3436"/>
+        <line x1="90" y1="20" x2="90" y2="80" stroke="#636e72" stroke-width="3"/>
+        <line x1="120" y1="20" x2="120" y2="80" stroke="#636e72" stroke-width="3"/>
+        <line x1="150" y1="20" x2="150" y2="80" stroke="#636e72" stroke-width="3"/>
+        <line x1="180" y1="20" x2="180" y2="80" stroke="#636e72" stroke-width="3"/>
+        <line x1="210" y1="20" x2="210" y2="80" stroke="#636e72" stroke-width="3"/>
+        <line x1="240" y1="20" x2="240" y2="80" stroke="#636e72" stroke-width="3"/>
+        <line x1="270" y1="20" x2="270" y2="80" stroke="#636e72" stroke-width="3"/>
+        <text x="180" y="55" fill="#f5f6fa" font-size="16" font-weight="900" text-anchor="middle">L298N DUAL H-BRIDGE</text>
+
+        <!-- Left Motor Screw Terminals (OUT1 & OUT2) -->
+        <rect x="-10" y="50" width="30" height="35" rx="3" fill="#2980b9"/>
+        <text x="5" y="72" fill="#fff" font-size="11" font-weight="900">OUT1</text>
+        <rect x="-10" y="100" width="30" height="35" rx="3" fill="#2980b9"/>
+        <text x="5" y="122" fill="#fff" font-size="11" font-weight="900">OUT2</text>
+
+        <!-- Right Motor Screw Terminals (OUT3 & OUT4) -->
+        <rect x="340" y="50" width="30" height="35" rx="3" fill="#2980b9"/>
+        <text x="355" y="72" fill="#fff" font-size="11" font-weight="900" text-anchor="middle">OUT3</text>
+        <rect x="340" y="100" width="30" height="35" rx="3" fill="#2980b9"/>
+        <text x="355" y="122" fill="#fff" font-size="11" font-weight="900" text-anchor="middle">OUT4</text>
+
+        <!-- Bottom Power Screw Terminals (+12V, GND, +5V) -->
+        <rect x="40" y="240" width="90" height="35" rx="3" fill="#2980b9"/>
+        <text x="55" y="262" fill="#e74c3c" font-size="11" font-weight="bold">+12V</text>
+        <text x="90" y="262" fill="#bdc3c7" font-size="11" font-weight="bold">GND</text>
+        <text x="120" y="262" fill="#e67e22" font-size="9">5V(Jmp)</text>
+
+        <!-- Logic Input Header Pins (IN1, IN2, IN3, IN4) -->
+        <rect x="95" y="190" width="170" height="28" rx="2" fill="#2f3640"/>
+        <text x="115" y="208" fill="#2ecc71" font-size="11" font-weight="bold">IN1</text>
+        <text x="145" y="208" fill="#3498db" font-size="11" font-weight="bold">IN2</text>
+        <text x="175" y="208" fill="#f1c40f" font-size="11" font-weight="bold">IN3</text>
+        <text x="205" y="208" fill="#e67e22" font-size="11" font-weight="bold">IN4</text>
+        <text x="245" y="208" fill="#95a5a6" font-size="9">ENA/B(ON)</text>
+      </g>
+
+      <!-- [COMPONENT 4]: AI-THINKER ESP32-CAM (TOP CENTER) -->
+      <g class="component" transform="translate(540, 50)">
+        <rect width="220" height="170" rx="8" fill="url(#grad-esp)" stroke="#2ecc71" stroke-width="2"/>
+        <!-- Camera Lens -->
+        <circle cx="110" cy="70" r="32" fill="#2d3436" stroke="#636e72" stroke-width="3"/>
+        <circle cx="110" cy="70" r="16" fill="#0984e3"/>
+        <circle cx="110" cy="70" r="8" fill="#000"/>
+        <text x="110" y="125" fill="#2ecc71" font-size="13" font-weight="900" text-anchor="middle">AI-THINKER ESP32-CAM</text>
+        <text x="110" y="142" fill="#8b9bb4" font-size="10" text-anchor="middle">OV2640 2MP + 4MB PSRAM</text>
+
+        <!-- Left Header Pins (Power) -->
+        <text x="25" y="152" fill="#e67e22" font-size="10" font-weight="bold">5V</text>
+        <circle cx="10" cy="150" r="4" fill="#e67e22"/>
+        <text x="25" y="132" fill="#a4b0be" font-size="10" font-weight="bold">GND</text>
+        <circle cx="10" cy="130" r="4" fill="#a4b0be"/>
+
+        <!-- Right Header Pins (Actuator GPIOs) -->
+        <text x="165" y="72" fill="#2ecc71" font-size="10" font-weight="bold">IO12</text>
+        <circle cx="205" cy="70" r="4" fill="#2ecc71"/>
+        <text x="165" y="92" fill="#3498db" font-size="10" font-weight="bold">IO13</text>
+        <circle cx="205" cy="90" r="4" fill="#3498db"/>
+        <text x="165" y="112" fill="#f1c40f" font-size="10" font-weight="bold">IO14</text>
+        <circle cx="205" cy="110" r="4" fill="#f1c40f"/>
+        <text x="165" y="132" fill="#e67e22" font-size="10" font-weight="bold">IO15</text>
+        <circle cx="205" cy="130" r="4" fill="#e67e22"/>
+        <text x="165" y="52" fill="#9b59b6" font-size="10" font-weight="bold">IO2 (Spray)</text>
+        <circle cx="205" cy="50" r="4" fill="#9b59b6"/>
+      </g>
+
+      <!-- [COMPONENT 5 & 6]: FRONT-LEFT & REAR-LEFT MOTORS (LEFT SIDE) -->
+      <!-- Front-Left Motor -->
+      <g class="component" transform="translate(40, 60)">
+        <rect width="130" height="90" rx="6" fill="url(#grad-tt)" stroke="#b7950b" stroke-width="2"/>
+        <!-- Wheel -->
+        <rect x="-25" y="10" width="25" height="70" rx="4" fill="#111" stroke="#444" stroke-width="2"/>
+        <line x1="-25" y1="25" x2="0" y2="25" stroke="#333" stroke-width="2"/>
+        <line x1="-25" y1="45" x2="0" y2="45" stroke="#333" stroke-width="2"/>
+        <line x1="-25" y1="65" x2="0" y2="65" stroke="#333" stroke-width="2"/>
+        <!-- Motor Labels & Terminals -->
+        <text x="65" y="32" fill="#111" font-size="12" font-weight="900" text-anchor="middle">FRONT-LEFT</text>
+        <text x="65" y="48" fill="#333" font-size="10" font-weight="bold" text-anchor="middle">TT DC MOTOR</text>
+        <circle cx="120" cy="60" r="6" fill="#e74c3c"/>
+        <text x="120" y="64" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">+</text>
+        <text x="135" y="64" fill="#e74c3c" font-size="10" font-weight="bold">RED</text>
+        <circle cx="120" cy="80" r="6" fill="#2d3436"/>
+        <text x="120" y="84" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">-</text>
+        <text x="140" y="84" fill="#bdc3c7" font-size="10" font-weight="bold">BLACK</text>
+      </g>
+
+      <!-- Rear-Left Motor -->
+      <g class="component" transform="translate(40, 720)">
+        <rect width="130" height="90" rx="6" fill="url(#grad-tt)" stroke="#b7950b" stroke-width="2"/>
+        <!-- Wheel -->
+        <rect x="-25" y="10" width="25" height="70" rx="4" fill="#111" stroke="#444" stroke-width="2"/>
+        <line x1="-25" y1="25" x2="0" y2="25" stroke="#333" stroke-width="2"/>
+        <line x1="-25" y1="45" x2="0" y2="45" stroke="#333" stroke-width="2"/>
+        <line x1="-25" y1="65" x2="0" y2="65" stroke="#333" stroke-width="2"/>
+        <!-- Motor Labels & Terminals -->
+        <text x="65" y="32" fill="#111" font-size="12" font-weight="900" text-anchor="middle">REAR-LEFT</text>
+        <text x="65" y="48" fill="#333" font-size="10" font-weight="bold" text-anchor="middle">TT DC MOTOR</text>
+        <circle cx="120" cy="60" r="6" fill="#e74c3c"/>
+        <text x="120" y="64" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">+</text>
+        <text x="135" y="64" fill="#e74c3c" font-size="10" font-weight="bold">RED</text>
+        <circle cx="120" cy="80" r="6" fill="#2d3436"/>
+        <text x="120" y="84" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">-</text>
+        <text x="140" y="84" fill="#bdc3c7" font-size="10" font-weight="bold">BLACK</text>
+      </g>
+
+      <!-- [COMPONENT 7 & 8]: FRONT-RIGHT & REAR-RIGHT MOTORS (RIGHT SIDE) -->
+      <!-- Front-Right Motor -->
+      <g class="component" transform="translate(1130, 60)">
+        <rect width="130" height="90" rx="6" fill="url(#grad-tt)" stroke="#b7950b" stroke-width="2"/>
+        <!-- Wheel -->
+        <rect x="130" y="10" width="25" height="70" rx="4" fill="#111" stroke="#444" stroke-width="2"/>
+        <line x1="130" y1="25" x2="155" y2="25" stroke="#333" stroke-width="2"/>
+        <line x1="130" y1="45" x2="155" y2="45" stroke="#333" stroke-width="2"/>
+        <line x1="130" y1="65" x2="155" y2="65" stroke="#333" stroke-width="2"/>
+        <!-- Motor Labels & Terminals -->
+        <text x="65" y="32" fill="#111" font-size="12" font-weight="900" text-anchor="middle">FRONT-RIGHT</text>
+        <text x="65" y="48" fill="#333" font-size="10" font-weight="bold" text-anchor="middle">TT DC MOTOR</text>
+        <circle cx="10" cy="60" r="6" fill="#e74c3c"/>
+        <text x="10" y="64" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">+</text>
+        <text x="-15" y="64" fill="#e74c3c" font-size="10" font-weight="bold">RED</text>
+        <circle cx="10" cy="80" r="6" fill="#2d3436"/>
+        <text x="10" y="84" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">-</text>
+        <text x="-25" y="84" fill="#bdc3c7" font-size="10" font-weight="bold">BLACK</text>
+      </g>
+
+      <!-- Rear-Right Motor -->
+      <g class="component" transform="translate(1130, 720)">
+        <rect width="130" height="90" rx="6" fill="url(#grad-tt)" stroke="#b7950b" stroke-width="2"/>
+        <!-- Wheel -->
+        <rect x="130" y="10" width="25" height="70" rx="4" fill="#111" stroke="#444" stroke-width="2"/>
+        <line x1="130" y1="25" x2="155" y2="25" stroke="#333" stroke-width="2"/>
+        <line x1="130" y1="45" x2="155" y2="45" stroke="#333" stroke-width="2"/>
+        <line x1="130" y1="65" x2="155" y2="65" stroke="#333" stroke-width="2"/>
+        <!-- Motor Labels & Terminals -->
+        <text x="65" y="32" fill="#111" font-size="12" font-weight="900" text-anchor="middle">REAR-RIGHT</text>
+        <text x="65" y="48" fill="#333" font-size="10" font-weight="bold" text-anchor="middle">TT DC MOTOR</text>
+        <circle cx="10" cy="60" r="6" fill="#e74c3c"/>
+        <text x="10" y="64" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">+</text>
+        <text x="-15" y="64" fill="#e74c3c" font-size="10" font-weight="bold">RED</text>
+        <circle cx="10" cy="80" r="6" fill="#2d3436"/>
+        <text x="10" y="84" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">-</text>
+        <text x="-25" y="84" fill="#bdc3c7" font-size="10" font-weight="bold">BLACK</text>
+      </g>
+
+      <!-- [COMPONENT 9]: 5V RELAY MODULE (RIGHT OF L298N) -->
+      <g class="component" transform="translate(680, 670)">
+        <rect width="140" height="110" rx="6" fill="url(#grad-relay)" stroke="#5dade2" stroke-width="1.5"/>
+        <text x="70" y="24" fill="#fff" font-size="12" font-weight="900" text-anchor="middle">5V RELAY MODULE</text>
+        <rect x="25" y="35" width="90" height="40" rx="4" fill="#1b4f72"/>
+        <text x="70" y="58" fill="#f5f6fa" font-size="10" font-weight="bold" text-anchor="middle">SRD-05VDC</text>
+        <!-- Logic Pins (Bottom) -->
+        <circle cx="35" cy="95" r="4" fill="#e67e22"/>
+        <text x="35" y="108" fill="#e67e22" font-size="8" text-anchor="middle">VCC</text>
+        <circle cx="70" cy="95" r="4" fill="#bdc3c7"/>
+        <text x="70" y="108" fill="#bdc3c7" font-size="8" text-anchor="middle">GND</text>
+        <circle cx="105" cy="95" r="4" fill="#9b59b6"/>
+        <text x="105" y="108" fill="#9b59b6" font-size="8" text-anchor="middle">IN</text>
+        <!-- Power Screw Terminals (Top) -->
+        <rect x="15" y="-12" width="30" height="18" fill="#2980b9"/>
+        <text x="30" y="2" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">COM</text>
+        <rect x="55" y="-12" width="30" height="18" fill="#2980b9"/>
+        <text x="70" y="2" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">NO</text>
+      </g>
+
+      <!-- [COMPONENT 10]: 12V SPRAY WATER PUMP (BOTTOM RIGHT) -->
+      <g class="component" transform="translate(850, 750)">
+        <rect width="200" height="100" rx="8" fill="url(#grad-pump)" stroke="#7f8c8d" stroke-width="2"/>
+        <!-- Pump Head -->
+        <polygon points="10,20 -15,50 10,80" fill="#34495e"/>
+        <polygon points="190,20 215,50 190,80" fill="#34495e"/>
+        <text x="100" y="42" fill="#fff" font-size="14" font-weight="900" text-anchor="middle">12V SPRAY WATER PUMP</text>
+        <text x="100" y="60" fill="#bdc3c7" font-size="10" text-anchor="middle">Micro-Diaphragm Pump</text>
+        <!-- Terminals -->
+        <circle cx="25" cy="85" r="6" fill="#e74c3c"/>
+        <text x="25" y="89" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">+</text>
+        <text x="45" y="90" fill="#e74c3c" font-size="10" font-weight="bold">RED (+)</text>
+        <circle cx="175" cy="85" r="6" fill="#2d3436"/>
+        <text x="175" y="89" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">-</text>
+        <text x="150" y="90" fill="#bdc3c7" font-size="10" font-weight="bold">BLACK (-)</text>
+        
+        <!-- 1N4007 Diode Graphic across Pump -->
+        <rect x="65" y="76" width="60" height="14" rx="3" fill="#111" stroke="#fff" stroke-width="1"/>
+        <rect x="65" y="76" width="10" height="14" rx="1" fill="#ecf0f1"/>
+        <text x="95" y="87" fill="#fff" font-size="8" font-family="monospace">1N4007</text>
+        <line x1="25" y1="85" x2="65" y2="83" stroke="#e74c3c" stroke-width="2"/>
+        <line x1="125" y1="83" x2="175" y2="85" stroke="#2d3436" stroke-width="2"/>
+      </g>
+    </svg>
+
+    <!-- STEP-BY-STEP COLOR CODED ASSEMBLY CHECKLIST -->
+    <div class="legend-grid">
+      
+      <!-- Card 1: Left Motors -->
+      <div class="card">
+        <h3 class="m-left">🚗 LEFT WHEEL MOTORS (Track A)</h3>
+        <div class="wire-step red">
+          <span class="pin-badge">OUT 1</span>
+          <span>Twist <strong>Front-Left RED (+)</strong> & <strong>Rear-Left RED (+)</strong> together into <strong>OUT1</strong></span>
+        </div>
+        <div class="wire-step black">
+          <span class="pin-badge">OUT 2</span>
+          <span>Twist <strong>Front-Left BLACK (-)</strong> & <strong>Rear-Left BLACK (-)</strong> together into <strong>OUT2</strong></span>
+        </div>
+        <div class="wire-step green">
+          <span class="pin-badge">IN 1</span>
+          <span>Connect <strong>L298N IN1</strong> ──► <strong>ESP32 GPIO 12</strong> (Forward PWM)</span>
+        </div>
+        <div class="wire-step blue">
+          <span class="pin-badge">IN 2</span>
+          <span>Connect <strong>L298N IN2</strong> ──► <strong>ESP32 GPIO 13</strong> (Reverse PWM)</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Right Motors -->
+      <div class="card">
+        <h3 class="m-right">🚗 RIGHT WHEEL MOTORS (Track B)</h3>
+        <div class="wire-step red">
+          <span class="pin-badge">OUT 3</span>
+          <span>Twist <strong>Front-Right RED (+)</strong> & <strong>Rear-Right RED (+)</strong> together into <strong>OUT3</strong></span>
+        </div>
+        <div class="wire-step black">
+          <span class="pin-badge">OUT 4</span>
+          <span>Twist <strong>Front-Right BLACK (-)</strong> & <strong>Rear-Right BLACK (-)</strong> together into <strong>OUT4</strong></span>
+        </div>
+        <div class="wire-step yellow">
+          <span class="pin-badge">IN 3</span>
+          <span>Connect <strong>L298N IN3</strong> ──► <strong>ESP32 GPIO 14</strong> (Forward PWM)</span>
+        </div>
+        <div class="wire-step orange">
+          <span class="pin-badge">IN 4</span>
+          <span>Connect <strong>L298N IN4</strong> ──► <strong>ESP32 GPIO 15</strong> (Reverse PWM)</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Water Pump -->
+      <div class="card">
+        <h3 class="m-pump">💦 12V SPRAY WATER PUMP & RELAY</h3>
+        <div class="wire-step red">
+          <span class="pin-badge">RELAY COM</span>
+          <span>Connect <strong>Relay COM</strong> ──► <strong>+12V Battery Positive</strong></span>
+        </div>
+        <div class="wire-step red">
+          <span class="pin-badge">RELAY NO</span>
+          <span>Connect <strong>Relay NO</strong> ──► <strong>Pump RED (+) Wire</strong></span>
+        </div>
+        <div class="wire-step black">
+          <span class="pin-badge">PUMP (-)</span>
+          <span>Connect <strong>Pump BLACK (-) Wire</strong> ──► <strong>Battery (-) Common GND</strong></span>
+        </div>
+        <div class="wire-step black">
+          <span class="pin-badge">1N4007</span>
+          <span>Solder 1N4007 Diode across pump: <strong>Silver ring to RED (+)</strong>, <strong>Black end to BLACK (-)</strong></span>
+        </div>
+        <div class="wire-step" style="border-left-color: #9b59b6;">
+          <span class="pin-badge">GPIO 2</span>
+          <span>Connect <strong>Relay IN</strong> ──► <strong>ESP32 GPIO 2</strong> (200ms Active HIGH)</span>
+        </div>
+      </div>
+
+      <!-- Card 4: Power Distribution -->
+      <div class="card">
+        <h3 class="m-pwr">⚡ POWER & VOLTAGE REGULATION</h3>
+        <div class="wire-step red">
+          <span class="pin-badge">+12V</span>
+          <span><strong>Battery (+)</strong> splits to: <strong>L298N 12V</strong>, <strong>Buck IN+</strong>, and <strong>Relay COM</strong></span>
+        </div>
+        <div class="wire-step black">
+          <span class="pin-badge">GND</span>
+          <span><strong>★ COMMON STAR GROUND ★</strong>: Battery (-), Buck IN-/OUT-, L298N GND, ESP32 GND, Relay GND, and Pump (-)</span>
+        </div>
+        <div class="wire-step orange">
+          <span class="pin-badge">5.1V</span>
+          <span><strong>Buck OUT+ (5.10V)</strong> ──► <strong>ESP32 5V Pin</strong> and <strong>Relay VCC</strong></span>
+        </div>
+        <div class="wire-step" style="border-left-color: #00cec9;">
+          <span class="pin-badge">1000uF</span>
+          <span>Connect <strong>1000uF Capacitor</strong> across ESP32 5V and GND (prevents brownout crashes)</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
