@@ -188,9 +188,10 @@ Phase 2 transitions Agri Rover from a single-rover prototype with color-threshol
 ### Epic 6: In-Situ Soil Health Probing & Localized Closed-Loop Irrigation (FR-9)
 *Target: On-demand mechanical soil penetration, real-time capacitive moisture feedback, and localized targeted water sprinkling.*
 
-- [ ] **TASK-217: In-Situ Soil Moisture Probing & Localized Sprinkler Delivery Subsystem**
+- [x] **TASK-217: In-Situ Soil Moisture Probing & Localized Sprinkler Delivery Subsystem**
   - Mechanical vertical deployment mechanism (MG996R servo rack-and-pinion or 12V linear actuator slide).
   - Integration of corrosion-resistant Capacitive Soil Moisture Sensor v1.2 with ADC1 / comparator input.
   - Non-blocking sequential interlock FSM: drive motor lockout $\to$ probe extension $\to$ stabilization pause $\to$ ADC sampling $\to$ retraction $\to$ conditional $2.5\text{s}$ localized sprinkler micro-burst.
   - Physical Assembly Work Package: Soldering (diode, DC jack, pump leads), mechanical mounting, direct 12V wiring, and DMM continuity verification (Est: 2.5–3.5 hours).
   - Cockpit UI integration with one-touch "🌱 Sample Moisture & Water" HUD button and real-time status feedback.
+  - Remote Git synchronization: Published and tracked upstream on GitHub at `https://github.com/thanmaym08/AGRI-ROVER-PHASE-2.git`.
