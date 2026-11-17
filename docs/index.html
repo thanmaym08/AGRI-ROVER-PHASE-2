@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Agri Rover Pro Cockpit</title>
+<style>
+  * { box-sizing: border-box; touch-action: none; -webkit-user-select: none; user-select: none; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  html, body { background: #0a0e14; color: #fff; width: 100vw; height: 100vh; height: 100dvh; overflow: hidden; display: flex; flex-direction: column; }
+
+  /* TOP HUD BAR (OUTSIDE SCREEN) */
+  .hud-top { flex: 0 0 34px; height: 34px; background: #0e141c; border-bottom: 1px solid #1c2736; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; z-index: 30; font-size: 11px; }
+  .hud-left { display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 11px; }
+  .badge { background: #27ae60; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 8px; }
+  .hud-center { display: flex; align-items: center; gap: 6px; font-family: monospace; font-size: 10px; color: #2ecc71; background: rgba(18,24,32,0.8); padding: 3px 8px; border-radius: 5px; border: 1px solid #223042; }
+  .hud-right { display: flex; align-items: center; gap: 6px; }
+  #hud-ping { font-family: monospace; font-size: 10px; color: #2ecc71; }
+  .hud-btn { background: #16202c; border: 1px solid #2c3e50; color: #fff; border-radius: 5px; padding: 3px 7px; cursor: pointer; font-size: 11px; }
+
+  /* MAIN COCKPIT WORKSPACE */
+  #main-cockpit { flex: 1; display: flex; overflow: hidden; position: relative; width: 100%; height: calc(100% - 66px); }
+  .control-view { width: 100%; height: 100%; display: none; }
+  .control-view.active { display: flex; }
+
+  /* ================= DUAL THUMBS: 56% CENTER VIDEO + FLANKED CONTROLS ================= */
+  .view-flanked { flex-direction: row; align-items: stretch; }
+  
+  /* LEFT & RIGHT WINGS (22% EACH) */
+  .wing { flex: 0 0 22%; width: 22%; background: #101620; display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 6px 4px; gap: 4px; z-index: 10; border-right: 1px solid #1a2533; }
+  .wing-right { border-right: none; border-left: 1px solid #1a2533; }
+
+  /* Compact Wing Cards */
+  .wing-card { background: #16202c; border: 1px solid #223042; border-radius: 7px; padding: 4px; width: 100%; display: flex; flex-direction: column; gap: 3px; }
+  .card-title { font-size: 8px; font-weight: 800; color: #8b9bb4; display: flex; justify-content: space-between; align-items: center; }
+  .tag-accent { color: #2ecc71; font-family: monospace; font-weight: 900; }
+  
+  .pill-group { display: flex; gap: 2px; width: 100%; }
+  .btn-pill { flex: 1; background: #0f151d; border: 1px solid #223042; color: #8b9bb4; padding: 3px 0; border-radius: 3px; font-size: 8px; font-weight: 800; cursor: pointer; text-align: center; }
+  .btn-pill.active { background: #2ecc71; color: #000; border-color: #2ecc71; font-weight: 900; }
+  .duration-pills .btn-pill.active { background: #3498db; color: #fff; border-color: #3498db; }
+
+  /* Main Action Buttons in Wings */
+  .btn-spray-main { background: linear-gradient(135deg, #2980b9, #3498db); border: 1px solid #5dade2; color: #fff; border-radius: 5px; padding: 6px 2px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center; width: 100%; box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
+  .btn-spray-main:active { background: #27ae60; }
+  
+  .btn-wing-action { width: 100%; border-radius: 6px; padding: 6px 2px; font-size: 9px; font-weight: 800; cursor: pointer; text-align: center; border: 1px solid #223042; background: #16202c; color: #fff; }
+  .btn-flash { border-color: #f39c12; color: #f1c40f; }
+  .btn-flash:active { background: #f39c12; color: #000; }
+  .btn-stop { background: rgba(231, 76, 60, 0.25); border-color: #e74c3c; color: #ff7675; }
+  .btn-stop:active { background: #e74c3c; color: #fff; }
+
+  /* Stick Sections */
+  .stick-section { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .stick-title { font-size: 8px; font-weight: 800; color: #8b9bb4; letter-spacing: 0.5px; }
+
+  /* Dual Stick Oval Bases */
+  .joy-base { background: radial-gradient(circle, #1a2533, #0b0f15); border: 2px solid #223042; position: relative; display: flex; justify-content: center; align-items: center; box-shadow: inset 0 2px 8px rgba(0,0,0,0.8); }
+  .joy-v-base { width: 84px; height: 126px; border-radius: 42px; }
+  .joy-h-base { width: 126px; height: 84px; border-radius: 42px; }
+  
+  .joy-guide-v { width: 5px; height: 74px; background: rgba(46,204,113,0.18); border-radius: 3px; border: 1px solid rgba(46,204,113,0.3); pointer-events: none; }
+  .joy-guide-h { width: 74px; height: 5px; background: rgba(52,152,219,0.18); border-radius: 3px; border: 1px solid rgba(52,152,219,0.3); pointer-events: none; }
+
+  .joy-thumb { width: 44px; height: 44px; border-radius: 50%; position: absolute; transform: translate(0, 0); box-shadow: 0 3px 10px rgba(0,0,0,0.7); pointer-events: none; }
+  .joy-thumb-throttle { background: radial-gradient(circle, #2ecc71, #27ae60); box-shadow: 0 0 10px rgba(46,204,113,0.6); }
+  .joy-thumb-steer { background: radial-gradient(circle, #3498db, #2980b9); box-shadow: 0 0 10px rgba(52,152,219,0.6); }
+
+  .stick-hint { position: absolute; font-size: 8px; font-weight: 800; pointer-events: none; }
+  .hint-top { top: 5px; color: #2ecc71; }
+  .hint-bottom { bottom: 5px; color: #e74c3c; }
+  .hint-left { left: 6px; color: #3498db; }
+  .hint-right { right: 6px; color: #3498db; }
+
+  /* ================= CENTER VIDEO STAGE (56% OF WIDTH) ================= */
+  .center-video-stage { flex: 0 0 56%; width: 56%; height: 100%; background: #000; position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden; border-left: 1px solid #2ecc71; border-right: 1px solid #2ecc71; }
+  .video-frame { width: 100%; height: 100%; position: relative; display: flex; justify-content: center; align-items: center; }
+  #stream { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .btn-cam-rotate { position: absolute; top: 6px; right: 6px; background: rgba(14,20,28,0.85); border: 1px solid #2ecc71; color: #2ecc71; padding: 4px 8px; border-radius: 5px; font-size: 10px; font-weight: 800; cursor: pointer; z-index: 28; backdrop-filter: blur(4px); box-shadow: 0 2px 6px rgba(0,0,0,0.5); }
+  .btn-cam-rotate:active { background: #2ecc71; color: #000; }
+  .rot-tag { font-family: monospace; font-weight: 900; }
+  .stream-feed { max-width: 100%; max-height: 100%; object-fit: contain; display: block; transition: transform 0.25s ease-in-out; }
+  .reticle { position: absolute; border: 1px dashed rgba(46, 204, 113, 0.45); width: 100px; height: 100px; border-radius: 8px; pointer-events: none; }
+  #spray-alert { position: absolute; top: 10px; background: linear-gradient(90deg, #2980b9, #27ae60); color: #fff; padding: 4px 14px; border-radius: 12px; font-size: 10px; font-weight: 800; display: none; z-index: 25; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+
+  /* ================= SINGLE STICK LAYOUT (STACKED) ================= */
+  .view-stacked { flex-direction: column; }
+  .stacked-video { flex: 0 0 54%; height: 54%; position: relative; background: #000; display: flex; justify-content: center; align-items: center; overflow: hidden; border-bottom: 2px solid #2ecc71; }
+  .stacked-controls { flex: 1; background: #121820; display: flex; padding: 6px 10px; gap: 8px; }
+  .joy-single-wrap { flex: 0 0 45%; display: flex; justify-content: center; align-items: center; }
+  .joy-single-base { width: 120px; height: 120px; border-radius: 50%; }
+  .tactical-single { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 4px; }
+  .aux-row-single { display: flex; gap: 4px; }
+
+  /* ================= D-PAD LAYOUT ================= */
+  .dpad-group { display: flex; flex-direction: column; gap: 8px; width: 100%; padding: 4px; }
+  .btn-dpad { background: #16202c; border: 2px solid #2a3c50; color: #fff; padding: 14px 4px; border-radius: 8px; font-size: 10px; font-weight: 800; cursor: pointer; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.4); }
+  .btn-dpad:active, .btn-dpad.active { background: #2ecc71; color: #000; border-color: #2ecc71; }
+
+  /* BOTTOM CONTROL BAR (OUTSIDE SCREEN) */
+  .bar-bottom { flex: 0 0 32px; height: 32px; background: #0c1219; border-top: 1px solid #1c2736; display: flex; align-items: center; justify-content: space-between; padding: 2px 10px; gap: 8px; z-index: 30; }
+  .mode-selector { display: flex; gap: 4px; flex: 1; max-width: 320px; }
+  .btn-mode { flex: 1; height: 26px; background: #151d27; border: 1px solid #233348; color: #8b9bb4; border-radius: 4px; font-size: 9px; font-weight: 800; cursor: pointer; }
+  .btn-mode.active { background: #2ecc71; color: #000; border-color: #2ecc71; font-weight: 900; box-shadow: 0 0 8px rgba(46,204,113,0.4); }
+  
+  .slider-wrapper { display: flex; align-items: center; gap: 5px; flex: 1; max-width: 220px; }
+  .slider-wrapper input { flex: 1; height: 4px; accent-color: #2ecc71; }
+  .slider-icon { font-size: 11px; }
+
+  /* CALIBRATION MODAL */
+  #modal { position: fixed; inset: 0; background: rgba(0,0,0,0.82); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 100; }
+  #modal.open { display: flex; }
+  .mcard { background: #121820; border: 1px solid #223042; border-radius: 12px; width: 92%; max-width: 380px; padding: 14px; font-size: 11px; display: flex; flex-direction: column; gap: 10px; }
+  .mcard h3 { color: #2ecc71; font-size: 13px; display: flex; justify-content: space-between; }
+  .mcard label { display: block; font-weight: 700; margin-bottom: 2px; }
+  .mcard input[type="range"] { width: 100%; accent-color: #2ecc71; }
+  .mcard-row { display: flex; justify-content: space-between; }
+  .btn-modal-opt { flex: 1; background: #182230; border: 1px solid #223042; color: #8b9bb4; padding: 6px 2px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; }
+  .btn-modal-opt.active { background: #2ecc71; color: #000; border-color: #2ecc71; font-weight: 800; }
+
+  /* Responsive Scaling for Narrow Phones */
+  @media (max-width: 480px) and (orientation: portrait) {
+    .wing { flex: 0 0 24%; width: 24%; padding: 4px 2px; }
+    .center-video-stage { flex: 0 0 52%; width: 52%; }
+    .joy-v-base { width: 72px; height: 110px; }
+    .joy-h-base { width: 110px; height: 72px; }
+    .joy-thumb { width: 38px; height: 38px; }
+    .btn-spray-main { font-size: 8px; padding: 5px 1px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP HUD BAR (OUTSIDE SCREEN) -->
+<header class="hud-top">
+  <div class="hud-left">
+    <span>🌿</span>
+    <span>AGRI ROVER</span>
+    <span class="badge" id="hud-status">ONLINE</span>
+  </div>
+  <div class="hud-center">
+    <span id="motion-dir">■ STOPPED</span>
+    <span>|</span>
+    <span id="motor-val">L:0 R:0</span>
+  </div>
+  <div class="hud-right">
+    <span id="hud-ping">-- ms</span>
+    <button class="hud-btn" onclick="openModal()" title="Settings & Calib">⚙️</button>
+  </div>
+</header>
+
+<!-- MAIN COCKPIT WORKSPACE -->
+<main id="main-cockpit">
+
+  <!-- ================= MODE 1: DUAL THUMBS (56% CENTER VIDEO + FLANKED WINGS) ================= -->
+  <div id="view-dual" class="control-view active view-flanked">
+    
+    <!-- LEFT WING: LEFT THUMB THROTTLE + SPEED -->
+    <aside class="wing wing-left">
+      <div class="wing-card">
+        <div class="card-title">
+          <span>SPEED</span>
+          <span id="speed-tag-left" class="tag-accent">65%</span>
+        </div>
+        <div class="pill-group">
+          <button class="btn-pill" onclick="setSpeed(35)">35%</button>
+          <button class="btn-pill active" onclick="setSpeed(65)">65%</button>
+          <button class="btn-pill" onclick="setSpeed(100)">100%</button>
+        </div>
+      </div>
+
+      <div class="stick-section">
+        <div class="stick-title">THROTTLE (L)</div>
+        <div id="joy-dual-left" class="joy-base joy-v-base">
+          <div class="joy-guide-v"></div>
+          <div id="joy-dual-left-thumb" class="joy-thumb joy-thumb-throttle"></div>
+          <span class="stick-hint hint-top">▲ FWD</span>
+          <span class="stick-hint hint-bottom">▼ REV</span>
+        </div>
+      </div>
+
+      <button class="btn-wing-action btn-flash" id="btn-flash-left" onclick="toggleFlash()">💡 FLASH</button>
+    </aside>
+
+    <!-- CENTER VIDEO STAGE: 50% TO 60% (56% EXACT) -->
+    <section class="center-video-stage">
+      <div class="video-frame">
+        <button class="btn-cam-rotate" onclick="cycleCameraRotation()" title="Rotate Video 90°">🔄 <span class="rot-tag">0°</span></button>
+        <img id="stream" class="stream-feed" alt="Live Camera Stream">
+        <div class="reticle"></div>
+        <div id="spray-alert">💦 SPRAY ACTIVE (1.0s)</div>
+      </div>
+    </section>
+
+    <!-- RIGHT WING: RIGHT THUMB STEERING + SPRAY & STOP -->
+    <aside class="wing wing-right">
+      <div class="wing-card">
+        <button class="btn-spray-main" id="btn-spray-right" onclick="triggerSpray()">💦 SPRAY (1.0s)</button>
+        <button class="btn-spray-main" id="btn-probe-right" style="background:linear-gradient(135deg, #1b4332, #2d6a4f); border-color:#2ecc71; margin-top:4px;" onclick="triggerProbeSequence()">🌱 PROBE & WATER</button>
+        
+        <!-- Interactive Soil Moisture Threshold Slider -->
+        <div style="background:#0e141c; border:1px solid #223042; border-radius:5px; padding:3px 5px; margin-top:3px;">
+          <div style="display:flex; justify-content:space-between; font-size:8px; font-weight:800; color:#2ecc71;">
+            <span>💧 DRY LIMIT</span>
+            <span id="thresh-val-display">35%</span>
+          </div>
+          <input type="range" id="slider-moisture-thresh" min="10" max="80" value="35" step="5"
+                 style="width:100%; height:12px; accent-color:#2ecc71; cursor:pointer; margin:1px 0;"
+                 oninput="onMoistureThreshChange(this.value)">
+          <div style="font-size:7px; color:#7f8c8d; text-align:center;">Sprinkle if soil &lt; limit</div>
+        </div>
+
+        <div class="pill-group duration-pills">
+          <button class="btn-pill btn-dur" onclick="setSprayDuration(500)">0.5s</button>
+          <button class="btn-pill btn-dur active" onclick="setSprayDuration(1000)">1.0s</button>
+          <button class="btn-pill btn-dur" onclick="setSprayDuration(2000)">2.0s</button>
+        </div>
+      </div>
+
+      <div class="stick-section">
+        <div class="stick-title">STEERING (R)</div>
+        <div id="joy-dual-right" class="joy-base joy-h-base">
+          <div class="joy-guide-h"></div>
+          <div id="joy-dual-right-thumb" class="joy-thumb joy-thumb-steer"></div>
+          <span class="stick-hint hint-left">◄ L</span>
+          <span class="stick-hint hint-right">R ►</span>
+        </div>
+      </div>
+
+      <button class="btn-wing-action btn-stop" onclick="emergencyStop()">🛑 STOP</button>
+    </aside>
+  </div>
+
+  <!-- ================= MODE 2: SINGLE STICK (DEFAULT 360°) ================= -->
+  <div id="view-single" class="control-view view-stacked">
+    <div class="stacked-video">
+      <button class="btn-cam-rotate" onclick="cycleCameraRotation()" title="Rotate Video 90°">🔄 <span class="rot-tag">0°</span></button>
+      <img class="stream-single stream-feed" alt="Camera Stream" style="width:100%; height:100%; object-fit:contain;">
+      <div class="reticle"></div>
+    </div>
+    <div class="stacked-controls">
+      <div class="joy-single-wrap">
+        <div id="joy-single-base" class="joy-base joy-single-base">
+          <div id="joy-single-thumb" class="joy-thumb joy-thumb-throttle"></div>
+          <span style="position:absolute; bottom:6px; font-size:8px; font-weight:800; color:#8b9bb4;">360° DRIVE</span>
+        </div>
+      </div>
+      <div class="tactical-single">
+        <div class="wing-card">
+          <div class="card-title">
+            <span>SPEED REGIME</span>
+            <span id="speed-tag-single" class="tag-accent">65% (MED)</span>
+          </div>
+          <div class="pill-group">
+            <button class="btn-pill" onclick="setSpeed(35)">SLOW</button>
+            <button class="btn-pill active" onclick="setSpeed(65)">MED</button>
+            <button class="btn-pill" onclick="setSpeed(100)">FAST</button>
+          </div>
+        </div>
+        <div class="wing-card">
+          <button class="btn-spray-main" id="btn-spray-single" onclick="triggerSpray()">💦 SPRAY BURST (1.0s)</button>
+          <div class="pill-group duration-pills">
+            <button class="btn-pill btn-dur" onclick="setSprayDuration(500)">0.5s</button>
+            <button class="btn-pill btn-dur active" onclick="setSprayDuration(1000)">1.0s</button>
+            <button class="btn-pill btn-dur" onclick="setSprayDuration(2000)">2.0s</button>
+          </div>
+        </div>
+        <div class="aux-row-single">
+          <button class="btn-wing-action btn-flash" onclick="toggleFlash()">💡 FLASH</button>
+          <button class="btn-wing-action" onclick="openModal()">📐 CALIB</button>
+          <button class="btn-wing-action btn-stop" onclick="emergencyStop()">🛑 STOP</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODE 3: D-PAD BUTTONS (FLANKED) ================= -->
+  <div id="view-dpad" class="control-view view-flanked">
+    <aside class="wing wing-left">
+      <div class="stick-title">THROTTLE</div>
+      <div class="dpad-group">
+        <button class="btn-dpad" id="btn-dpad-fwd">▲ FWD</button>
+        <button class="btn-dpad" id="btn-dpad-rev">▼ REV</button>
+      </div>
+      <button class="btn-wing-action btn-flash" onclick="toggleFlash()">💡 FLASH</button>
+    </aside>
+
+    <section class="center-video-stage">
+      <div class="video-frame">
+        <button class="btn-cam-rotate" onclick="cycleCameraRotation()" title="Rotate Video 90°">🔄 <span class="rot-tag">0°</span></button>
+        <img class="stream-dpad stream-feed" alt="Camera Stream" style="width:100%; height:100%; object-fit:contain;">
+        <div class="reticle"></div>
+      </div>
+    </section>
+
+    <aside class="wing wing-right">
+      <div class="stick-title">STEERING</div>
+      <div class="dpad-group">
+        <button class="btn-dpad" id="btn-dpad-left">◄ LEFT</button>
+        <button class="btn-dpad" id="btn-dpad-right">RIGHT ►</button>
+      </div>
+      <button class="btn-wing-action btn-stop" onclick="emergencyStop()">🛑 STOP</button>
+    </aside>
+  </div>
+
+</main>
+
+<!-- BOTTOM BAR: MODE SELECTOR & SPEED SLIDER (OUTSIDE SCREEN) -->
+<footer class="bar-bottom">
+  <div class="mode-selector">
+    <button class="btn-mode active" id="btn-mode-dual" onclick="switchControlMode('dual')">🎮 DUAL THUMBS</button>
+    <button class="btn-mode" id="btn-mode-single" onclick="switchControlMode('single')">🕹️ SINGLE STICK</button>
+    <button class="btn-mode" id="btn-mode-dpad" onclick="switchControlMode('dpad')">🎛️ D-PAD</button>
+  </div>
+  <div class="slider-wrapper">
+    <span class="slider-icon">🐢</span>
+    <input type="range" id="speed-slider" min="25" max="100" value="65" oninput="setSpeed(this.value)">
+    <span class="slider-icon">🐇</span>
+  </div>
+</footer>
+
+<!-- CALIBRATION & DIAGNOSTICS MODAL -->
+<div id="modal">
+  <div class="mcard">
+    <h3>
+      <span>🛠️ Rover Controls & Calibration</span>
+      <span style="cursor:pointer;" onclick="closeModal()">&times;</span>
+    </h3>
+
+    <div>
+      <label>Preferred Control Layout:</label>
+      <div style="display:flex; gap:4px; margin-top:3px;">
+        <button class="btn-modal-opt active" id="m-opt-dual" onclick="switchControlMode('dual')">🎮 Dual Thumbs</button>
+        <button class="btn-modal-opt" id="m-opt-single" onclick="switchControlMode('single')">🕹️ Single Stick</button>
+        <button class="btn-modal-opt" id="m-opt-dpad" onclick="switchControlMode('dpad')">🎛️ D-Pad</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="mcard-row">
+        <label>Turn Sensitivity (K_steer):</label>
+        <span id="lbl-sens" style="color:#2ecc71;">0.75x</span>
+      </div>
+      <input type="range" id="cfg-sens" min="0.30" max="1.20" step="0.05" value="0.75" oninput="updateCalibLabels()">
+    </div>
+
+    <div>
+      <div class="mcard-row">
+        <label>Motor Drift Trim:</label>
+        <span id="lbl-trim" style="color:#2ecc71;">0%</span>
+      </div>
+      <input type="range" id="cfg-trim" min="-25" max="25" step="1" value="0" oninput="updateCalibLabels()">
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:5px;">
+      <label style="cursor:pointer;"><input type="checkbox" id="cfg-inv-throt"> Invert Throttle (Forward ↔ Reverse)</label>
+      <label style="cursor:pointer;"><input type="checkbox" id="cfg-inv-steer"> Invert Steering (Left ↔ Right)</label>
+    </div>
+
+    <div style="border-top:1px solid #223042; padding-top:8px; display:flex; flex-direction:column; gap:6px;">
+      <label style="color:#8b9bb4; font-weight:800;">Pump & Relay Hardware Diagnostics:</label>
+      <label style="cursor:pointer; display:flex; align-items:center; gap:6px; font-size:10px;">
+        <input type="checkbox" id="cfg-relay-low" onchange="toggleRelayPolarity(this.checked)"> Invert Relay Logic (Active-LOW: 0V=ON, 3.3V=OFF)
+      </label>
+      <div style="display:flex; gap:4px;">
+        <button style="flex:1; background:#2980b9; border:1px solid #3498db; color:#fff; padding:6px; border-radius:6px; font-weight:800; cursor:pointer;" onclick="triggerSpray()">💦 Test 1.0s Spray</button>
+        <button id="btn-pump-test" style="flex:1; background:#1f2d3d; border:1px solid #34495e; color:#5dade2; padding:6px; border-radius:6px; font-weight:800; cursor:pointer;" onclick="togglePumpManual()">⚡ Manual ON/OFF</button>
+      </div>
+      <div id="relay-diag-status" style="font-family:monospace; font-size:9px; color:#2ecc71; text-align:center;">Relay Mode: Active-HIGH (0V=OFF) | GPIO 2</div>
+    </div>
+
+    <div style="border-top:1px solid #223042; padding-top:8px; display:flex; flex-direction:column; gap:6px;">
+      <div class="mcard-row">
+        <label style="color:#8b9bb4; font-weight:800;">📷 Camera Video Orientation:</label>
+        <span id="lbl-cam-rot" style="color:#2ecc71; font-weight:800; font-family:monospace;">0° (Normal)</span>
+      </div>
+      <div style="display:flex; gap:3px;">
+        <button class="btn-modal-opt btn-rot-opt active" id="btn-rot-0" onclick="setCameraRotation(0)">0° Normal</button>
+        <button class="btn-modal-opt btn-rot-opt" id="btn-rot-90" onclick="setCameraRotation(90)">90° CW</button>
+        <button class="btn-modal-opt btn-rot-opt" id="btn-rot-180" onclick="setCameraRotation(180)">180° Invert</button>
+        <button class="btn-modal-opt btn-rot-opt" id="btn-rot-270" onclick="setCameraRotation(270)">270° CCW</button>
+      </div>
+      <label style="cursor:pointer; display:flex; align-items:center; gap:6px; font-size:10px;">
+        <input type="checkbox" id="cfg-cam-mirror" onchange="toggleCameraMirror(this.checked)"> ⇋ Mirror Flip (Horizontal Invert)
+      </label>
+    </div>
+
+    <div style="border-top:1px solid #223042; padding-top:8px; display:flex; flex-direction:column; gap:6px;">
+      <label style="color:#8b9bb4; font-weight:800;">Motor Bench Diagnostics:</label>
+      <div style="display:flex; gap:4px;">
+        <button style="flex:1; background:#182838; border:1px solid #2980b9; color:#5dade2; padding:7px 2px; border-radius:6px; font-weight:800; cursor:pointer; font-size:10px;" onclick="benchTestMotors('left')">◀ Test Left (OUT1/2)</button>
+        <button style="flex:1; background:#182838; border:1px solid #2980b9; color:#5dade2; padding:7px 2px; border-radius:6px; font-weight:800; cursor:pointer; font-size:10px;" onclick="benchTestMotors('right')">Test Right (OUT3/4) ▶</button>
+      </div>
+      <button style="background:#16a085; border:none; color:#fff; padding:7px; border-radius:6px; font-weight:800; cursor:pointer; font-size:10px;" onclick="benchTestMotors('both')">⚡ Test All 4 Motors (1.5s Forward)</button>
+    </div>
+
+    <button style="background:#2ecc71; border:none; padding:9px; border-radius:6px; font-weight:800; cursor:pointer; color:#000; margin-top:4px;" onclick="saveCalib()">Save & Apply</button>
+  </div>
+</div>
+
+<script>
+  let speedPercent = 65;
+  let flashVal = 0;
+  let turnSens = 0.75;
+  let steeringTrim = 0;
+  let invertSteer = false;
+  let invertThrot = false;
+  let sprayDuration = 1000;
+  let currentMode = 'dual';
+
+  let targetLeft = 0;
+  let targetRight = 0;
+  let lastSend = 0;
+  let driveHeartbeat = null;
+  let manualPumpActive = false;
+  let isDriveInFlight = false;
+  let relayIsLow = false;
+  let camRotation = 0; // 0, 90, 180, 270
+  let camMirror = false;
+
+  // Dual Thumb State
+  let dualLeftTouchId = null;
+  let dualRightTouchId = null;
+  let dualLeftCenter = { x: 0, y: 0 };
+  let dualRightCenter = { x: 0, y: 0 };
+  let dualThrottle = 0;
+  let dualSteer = 0;
+  let maxTravelV = 36;
+  let maxTravelH = 36;
+
+  // Single Stick State
+  let isDraggingSingle = false;
+  let singleCenter = { x: 0, y: 0 };
+  const singleMaxRadius = 45;
+
+  // D-Pad State
+  let dpadThrottle = 0;
+  let dpadSteer = 0;
+
+  // Elements
+  const streamImg = document.getElementById('stream');
+  const sprayAlert = document.getElementById('spray-alert');
+  const motionDir = document.getElementById('motion-dir');
+  const motorVal = document.getElementById('motor-val');
+
+  const joyDualLeft = document.getElementById('joy-dual-left');
+  const joyDualLeftThumb = document.getElementById('joy-dual-left-thumb');
+  const joyDualRight = document.getElementById('joy-dual-right');
+  const joyDualRightThumb = document.getElementById('joy-dual-right-thumb');
+
+  const joySingleBase = document.getElementById('joy-single-base');
+  const joySingleThumb = document.getElementById('joy-single-thumb');
+
+  window.addEventListener('DOMContentLoaded', () => {
+    connectStream();
+
+    // Restore saved settings
+    try {
+      let saved = JSON.parse(localStorage.getItem('rover_calib'));
+      if (saved) {
+        turnSens = saved.turnSens || 0.75;
+        steeringTrim = saved.steeringTrim || 0;
+        invertSteer = saved.invertSteer || false;
+        invertThrot = saved.invertThrot || false;
+        relayIsLow = saved.relayIsLow || false;
+        let rBox = document.getElementById('cfg-relay-low');
+        if (rBox) rBox.checked = relayIsLow;
+        if (relayIsLow) {
+          fetch('/spray?polarity=low').catch(() => {});
+          updateRelayDiagLabel(true);
+        }
+      }
+      let savedMode = localStorage.getItem('agrirover_mode');
+      if (savedMode) switchControlMode(savedMode);
+
+      let savedRot = localStorage.getItem('rover_cam_rot');
+      if (savedRot !== null) camRotation = parseInt(savedRot, 10);
+      let savedMirror = localStorage.getItem('rover_cam_mirror');
+      if (savedMirror === '1') camMirror = true;
+      applyCameraTransform();
+      updateRotationUI();
+    } catch(e) {}
+  });
+
+  function setCameraRotation(deg) {
+    camRotation = parseInt(deg, 10) % 360;
+    applyCameraTransform();
+    localStorage.setItem('rover_cam_rot', camRotation);
+    updateRotationUI();
+  }
+
+  function cycleCameraRotation() {
+    let next = (camRotation + 90) % 360;
+    setCameraRotation(next);
+  }
+
+  function toggleCameraMirror(checked) {
+    if (typeof checked !== 'undefined') {
+      camMirror = checked;
+    } else {
+      camMirror = !camMirror;
+    }
+    applyCameraTransform();
+    localStorage.setItem('rover_cam_mirror', camMirror ? '1' : '0');
+    updateRotationUI();
+  }
+
+  function applyCameraTransform() {
+    let transformStr = '';
+    if (camRotation === 90 || camRotation === 270) {
+      transformStr = `rotate(${camRotation}deg) scale(0.72)`;
+    } else {
+      transformStr = `rotate(${camRotation}deg) scale(1.0)`;
+    }
+    if (camMirror) {
+      transformStr += ' scaleX(-1)';
+    }
+
+    document.querySelectorAll('.stream-feed').forEach(img => {
+      img.style.transform = transformStr;
+      img.style.transformOrigin = 'center center';
+    });
+  }
+
+  function updateRotationUI() {
+    document.querySelectorAll('.rot-tag').forEach(tag => {
+      tag.textContent = `${camRotation}°`;
+    });
+
+    let lbl = document.getElementById('lbl-cam-rot');
+    if (lbl) {
+      let desc = (camRotation === 0) ? '0° (Normal)' : (camRotation === 90) ? '90° (Clockwise)' : (camRotation === 180) ? '180° (Inverted)' : '270° (Counter-CW)';
+      if (camMirror) desc += ' [Mirrored]';
+      lbl.textContent = desc;
+    }
+
+    document.querySelectorAll('.btn-rot-opt').forEach(b => b.classList.remove('active'));
+    let activeBtn = document.getElementById('btn-rot-' + camRotation);
+    if (activeBtn) activeBtn.classList.add('active');
+
+    let mBox = document.getElementById('cfg-cam-mirror');
+    if (mBox) mBox.checked = camMirror;
+  }
+
+  function connectStream() {
+    let host = window.location.hostname || '192.168.4.1';
+    let streamUrl = `http://${host}:81/stream`;
+    document.querySelectorAll('.stream-feed').forEach(img => {
+      img.src = streamUrl;
+      img.onerror = () => {
+        // Auto-reconnect stream if momentarily dropped
+        setTimeout(() => {
+          img.src = `http://${host}:81/stream?t=` + Date.now();
+        }, 1200);
+      };
+    });
+  }
+
+  function toggleRelayPolarity(isLow) {
+    relayIsLow = isLow;
+    updateRelayDiagLabel(isLow);
+    fetch('/spray?polarity=' + (isLow ? 'low' : 'high')).catch(() => {});
+    saveCalib();
+  }
+
+  function updateRelayDiagLabel(isLow) {
+    let el = document.getElementById('relay-diag-status');
+    if (el) {
+      el.textContent = isLow 
+        ? 'Relay Mode: Active-LOW (0V=ON, 3.3V=OFF) | GPIO 2' 
+        : 'Relay Mode: Active-HIGH (3.3V=ON, 0V=OFF) | GPIO 2';
+    }
+  }
+
+  // Switch Control Layout Mode
+  function switchControlMode(mode) {
+    if (['dual', 'single', 'dpad'].indexOf(mode) === -1) mode = 'dual';
+    currentMode = mode;
+    emergencyStop();
+
+    document.querySelectorAll('.btn-mode').forEach(b => b.classList.remove('active'));
+    let btn = document.getElementById('btn-mode-' + mode);
+    if (btn) btn.classList.add('active');
+
+    document.querySelectorAll('.control-view').forEach(v => v.classList.remove('active'));
+    let v = document.getElementById('view-' + mode);
+    if (v) v.classList.add('active');
+
+    document.querySelectorAll('.btn-modal-opt').forEach(b => b.classList.remove('active'));
+    let mb = document.getElementById('m-opt-' + mode);
+    if (mb) mb.classList.add('active');
+
+    localStorage.setItem('agrirover_mode', mode);
+  }
+
+  // Speed Regime
+  function setSpeed(val) {
+    speedPercent = Math.max(25, Math.min(100, parseInt(val, 10)));
+    let slider = document.getElementById('speed-slider');
+    if (slider) slider.value = speedPercent;
+    let tag = (speedPercent === 35) ? 'SLOW' : (speedPercent === 65) ? 'MED' : (speedPercent === 100) ? 'FAST' : 'CUSTOM';
+    
+    let tl = document.getElementById('speed-tag-left');
+    let ts = document.getElementById('speed-tag-single');
+    if (tl) tl.textContent = `${speedPercent}%`;
+    if (ts) ts.textContent = `${speedPercent}% (${tag})`;
+
+    document.querySelectorAll('.btn-pill').forEach(b => {
+      let t = b.textContent.trim();
+      let matches = (t === 'SLOW' && speedPercent === 35) || (t === 'MED' && speedPercent === 65) || (t === 'FAST' && speedPercent === 100) ||
+                    (t === '35%' && speedPercent === 35) || (t === '65%' && speedPercent === 65) || (t === '100%' && speedPercent === 100);
+      if (matches) b.classList.add('active');
+      else if (['35%','65%','100%','SLOW','MED','FAST'].indexOf(t) !== -1) b.classList.remove('active');
+    });
+  }
+
+  // Spray Controls
+  function setSprayDuration(ms) {
+    sprayDuration = parseInt(ms, 10);
+    let tag = (sprayDuration / 1000).toFixed(1) + 's';
+    document.querySelectorAll('.btn-dur').forEach(b => {
+      if (b.textContent.trim() === tag) b.classList.add('active');
+      else b.classList.remove('active');
+    });
+    let btnRight = document.getElementById('btn-spray-right');
+    let btnSingle = document.getElementById('btn-spray-single');
+    if (btnRight) btnRight.textContent = `💦 SPRAY (${tag})`;
+    if (btnSingle) btnSingle.textContent = `💦 SPRAY BURST (${tag})`;
+  }
+
+  let userThresh = 35;
+  function onMoistureThreshChange(val) {
+    userThresh = parseInt(val);
+    document.getElementById('thresh-val-display').textContent = val + '%';
+    console.log('[MOCK THRESH] Set to', val + '%');
+  }
+
+  function triggerProbeSequence() {
+    const btn = document.getElementById('btn-probe-right');
+    if (btn) btn.textContent = "⏳ PROBING...";
+    sprayAlert.textContent = "🌱 PROBE: LOWERING INTO SUBSOIL...";
+    sprayAlert.style.display = 'block';
+
+    setTimeout(() => {
+      sprayAlert.textContent = "🌱 SAMPLING: DRY SOIL DETECTED!";
+      setTimeout(() => {
+        sprayAlert.textContent = "💦 DIRECT 12V SPRINKLING (2.5s)...";
+        setTimeout(() => {
+          sprayAlert.textContent = "✅ WATERING COMPLETE - RESUMING DRIVE";
+          if (btn) btn.textContent = "🌱 PROBE & WATER";
+          setTimeout(() => { sprayAlert.style.display = 'none'; }, 2000);
+        }, 2500);
+      }, 1000);
+    }, 1000);
+  }
+
+  function triggerSpray() {
+    let tag = (sprayDuration / 1000).toFixed(1) + 's';
+    sprayAlert.textContent = `💦 SPRAY ACTIVE (${tag})`;
+    sprayAlert.style.display = 'block';
+    fetch(`/spray?ms=${sprayDuration}`).catch(() => {});
+    setTimeout(() => { sprayAlert.style.display = 'none'; }, sprayDuration);
+  }
+
+  function togglePumpManual() {
+    manualPumpActive = !manualPumpActive;
+    let btn = document.getElementById('btn-pump-test');
+    if (manualPumpActive) {
+      if (btn) {
+        btn.textContent = '🛑 STOP PUMP TEST (RUNNING)';
+        btn.style.background = '#e74c3c';
+        btn.style.color = '#fff';
+      }
+      sprayAlert.textContent = '⚡ MANUAL PUMP: FORCED ON';
+      sprayAlert.style.display = 'block';
+      fetch('/spray?state=on').catch(() => {});
+    } else {
+      if (btn) {
+        btn.textContent = '⚡ Manual Pump Test (Toggle ON/OFF)';
+        btn.style.background = '#1f2d3d';
+        btn.style.color = '#5dade2';
+      }
+      sprayAlert.style.display = 'none';
+      fetch('/spray?state=off').catch(() => {});
+    }
+  }
+
+  function toggleFlash() {
+    flashVal = flashVal === 0 ? 180 : 0;
+    document.querySelectorAll('.btn-flash').forEach(b => {
+      b.style.background = (flashVal > 0) ? '#f39c12' : '#16202c';
+      b.style.color = (flashVal > 0) ? '#000' : '#f1c40f';
+    });
+    fetch('/flash?val=' + flashVal).catch(() => {});
+  }
+
+  function benchTestMotors(side) {
+    let l = (side === 'left' || side === 'both') ? 220 : 0;
+    let r = (side === 'right' || side === 'both') ? 220 : 0;
+    targetLeft = l;
+    targetRight = r;
+    updateMotionHud(l, r, 0.8, 0);
+    sendDrivePacket();
+    setTimeout(() => {
+      emergencyStop();
+    }, 1500);
+  }
+
+  // Kinematic Mixing & HUD
+  function computeMotorMix(throttle, steer) {
+    if (invertThrot) throttle = -throttle;
+    if (invertSteer) steer = -steer;
+
+    if (Math.hypot(throttle, steer) < 0.06) {
+      throttle = 0;
+      steer = 0;
+    }
+
+    let scaledSteer = steer * turnSens;
+    let left = throttle + scaledSteer;
+    let right = throttle - scaledSteer;
+
+    if (steeringTrim !== 0 && Math.abs(throttle) > 0.05) {
+      let f = steeringTrim / 100;
+      if (f > 0) right *= (1 - f);
+      else left *= (1 + f);
+    }
+
+    let maxPWM = Math.round((speedPercent / 100) * 255);
+    let leftPWM = Math.round(Math.max(-255, Math.min(255, left * maxPWM)));
+    let rightPWM = Math.round(Math.max(-255, Math.min(255, right * maxPWM)));
+
+    targetLeft = leftPWM;
+    targetRight = rightPWM;
+
+    updateMotionHud(leftPWM, rightPWM, throttle, steer);
+
+    let now = Date.now();
+    if (now - lastSend > 60) {
+      sendDrivePacket();
+    }
+  }
+
+  function updateMotionHud(left, right, throttle, steer) {
+    motorVal.textContent = `L:${left} R:${right}`;
+    if (left === 0 && right === 0) {
+      motionDir.textContent = '■ STOPPED';
+      return;
+    }
+    if (throttle > 0.15 && Math.abs(steer) <= 0.25) motionDir.textContent = `▲ FWD ${speedPercent}%`;
+    else if (throttle < -0.15 && Math.abs(steer) <= 0.25) motionDir.textContent = `▼ REV ${speedPercent}%`;
+    else if (steer > 0.25 && Math.abs(throttle) <= 0.25) motionDir.textContent = '► PIVOT RIGHT';
+    else if (steer < -0.25 && Math.abs(throttle) <= 0.25) motionDir.textContent = '◄ PIVOT LEFT';
+    else if (throttle > 0.15 && steer > 0.25) motionDir.textContent = '⮡ CURVE RIGHT';
+    else if (throttle > 0.15 && steer < -0.25) motionDir.textContent = '⮢ CURVE LEFT';
+    else if (throttle < -0.15 && steer > 0.25) motionDir.textContent = '⮣ REV RIGHT';
+    else if (throttle < -0.15 && steer < -0.25) motionDir.textContent = '⮠ REV LEFT';
+    else motionDir.textContent = `● ACTIVE (${speedPercent}%)`;
+  }
+
+  // Network Heartbeat Loop
+  function sendDrivePacket() {
+    if (isDriveInFlight) return;
+    let now = Date.now();
+    if (now - lastSend < 40) return;
+    lastSend = now;
+    isDriveInFlight = true;
+
+    let controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+    let timeoutId = controller ? setTimeout(() => controller.abort(), 200) : null;
+
+    let t0 = performance.now();
+    let opts = controller ? { signal: controller.signal } : {};
+    fetch(`/drive?left=${targetLeft}&right=${targetRight}`, opts)
+      .then(r => r.json())
+      .then(() => {
+        if (timeoutId) clearTimeout(timeoutId);
+        let p = Math.round(performance.now() - t0);
+        let el = document.getElementById('hud-ping');
+        let st = document.getElementById('hud-status');
+        if (el) el.textContent = `${p} ms`;
+        if (st) { st.textContent = 'ONLINE'; st.style.background = '#27ae60'; }
+      })
+      .catch(() => {
+        let st = document.getElementById('hud-status');
+        if (st) { st.textContent = 'LAG'; st.style.background = '#e67e22'; }
+      })
+      .finally(() => {
+        if (timeoutId) clearTimeout(timeoutId);
+        isDriveInFlight = false;
+      });
+  }
+
+  function startHeartbeat() {
+    if (!driveHeartbeat) {
+      driveHeartbeat = setInterval(sendDrivePacket, 75);
+    }
+  }
+
+  function stopHeartbeat() {
+    if (driveHeartbeat) {
+      clearInterval(driveHeartbeat);
+      driveHeartbeat = null;
+    }
+  }
+
+  function emergencyStop() {
+    targetLeft = 0;
+    targetRight = 0;
+    dualThrottle = 0;
+    dualSteer = 0;
+    dpadThrottle = 0;
+    dpadSteer = 0;
+    dualLeftTouchId = null;
+    dualRightTouchId = null;
+    isDraggingSingle = false;
+
+    if (joyDualLeftThumb) joyDualLeftThumb.style.transform = 'translate(0px, 0px)';
+    if (joyDualRightThumb) joyDualRightThumb.style.transform = 'translate(0px, 0px)';
+    if (joySingleThumb) joySingleThumb.style.transform = 'translate(0px, 0px)';
+    document.querySelectorAll('.btn-dpad').forEach(b => b.classList.remove('active'));
+
+    stopHeartbeat();
+    fetch('/drive?left=0&right=0').catch(() => {});
+    updateMotionHud(0, 0, 0, 0);
+  }
+
+  // ======================== MULTI-TOUCH DUAL STICKS ========================
+  joyDualLeft.addEventListener('touchstart', e => {
+    e.preventDefault();
+    for (let i = 0; i < e.changedTouches.length; i++) {
+      let t = e.changedTouches[i];
+      if (dualLeftTouchId === null) {
+        dualLeftTouchId = t.identifier;
+        let rect = joyDualLeft.getBoundingClientRect();
+        dualLeftCenter = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+        handleDualLeftMove(t);
+        startHeartbeat();
+        break;
+      }
+    }
+  }, { passive: false });
+
+  joyDualRight.addEventListener('touchstart', e => {
+    e.preventDefault();
+    for (let i = 0; i < e.changedTouches.length; i++) {
+      let t = e.changedTouches[i];
+      if (dualRightTouchId === null) {
+        dualRightTouchId = t.identifier;
+        let rect = joyDualRight.getBoundingClientRect();
+        dualRightCenter = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+        handleDualRightMove(t);
+        startHeartbeat();
+        break;
+      }
+    }
+  }, { passive: false });
+
+  function handleDualLeftMove(t) {
+    let dy = t.clientY - dualLeftCenter.y;
+    dy = Math.max(-maxTravelV, Math.min(maxTravelV, dy));
+    joyDualLeftThumb.style.transform = `translate(0px, ${dy}px)`;
+    dualThrottle = -dy / maxTravelV;
+    computeMotorMix(dualThrottle, dualSteer);
+  }
+
+  function handleDualRightMove(t) {
+    let dx = t.clientX - dualRightCenter.x;
+    dx = Math.max(-maxTravelH, Math.min(maxTravelH, dx));
+    joyDualRightThumb.style.transform = `translate(${dx}px, 0px)`;
+    dualSteer = dx / maxTravelH;
+    computeMotorMix(dualThrottle, dualSteer);
+  }
+
+  // ======================== SINGLE STICK 360° ========================
+  if (joySingleBase) {
+    joySingleBase.addEventListener('touchstart', e => {
+      e.preventDefault();
+      isDraggingSingle = true;
+      let rect = joySingleBase.getBoundingClientRect();
+      singleCenter = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+      handleSingleMove(e.touches[0]);
+      startHeartbeat();
+    }, { passive: false });
+  }
+
+  function handleSingleMove(pt) {
+    let dx = pt.clientX - singleCenter.x;
+    let dy = pt.clientY - singleCenter.y;
+    let dist = Math.hypot(dx, dy);
+    if (dist > singleMaxRadius) {
+      dx = (dx / dist) * singleMaxRadius;
+      dy = (dy / dist) * singleMaxRadius;
+    }
+    if (joySingleThumb) joySingleThumb.style.transform = `translate(${dx}px, ${dy}px)`;
+    let throttle = -dy / singleMaxRadius;
+    let steer = dx / singleMaxRadius;
+    computeMotorMix(throttle, steer);
+  }
+
+  // ======================== GLOBAL TOUCH MOVE & END ========================
+  window.addEventListener('touchmove', e => {
+    if (currentMode === 'dual') {
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        let t = e.changedTouches[i];
+        if (t.identifier === dualLeftTouchId) {
+          e.preventDefault();
+          handleDualLeftMove(t);
+        } else if (t.identifier === dualRightTouchId) {
+          e.preventDefault();
+          handleDualRightMove(t);
+        }
+      }
+    } else if (currentMode === 'single' && isDraggingSingle) {
+      e.preventDefault();
+      handleSingleMove(e.touches[0]);
+    }
+  }, { passive: false });
+
+  function handleTouchRelease(e) {
+    if (currentMode === 'dual') {
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        let t = e.changedTouches[i];
+        if (t.identifier === dualLeftTouchId) {
+          dualLeftTouchId = null;
+          dualThrottle = 0;
+          joyDualLeftThumb.style.transform = 'translate(0px, 0px)';
+          computeMotorMix(dualThrottle, dualSteer);
+        } else if (t.identifier === dualRightTouchId) {
+          dualRightTouchId = null;
+          dualSteer = 0;
+          joyDualRightThumb.style.transform = 'translate(0px, 0px)';
+          computeMotorMix(dualThrottle, dualSteer);
+        }
+      }
+      if (dualLeftTouchId === null && dualRightTouchId === null) {
+        emergencyStop();
+      }
+    } else if (currentMode === 'single') {
+      if (isDraggingSingle) {
+        isDraggingSingle = false;
+        emergencyStop();
+      }
+    }
+  }
+
+  window.addEventListener('touchend', handleTouchRelease);
+  window.addEventListener('touchcancel', handleTouchRelease);
+
+  // Desktop Mouse Support
+  let mouseActiveLeft = false;
+  let mouseActiveRight = false;
+  joyDualLeft.addEventListener('mousedown', e => {
+    mouseActiveLeft = true;
+    let rect = joyDualLeft.getBoundingClientRect();
+    dualLeftCenter = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+    handleDualLeftMove(e);
+    startHeartbeat();
+  });
+  joyDualRight.addEventListener('mousedown', e => {
+    mouseActiveRight = true;
+    let rect = joyDualRight.getBoundingClientRect();
+    dualRightCenter = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+    handleDualRightMove(e);
+    startHeartbeat();
+  });
+  if (joySingleBase) {
+    joySingleBase.addEventListener('mousedown', e => {
+      isDraggingSingle = true;
+      let rect = joySingleBase.getBoundingClientRect();
+      singleCenter = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+      handleSingleMove(e);
+      startHeartbeat();
+    });
+  }
+  window.addEventListener('mousemove', e => {
+    if (mouseActiveLeft) handleDualLeftMove(e);
+    if (mouseActiveRight) handleDualRightMove(e);
+    if (isDraggingSingle) handleSingleMove(e);
+  });
+  window.addEventListener('mouseup', () => {
+    if (mouseActiveLeft || mouseActiveRight || isDraggingSingle) {
+      mouseActiveLeft = false;
+      mouseActiveRight = false;
+      isDraggingSingle = false;
+      emergencyStop();
+    }
+  });
+
+  // ======================== D-PAD BUTTON CONTROLS ========================
+  function bindDpad(btnId, throttleVal, steerVal) {
+    let btn = document.getElementById(btnId);
+    if (!btn) return;
+    const start = (e) => {
+      e.preventDefault();
+      btn.classList.add('active');
+      if (throttleVal !== null) dpadThrottle = throttleVal;
+      if (steerVal !== null) dpadSteer = steerVal;
+      startHeartbeat();
+      computeMotorMix(dpadThrottle, dpadSteer);
+    };
+    const end = (e) => {
+      e.preventDefault();
+      btn.classList.remove('active');
+      if (throttleVal !== null) dpadThrottle = 0;
+      if (steerVal !== null) dpadSteer = 0;
+      if (dpadThrottle === 0 && dpadSteer === 0) emergencyStop();
+      else computeMotorMix(dpadThrottle, dpadSteer);
+    };
+    btn.addEventListener('touchstart', start, { passive: false });
+    btn.addEventListener('touchend', end);
+    btn.addEventListener('touchcancel', end);
+    btn.addEventListener('mousedown', start);
+    btn.addEventListener('mouseup', end);
+  }
+
+  bindDpad('btn-dpad-fwd', 1, null);
+  bindDpad('btn-dpad-rev', -1, null);
+  bindDpad('btn-dpad-left', null, -1);
+  bindDpad('btn-dpad-right', null, 1);
+
+  // ======================== CALIBRATION MODAL ========================
+  function openModal() {
+    document.getElementById('cfg-sens').value = turnSens;
+    document.getElementById('cfg-trim').value = steeringTrim;
+    document.getElementById('cfg-inv-steer').checked = invertSteer;
+    document.getElementById('cfg-inv-throt').checked = invertThrot;
+    let rBox = document.getElementById('cfg-relay-low');
+    if (rBox) rBox.checked = relayIsLow;
+    updateRelayDiagLabel(relayIsLow);
+    updateCalibLabels();
+    document.getElementById('modal').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+  }
+
+  function updateCalibLabels() {
+    document.getElementById('lbl-sens').textContent = parseFloat(document.getElementById('cfg-sens').value).toFixed(2) + 'x';
+    let t = parseInt(document.getElementById('cfg-trim').value, 10);
+    document.getElementById('lbl-trim').textContent = (t > 0 ? '+' : '') + t + '%';
+  }
+
+  function saveCalib() {
+    turnSens = parseFloat(document.getElementById('cfg-sens').value) || 0.75;
+    steeringTrim = parseInt(document.getElementById('cfg-trim').value, 10) || 0;
+    invertSteer = document.getElementById('cfg-inv-steer').checked;
+    invertThrot = document.getElementById('cfg-inv-throt').checked;
+    let rBox = document.getElementById('cfg-relay-low');
+    if (rBox) relayIsLow = rBox.checked;
+
+    localStorage.setItem('rover_calib', JSON.stringify({ turnSens, steeringTrim, invertSteer, invertThrot, relayIsLow }));
+    closeModal();
+  }
+</script>
+</body>
+</html>

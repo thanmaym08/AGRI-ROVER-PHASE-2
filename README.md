@@ -39,6 +39,55 @@ Agri Rover is an intelligent, cyber-physical Unmanned Ground Vehicle (UGV) engin
 
 ---
 
+## 📱 How to Build, Install & Run the Mobile App (3 Easy Ways)
+
+Anyone visiting this repository can make, install, or test the mobile cockpit app using any of the 3 methods below:
+
+```
++─────────────────────────────────────────────────────────────────────────────+
+|                    3 WAYS TO MAKE & RUN THE AGRI ROVER APP                   |
++─────────────────────────────────────────────────────────────────────────────+
+|  Method 1: 1-Tap PWA Mobile Install  | Zero-compile; installs on any phone  |
+|  Method 2: Standalone Android APK    | Native .apk build via Android Studio |
+|  Method 3: Live Browser Simulator    | Test offline or via GitHub Pages     |
++─────────────────────────────────────────────────────────────────────────────+
+```
+
+### 🚀 Method 1: Instant 1-Tap PWA Installation (Recommended — No Coding Needed)
+Because the app is engineered as a **Progressive Web App (PWA)**, you do **not need Android Studio or a compiler** to install it on your smartphone:
+1. **Connect to Rover Hotspot:** On your Android/iOS phone, connect to Wi-Fi `AgriRover-CAM-AP` (Password: `agrirover123`).
+2. **Open in Browser:** Open Google Chrome or Safari and go to **`http://192.168.4.1`**.
+3. **Install the App:**
+   - Chrome will show a banner: **"Add Agri Rover to Home screen"** or tap the **3 dots menu (⋮)** in the top-right and select **"Install App"** (or **"Add to Home screen"**).
+4. **Launch:** An official **Agri Rover App Icon** will appear on your home screen. When tapped, it launches in **Pure Fullscreen Standalone Mode** (no URL address bar, no browser buttons) with virtual dual-thumb joysticks, live camera stream, and moisture slider!
+
+---
+
+### 📦 Method 2: Build a Standalone Native Android APK (.apk file)
+If you need a standalone `.apk` package file for college viva evaluation, project defense, or offline distribution:
+1. **Prerequisite:** Install [Android Studio](https://developer.android.com/studio).
+2. **Open Project:** Launch Android Studio, select **"Open an Existing Project"**, and navigate to:
+   ```text
+   Prototype/android_apk
+   ```
+3. **Build the APK:** In the top menu, click:
+   **Build > Build Bundle(s) / APK(s) > Build APK(s)**
+4. **Locate Output File:** Once Gradle finishes compiling, your APK will be generated at:
+   ```text
+   Prototype/android_apk/app/build/outputs/apk/debug/app-debug.apk
+   ```
+5. **Install on Phone:** Send `app-debug.apk` to your phone via USB, Bluetooth, or WhatsApp, and tap to install!
+
+---
+
+### 🌐 Method 3: Instant Live In-Browser Testing (Zero Setup)
+Want to test the app right now on your computer or phone without flashing hardware?
+- **Offline Local Test:** Simply double-click [`Prototype/firmware/AgriRover_ESP32CAM/test_cockpit.html`](Prototype/firmware/AgriRover_ESP32CAM/test_cockpit.html) in any browser (Chrome, Edge, Firefox).
+- **Online Demo via GitHub Pages:** If GitHub Pages is enabled on this repo (`Settings > Pages > Branch: main > /docs`), anyone worldwide can open and test the app directly at:
+  👉 **`https://thanmaym08.github.io/AGRI-ROVER-PHASE-2/`**
+
+---
+
 ## 🛠️ Hardware Architecture & Sourcing (BOM)
 
 | Component | Specification | Function / Role | Sourcing |
