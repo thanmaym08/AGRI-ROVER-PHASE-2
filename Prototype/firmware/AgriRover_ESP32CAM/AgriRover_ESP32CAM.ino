@@ -140,6 +140,7 @@ const unsigned long WATCHDOG_TIMEOUT_MS = 1200;  // Increased to 1200ms to absor
 unsigned long spray_start_time = 0;
 unsigned long spray_duration_ms = 1000;  // Calibrated 1-second (1000ms) spray burst
 bool spray_active = false;
+bool drive_lockout = false;  // Rover strictly immobilized during soil probe & sprinkling
 
 // ======================== RELAY POLARITY CONFIGURATION ========================
 // Dynamic Active-HIGH / Active-LOW selection (toggleable via UI /spray?polarity=high or low)
@@ -244,7 +245,6 @@ enum ProbeState {
 
 ProbeState current_probe_state = PROBE_IDLE;
 unsigned long probe_state_timer = 0;
-bool drive_lockout = false;       // Interlock: Blocks all drive motors when TRUE
 bool last_probe_dry = false;
 int last_moisture_raw = 0;
 int last_moisture_percent = 50;   // Dynamic 0-100% moisture reading
@@ -1678,8 +1678,7 @@ void setup() {
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
 
   Serial.begin(115200);
-  Serial.println("
-[BOOT] Agri Rover ESP32-CAM Prototype Initializing...");
+  Serial.println("\n[BOOT] Agri Rover ESP32-CAM Prototype Initializing...");
 
   // Setup Relay Pin (Ensure relay starts in confirmed OFF state)
   digitalWrite(PIN_RELAY, get_relay_off());
@@ -1727,8 +1726,7 @@ void setup() {
   // Camera Init
   esp_err_t err = esp_camera_init(&cam_config);
   if (err != ESP_OK) {
-    Serial.printf("[ERROR] Camera init failed with error 0x%x
-", err);
+    Serial.printf("[ERROR] Camera init failed with error 0x%x\n", err);
     return;
   }
   Serial.println("[OK] Camera Initialized.");
