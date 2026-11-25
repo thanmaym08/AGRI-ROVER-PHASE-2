@@ -41,6 +41,10 @@ Agri Rover is an intelligent, cyber-physical Unmanned Ground Vehicle (UGV) engin
 
 ## 📱 How to Build, Install & Run the Mobile App (3 Easy Ways)
 
+> [!TIP]
+> **For App Developers:** If you or your team are building a custom Flutter, React Native, or Native Android/iOS mobile application, see the complete REST API contract, JSON schema, and code examples in:  
+> 👉 **[API_SPECIFICATION.md](API_SPECIFICATION.md)**
+
 Anyone visiting this repository can make, install, or test the mobile cockpit app using any of the 3 methods below:
 
 ```
@@ -143,6 +147,7 @@ Want to test the app right now on your computer or phone without flashing hardwa
 
 ```
 agrirover-phase-2/
+├── API_SPECIFICATION.md           # Complete REST API Contract & App Developer Guide
 ├── PRD.md                         # Product Requirements Document (FRs, NFRs, Personas, SDGs)
 ├── ARCHITECTURE.md                # Cyber-Physical Architecture, Pinouts, Schematics
 ├── RULES.md                       # Hardware Safety, Code Quality, Git Conventions
