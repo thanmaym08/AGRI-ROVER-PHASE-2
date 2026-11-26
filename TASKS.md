@@ -195,3 +195,13 @@ Phase 2 transitions Agri Rover from a single-rover prototype with color-threshol
   - Physical Assembly Work Package: Soldering (diode, DC jack, pump leads), mechanical mounting, direct 12V wiring, and DMM continuity verification (Est: 2.5–3.5 hours).
   - Cockpit UI integration with one-touch "🌱 Sample Moisture & Water" HUD button and real-time status feedback.
   - Remote Git synchronization: Published and tracked upstream on GitHub at `https://github.com/thanmaym08/AGRI-ROVER-PHASE-2.git`.
+
+---
+
+### Epic 7: State Sponsorship & Academic Grant Proposal (KSCST SPP 50th Series)
+*Target: Official submission for Karnataka State Council for Science and Technology (KSCST) 50th Series Student Project Programme sponsorship.*
+
+- [x] **TASK-218: KSCST 50th Series SPP Project Proposal & Submission Package**
+  - Authored comprehensive KSCST SPP Project Proposal document based on Raspberry Pi 4 Model B, Dual BTS7960 43A motor drivers, OpenCV edge vision, and in-situ soil probing (`KSCST_SPP_AgriRover_Project_Proposal.docx` & `KSCST_SPP_AgriRover_Project_Proposal.pdf`).
+  - Generated standalone 1-page Declaration and Endorsement form for Guide (Dr. Dwarakanath G V), HOD (Dr. Aparna K), and Principal (Dr. Mohan Babu G N) signatures (`KSCST_Declaration_and_Endorsement_Form.pdf`).
+  - Created complete Google Form submission guide with exact copy-paste fields for `https://forms.gle/VPPewZnbUhw1V8KdA` (`KSCST_GOOGLE_FORM_SUBMISSION_GUIDE.md`).
