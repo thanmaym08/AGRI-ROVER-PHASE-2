@@ -248,7 +248,7 @@ comp_rows = [
     ("Operator Chemical Safety", "Dangerous (Direct Exposure)", "Safe (Aerial Stand-off)", "Moderate (Cab Inhalation)", "Completely Safe (Remote Stand-off)"),
     ("Target Precision", "Poor (Manual Inaccurate)", "Poor (Wind Spray Drift)", "Coarse (Row Broadcast)", "High (Phone-Triggered Micro-Burst)"),
     ("Soil Compaction", "Low (Foot Traffic)", "Zero (Aerial)", "Severe (Multi-ton Compaction)", "Low (Lightweight 10–20 kg Footprint)"),
-    ("System Capital Cost", "Low (~₹3,000)", "Prohibitive (₹4.5L–₹8.0L)", "Prohibitive (> ₹8.0 Lakhs)", "Affordable (< ₹20,000 Prototype)")
+    ("System Capital Cost", "Low (~₹3,000)", "Prohibitive (₹4.5L–₹8.0L)", "Prohibitive (> ₹8.0 Lakhs)", "Affordable (< ₹28,500 Prototype)")
 ]
 for r_i, d in enumerate(comp_rows):
     row = tbl_comp.rows[r_i + 1]
@@ -484,7 +484,7 @@ t_comp_pdf = Table([
     [Paragraph("<b>Operator Safety</b>", p_td), Paragraph("Dangerous Exposure", p_td), Paragraph("Safe (Aerial)", p_td), Paragraph("Moderate (Cab)", p_td), Paragraph("<b>Completely Safe</b>", p_td)],
     [Paragraph("<b>Target Precision</b>", p_td), Paragraph("Poor (Manual)", p_td), Paragraph("Poor (Wind Drift)", p_td), Paragraph("Coarse (Broadcast)", p_td), Paragraph("<b>High (Micro-Burst)</b>", p_td)],
     [Paragraph("<b>Soil Compaction</b>", p_td), Paragraph("Low (Foot)", p_td), Paragraph("Zero (Aerial)", p_td), Paragraph("Severe Compaction", p_td), Paragraph("<b>Low (10–20 kg)</b>", p_td)],
-    [Paragraph("<b>System Cost</b>", p_td), Paragraph("Low (~₹3,000)", p_td), Paragraph("Prohibitive (₹4.5L–₹8L)", p_td), Paragraph("Prohibitive (> ₹8 Lakhs)", p_td), Paragraph("<b>Affordable (&lt; ₹20k)</b>", p_td)]
+    [Paragraph("<b>System Cost</b>", p_td), Paragraph("Low (~₹3,000)", p_td), Paragraph("Prohibitive (₹4.5L–₹8L)", p_td), Paragraph("Prohibitive (> ₹8 Lakhs)", p_td), Paragraph("<b>Affordable (&lt; ₹28.5k)</b>", p_td)]
 ], colWidths=[105, 100, 105, 105, 100])
 t_comp_pdf.setStyle(TableStyle([
     ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#1E3A8A")),

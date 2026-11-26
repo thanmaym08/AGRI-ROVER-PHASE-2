@@ -287,7 +287,7 @@ story1.append(Paragraph(
     "vehicle specifically optimized for row crops and horticultural fields. Controlled remotely via an intuitive mobile application over local wireless telemetry, "
     "the rover eliminates human contact with toxic agrochemicals. By combining high-torque four-wheel-drive (4WD) mobility, real-time visual teleoperation via a "
     "forward-facing camera, and dual-nozzle directional micro-spraying, the vehicle enables farmers to navigate complex, muddy field furrows and apply localized chemical "
-    "treatments precisely where needed. Operating under a prototype budget of under Rs. 19,500, this platform bridges the gap between expensive commercial tractors "
+    "treatments precisely where needed. Operating under a prototype budget of under Rs. 28,500, this platform bridges the gap between expensive commercial tractors "
     "and hazardous manual labor for rural agricultural communities.",
     body_style
 ))
@@ -312,7 +312,7 @@ story1.append(Paragraph("1. <b>Mechatronic Field Powertrain:</b> Construct a rug
 story1.append(Paragraph("2. <b>High-Current Inductive Power Delivery:</b> Integrate dual BTS7960 43A H-bridge drivers with hardware optical isolation and transient flyback suppression to reliably drive four high-torque 12V DC metal-gear motors delivering up to 140 kg·cm stall torque.", bullet_style))
 story1.append(Paragraph("3. <b>Smartphone Teleoperation &amp; Visual Telemetry:</b> Develop a low-latency, intuitive smartphone teleoperation mobile application featuring virtual joystick steering, dedicated chemical actuation triggers, and real-time live camera video streaming.", bullet_style))
 story1.append(Paragraph("4. <b>Precision Chemical Micro-Spraying:</b> Construct a directional chemical fluid delivery circuit comprising a 12V pressurized diaphragm pump and dual high-speed 12V solenoid valves for targeted micro-burst spraying.", bullet_style))
-story1.append(Paragraph("5. <b>Operator Safety &amp; Economic Sustainability:</b> Completely eliminate chemical inhalation and skin contact for farm operators, cut pesticide/fungicide consumption by 30% to 50%, and demonstrate an affordable prototype build under Rs. 19,500.", bullet_style))
+story1.append(Paragraph("5. <b>Operator Safety &amp; Economic Sustainability:</b> Completely eliminate chemical inhalation and skin contact for farm operators, cut pesticide/fungicide consumption by 30% to 50%, and demonstrate an affordable prototype build under Rs. 28,500.", bullet_style))
 
 story1.append(Paragraph("<b>5. Innovation / Novelty</b>", sec_style))
 story1.append(Paragraph("• <b>Industrial-Grade High-Current Powertrain:</b> Replaces fragile hobbyist motor drivers with dual BTS7960 43A drivers handling 43A peak current per motor channel, backed by optical isolation preventing inductive spikes from resetting the edge computer.", bullet_style))
@@ -381,7 +381,7 @@ story1.append(Paragraph("<b>8. Expected Outcomes and Impact</b>", sec_style))
 story1.append(Paragraph("• <b>Technical:</b> Proves the viability of low-cost edge computing (Raspberry Pi 4) and high-current drivers (BTS7960) for heavy-load agricultural robotics.", bullet_style))
 story1.append(Paragraph("• <b>Social &amp; Health:</b> Completely protects agricultural workers from inhaling hazardous chemicals and prevents pesticide dermatosis and poisoning.", bullet_style))
 story1.append(Paragraph("• <b>Environmental:</b> Reduces chemical runoff and groundwater contamination by 30% to 50% through targeted directional application.", bullet_style))
-story1.append(Paragraph("• <b>Economic:</b> Drastically lowers crop protection costs for smallholder farmers; build cost under Rs. 19,500 compared to lakhs for commercial equipment.", bullet_style))
+story1.append(Paragraph("• <b>Economic:</b> Drastically lowers crop protection costs for smallholder farmers; build cost under Rs. 28,500 compared to lakhs for commercial equipment.", bullet_style))
 story1.append(Paragraph("• <b>Industrial &amp; Academic:</b> Provides a modular agritech reference architecture and advances student research in cyber-physical mechatronics at BMSITM.", bullet_style))
 
 story1.append(Paragraph("<b>9. Relevance to State &amp; National Priorities</b>", sec_style))
@@ -442,17 +442,17 @@ story1.append(tbl_fac_pdf)
 story1.append(Spacer(1, 6))
 
 # Budget Table
-story1.append(Paragraph("<b>12. Budget Estimate (Prescribed Subheads - Total: ₹ 19,500/-)</b>", sec_style))
+story1.append(Paragraph("<b>12. Budget Estimate (Prescribed Subheads - Total: ₹ 28,500/-)</b>", sec_style))
 bgt_pdf_data = [
     [Paragraph("Prescribed Budget Subhead", table_header), Paragraph("Estimated Cost (₹)", table_header)],
-    [Paragraph("1. Equipment / Components (Raspberry Pi 4, BTS7960 Drivers, Motors, Camera, Battery)", table_text), Paragraph("₹ 11,600/-", table_text)],
-    [Paragraph("2. Consumables (12V Diaphragm Pump, Solenoid Valves, Mist Nozzles, Diodes, Tubing, Wiring)", table_text), Paragraph("₹ 3,100/-", table_text)],
-    [Paragraph("3. Fabrication (Chassis Laser Cutting, Aluminum Brackets, 85mm Tires, Fluid Tank Mounts)", table_text), Paragraph("₹ 3,800/-", table_text)],
-    [Paragraph("4. Software / Cloud Services (Open-Source Python, Linux, Flask, OpenCV)", table_text), Paragraph("₹ 0/-", table_text)],
-    [Paragraph("5. Field Survey / Data Collection (Local Rural Farmland Travel &amp; Operator Testing)", table_text), Paragraph("₹ 500/-", table_text)],
-    [Paragraph("6. Testing / Analysis (Spray Volume Calibration, Multimeter Testing, Incline Trials)", table_text), Paragraph("₹ 500/-", table_text)],
-    [Paragraph("7. Miscellaneous (Hardware Fasteners, Heat-Shrink Sleeving, Contingency)", table_text), Paragraph("₹ 0/-", table_text)],
-    [Paragraph("<b>TOTAL ESTIMATED PROJECT COST:</b>", table_bold), Paragraph("<b>₹ 19,500/-</b>", table_bold)]
+    [Paragraph("1. Equipment / Components (Raspberry Pi 4 4GB, ESP32, Camera, Motors, BTS7960, Servos, Battery, Buck)", table_text), Paragraph("₹ 20,150/-", table_text)],
+    [Paragraph("2. Consumables (3x 12V Diaphragm Pumps, Relay Module, 2x Tanks, Silicone Tubing, Mist Nozzles, Wiring)", table_text), Paragraph("₹ 3,350/-", table_text)],
+    [Paragraph("3. Fabrication (Chassis with Tracked / Chain Wheels, Aluminum Brackets, Tank Mounts)", table_text), Paragraph("₹ 4,000/-", table_text)],
+    [Paragraph("4. Software / Cloud Services (Open-Source Python, Linux, Flask, OpenCV, TFLite)", table_text), Paragraph("₹ 0/-", table_text)],
+    [Paragraph("5. Field Survey / Data Collection (Local Farmland Row Crop Trials &amp; Operator Testing)", table_text), Paragraph("₹ 0/-", table_text)],
+    [Paragraph("6. Testing / Analysis (Spray Volume Calibration, Multimeter Testing, Incline Trials)", table_text), Paragraph("₹ 0/-", table_text)],
+    [Paragraph("7. Miscellaneous (Hardware Fasteners, Mounting Screws, Brackets, Contingency Spares)", table_text), Paragraph("₹ 1,000/-", table_text)],
+    [Paragraph("<b>TOTAL ESTIMATED PROJECT COST:</b>", table_bold), Paragraph("<b>₹ 28,500/-</b>", table_bold)]
 ]
 tbl_bgt_pdf = Table(bgt_pdf_data, colWidths=[385, 130])
 tbl_bgt_pdf.setStyle(TableStyle([

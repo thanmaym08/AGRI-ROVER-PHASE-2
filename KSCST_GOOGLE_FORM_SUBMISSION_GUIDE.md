@@ -93,7 +93,7 @@ Also available for local editing:
 ```text
 Indian agriculture sustains over 58% of the national population, yet smallholder and marginal farmers face acute challenges: debilitating labor shortages during critical crop cycles, surging operational costs, and severe occupational health hazards stemming from manual chemical spraying. Traditional manual backpack knapsack spraying directly exposes field workers to toxic organophosphate and pesticide mist, precipitating acute respiratory illnesses, chemical dermatosis, and neurological trauma. Simultaneously, indiscriminate manual blanket spraying leads to 30% to 50% chemical runoff into local soils and groundwater, devastating beneficial soil biota and inflating input expenses.
 
-The Agri Rover Robo project addresses these urgent challenges by engineering an affordable, rugged, smartphone-controlled agricultural robotic vehicle specifically optimized for row crops and horticultural fields. Controlled remotely via an intuitive mobile application over local wireless telemetry, the rover eliminates human contact with toxic agrochemicals. By combining high-torque four-wheel-drive (4WD) mobility, real-time visual teleoperation via a forward-facing camera, and dual-nozzle directional micro-spraying, the vehicle enables farmers to navigate complex, muddy field furrows and apply localized chemical treatments precisely where needed. Operating under a prototype budget of under Rs. 19,500, this platform bridges the gap between expensive commercial tractors and hazardous manual labor for rural agricultural communities.
+The Agri Rover Robo project addresses these urgent challenges by engineering an affordable, rugged, smartphone-controlled agricultural robotic vehicle specifically optimized for row crops and horticultural fields. Controlled remotely via an intuitive mobile application over local wireless telemetry, the rover eliminates human contact with toxic agrochemicals. By combining high-torque four-wheel-drive (4WD) mobility, real-time visual teleoperation via a forward-facing camera, and dual-nozzle directional micro-spraying, the vehicle enables farmers to navigate complex, muddy field furrows and apply localized chemical treatments precisely where needed. Operating under a prototype budget of under Rs. 28,500, this platform bridges the gap between expensive commercial tractors and hazardous manual labor for rural agricultural communities.
 ```
 
 ### Review of Existing Work & Research Gaps
@@ -118,7 +118,7 @@ To engineer and field-validate an affordable, four-wheel-drive (4WD) robotic agr
 2. High-Current Inductive Power Delivery: Integrate dual BTS7960 43A H-bridge drivers with hardware optical isolation and transient flyback suppression to reliably drive four high-torque 12V DC metal-gear motors delivering up to 140 kg·cm stall torque.
 3. Smartphone Teleoperation & Visual Telemetry: Develop a low-latency, intuitive smartphone teleoperation mobile application featuring virtual joystick steering, dedicated chemical actuation triggers, and real-time live camera video streaming.
 4. Precision Chemical Micro-Spraying: Construct a directional chemical fluid delivery circuit comprising a 12V pressurized diaphragm pump and dual high-speed 12V solenoid valves for targeted micro-burst spraying.
-5. Operator Safety & Economic Sustainability: Completely eliminate chemical inhalation and skin contact for farm operators, cut pesticide/fungicide consumption by 30% to 50%, and demonstrate an affordable prototype build under Rs. 19,500.
+5. Operator Safety & Economic Sustainability: Completely eliminate chemical inhalation and skin contact for farm operators, cut pesticide/fungicide consumption by 30% to 50%, and demonstrate an affordable prototype build under Rs. 28,500.
 ```
 
 ### Innovation / Novelty
@@ -145,14 +145,14 @@ To engineer and field-validate an affordable, four-wheel-drive (4WD) robotic agr
 
 | Prescribed Budget Subhead | Cost (₹) | Key Components Included |
 | :--- | :---: | :--- |
-| **1. Equipment / Components** | **₹ 11,600/-** | Raspberry Pi 4 (4GB), Dual BTS7960 43A Drivers, 4x 12V Geared Motors, Camera, 12V Battery |
-| **2. Consumables** | **₹ 3,100/-** | 12V Diaphragm Pump, 2x 12V Solenoid Valves, Brass Mist Nozzles, 1N4007 Diodes, Tubing, Wiring |
-| **3. Fabrication** | **₹ 3,800/-** | Chassis Laser Cutting, Aluminum Brackets, 85mm All-Terrain Wheels, Fluid Reservoir Mounts |
-| **4. Software / Cloud Services** | **₹ 0/-** | Open-source Python, Linux OS, Flask Web Framework, OpenCV |
-| **5. Field Survey / Data Collection** | **₹ 500/-** | Local rural farmland transit, soil trial testing, and operator evaluation |
-| **6. Testing / Analysis** | **₹ 500/-** | Spray droplet calibration, DMM electrical bench verification, incline testing |
-| **7. Miscellaneous** | **₹ 0/-** | Hardware fasteners, heat-shrink sleeves, bench consumables |
-| **TOTAL ESTIMATED PROJECT COST** | **₹ 19,500/-** | *(Sanctioned KSCST grant up to ₹10,000; remainder supported by college lab resources)* |
+| **1. Equipment / Components** | **₹ 20,150/-** | Raspberry Pi 4 (4GB), ESP32 DevKit, Camera, Motors, BTS7960 Drivers, 3x Servos, 12V 20Ah Battery, 2x Buck Converters |
+| **2. Consumables** | **₹ 3,350/-** | 3x 12V Diaphragm Pumps, 4-Channel Relay, 2x Tanks (16L Water + 5L Pest), Silicone Tubing, Mist Nozzles, Wiring |
+| **3. Fabrication** | **₹ 4,000/-** | Chassis Frame with Tracked / Chain Wheels, Aluminum Brackets, Tank Mounts, Hardware Assembly |
+| **4. Software / Cloud Services** | **₹ 0/-** | Open-source Python, Linux OS, Flask Web Framework, OpenCV, TensorFlow Lite |
+| **5. Field Survey / Data Collection** | **₹ 0/-** | Local rural farmland row trials, soil sample testing |
+| **6. Testing / Analysis** | **₹ 0/-** | Spray droplet calibration, DMM electrical bench verification, incline testing |
+| **7. Miscellaneous** | **₹ 1,000/-** | Mounting screws, brackets, hardware fasteners, heat-shrink sleeves, contingency spares |
+| **TOTAL ESTIMATED PROJECT COST** | **₹ 28,500/-** | *(Sanctioned KSCST grant up to ₹10,000; remainder supported by college lab resources)* |
 
 ---
 

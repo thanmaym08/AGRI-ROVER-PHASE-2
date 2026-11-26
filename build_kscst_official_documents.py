@@ -265,7 +265,7 @@ add_body_p(
     "vehicle specifically optimized for row crops and horticultural fields. Controlled remotely via an intuitive mobile application over local wireless telemetry, "
     "the rover eliminates human contact with toxic agrochemicals. By combining high-torque four-wheel-drive (4WD) mobility, real-time visual teleoperation via a "
     "forward-facing camera, and dual-nozzle directional micro-spraying, the vehicle enables farmers to navigate complex, muddy field furrows and apply localized chemical "
-    "treatments precisely where needed. Operating under a prototype budget of under Rs. 19,500, this platform bridges the gap between expensive commercial tractors "
+    "treatments precisely where needed. Operating under a prototype budget of under Rs. 28,500, this platform bridges the gap between expensive commercial tractors "
     "and hazardous manual labor for rural agricultural communities."
 )
 
@@ -295,7 +295,7 @@ add_bullet_p(" To construct a rugged, four-wheel-drive (4WD) skid-steer robotic 
 add_bullet_p(" To integrate dual BTS7960 43A H-bridge drivers with hardware optical isolation and transient flyback suppression to reliably drive four high-torque 12V DC metal-gear motors delivering up to 140 kg·cm of stall torque.", "2. High-Current Inductive Power Delivery:")
 add_bullet_p(" To develop a low-latency, intuitive smartphone teleoperation mobile application featuring virtual joystick steering, dedicated chemical actuation triggers, and real-time live camera video streaming.", "3. Smartphone Teleoperation & Visual Telemetry:")
 add_bullet_p(" To construct a directional chemical fluid delivery circuit comprising a 12V pressurized diaphragm pump and dual high-speed 12V solenoid valves for targeted micro-burst spraying.", "4. Precision Chemical Micro-Spraying:")
-add_bullet_p(" To eliminate chemical inhalation and skin contact for farm operators, cut pesticide/fungicide consumption by 30% to 50%, and demonstrate an affordable prototype build under Rs. 19,500.", "5. Operator Safety & Economic Sustainability:")
+add_bullet_p(" To eliminate chemical inhalation and skin contact for farm operators, cut pesticide/fungicide consumption by 30% to 50%, and demonstrate an affordable prototype build under Rs. 28,500.", "5. Operator Safety & Economic Sustainability:")
 
 add_section_title("5. Innovation / Novelty")
 add_body_p(
@@ -367,7 +367,7 @@ add_section_title("8. Expected Outcomes and Impact")
 add_bullet_p(" Proves the viability of low-cost edge computing (Raspberry Pi 4) and high-current drivers (BTS7960) for heavy-load agricultural robotics.", "• Technical:")
 add_bullet_p(" Completely protects agricultural workers from inhaling hazardous chemicals and prevents pesticide dermatosis and poisoning.", "• Social & Health:")
 add_bullet_p(" Reduces chemical runoff and groundwater contamination by 30% to 50% through targeted directional application.", "• Environmental:")
-add_bullet_p(" Drastically lowers crop protection costs for smallholder farmers; build cost under Rs. 19,500 compared to lakhs for commercial equipment.", "• Economic:")
+add_bullet_p(" Drastically lowers crop protection costs for smallholder farmers; build cost under Rs. 28,500 compared to lakhs for commercial equipment.", "• Economic:")
 add_bullet_p(" Provides a modular, scalable reference architecture for regional agritech startups and Indian robotics manufacturers.", "• Industrial:")
 add_bullet_p(" Advances student research in cyber-physical mechatronics, computer vision, and IoT-driven precision agriculture at BMSITM.", "• Academic:")
 
@@ -465,13 +465,13 @@ for c_i, h in enumerate(bgt_headers):
         cell.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.RIGHT
 
 bgt_rows = [
-    ("1. Equipment / Components (Raspberry Pi 4, BTS7960 Drivers, Motors, Camera, Battery)", "₹ 11,600/-"),
-    ("2. Consumables (12V Diaphragm Pump, Solenoid Valves, Mist Nozzles, Diodes, Tubing, Wiring)", "₹ 3,100/-"),
-    ("3. Fabrication (Chassis Laser Cutting, Aluminum Brackets, 85mm Tires, Fluid Tank Mounts)", "₹ 3,800/-"),
-    ("4. Software / Cloud Services (Open-Source Python, Linux, Flask, OpenCV)", "₹ 0/-"),
-    ("5. Field Survey / Data Collection (Local Rural Farmland Travel & Operator Testing)", "₹ 500/-"),
-    ("6. Testing / Analysis (Spray Volume Calibration, Multimeter Testing, Incline Trials)", "₹ 500/-"),
-    ("7. Miscellaneous (Hardware Fasteners, Heat-Shrink Sleeving, Contingency)", "₹ 0/-"),
+    ("1. Equipment / Components (Raspberry Pi 4 4GB, ESP32, Camera, Motors, BTS7960, Servos, Battery, Buck)", "₹ 20,150/-"),
+    ("2. Consumables (3x 12V Diaphragm Pumps, Relay Module, 2x Tanks, Silicone Tubing, Mist Nozzles, Wiring)", "₹ 3,350/-"),
+    ("3. Fabrication (Chassis with Tracked / Chain Wheels, Aluminum Brackets, Tank Mounts)", "₹ 4,000/-"),
+    ("4. Software / Cloud Services (Open-Source Python, Linux, Flask, OpenCV, TFLite)", "₹ 0/-"),
+    ("5. Field Survey / Data Collection (Local Farmland Row Crop Trials & Operator Testing)", "₹ 0/-"),
+    ("6. Testing / Analysis (Spray Volume Calibration, Multimeter Testing, Incline Trials)", "₹ 0/-"),
+    ("7. Miscellaneous (Hardware Fasteners, Mounting Screws, Brackets, Contingency Spares)", "₹ 1,000/-"),
 ]
 for r_i, (k, v) in enumerate(bgt_rows):
     row = tbl_bgt.rows[r_i + 1]
@@ -490,7 +490,7 @@ row_tot = tbl_bgt.add_row()
 row_tot.cells[0].width = Inches(5.2)
 row_tot.cells[1].width = Inches(1.8)
 row_tot.cells[0].text = "TOTAL ESTIMATED PROJECT COST:"
-row_tot.cells[1].text = "₹ 19,500/-"
+row_tot.cells[1].text = "₹ 28,500/-"
 set_cell_shading(row_tot.cells[0], 'F1F5F9')
 set_cell_shading(row_tot.cells[1], 'F1F5F9')
 set_cell_margins(row_tot.cells[0], top=60, bottom=60, left=80, right=80)
