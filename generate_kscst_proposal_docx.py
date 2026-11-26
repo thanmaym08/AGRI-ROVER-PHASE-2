@@ -181,9 +181,9 @@ for r_i, (k, v) in enumerate(meta_data):
     set_cell_margins(row.cells[0], top=40, bottom=40, left=80, right=80)
     set_cell_margins(row.cells[1], top=40, bottom=40, left=80, right=80)
 
-# Student Team Table
-add_table_caption("Table 2: Student Project Team Details (Maximum 4 Students)")
-tbl_team = doc.add_table(rows=5, cols=5)
+# Student Team Table (Updated: 2 Members)
+add_table_caption("Table 2: Student Project Team Details")
+tbl_team = doc.add_table(rows=3, cols=5)
 tbl_team.alignment = WD_TABLE_ALIGNMENT.CENTER
 team_headers = ["Sl.", "Name of Student", "USN", "Contact Mobile", "Email ID"]
 for c_i, h in enumerate(team_headers):
@@ -196,9 +196,7 @@ for c_i, h in enumerate(team_headers):
 
 team_members = [
     ("1", "THANMAY M (Team Leader)", "1BY24MC095", "+91 9880123456", "thanmaym08@gmail.com"),
-    ("2", "KEERTHANA", "1BY24MC045", "+91 9845123456", "keerthana.mca@bmsit.in"),
-    ("3", "MOHAN", "1BY24MC058", "+91 9742123456", "mohan.mca@bmsit.in"),
-    ("4", "MONICA", "1BY24MC061", "+91 9611123456", "monica.mca@bmsit.in")
+    ("2", "MOHIT S", "1BY24MC063", "+91 9845012345", "mohit.mca@bmsit.in")
 ]
 for r_i, member in enumerate(team_members):
     row = tbl_team.rows[r_i+1]
@@ -216,7 +214,7 @@ for r_i, member in enumerate(team_members):
 p_note = doc.add_paragraph()
 p_note.paragraph_format.space_before = Pt(2)
 p_note.paragraph_format.space_after = Pt(8)
-r_n = p_note.add_run("* Note: Please verify and confirm exact USNs and mobile numbers for all 4 team members prior to submission.")
+r_n = p_note.add_run("* Note: Please verify and confirm exact USNs and mobile numbers for team members prior to submission.")
 r_n.font.size = Pt(8.5)
 r_n.font.italic = True
 r_n.font.color.rgb = RGBColor(100, 116, 139)
@@ -515,8 +513,8 @@ add_section_title("DECLARATION BY STUDENTS")
 add_body_p("We, the undersigned final year students of the Department of Master of Computer Applications (MCA), BMS Institute of Technology & Management, Bengaluru, hereby declare that the project proposal entitled 'Agri Rover Robo: Smartphone-Controlled Agricultural Robotic Vehicle for Precision Chemical Micro-Spraying and Remote Teleoperation' is a bona fide record of independent research and engineering work planned and executed by us under the guidance of Dr. Dwarakanath G V.")
 add_body_p("We further declare that this project proposal has not been submitted previously to any other university, organization, or funding agency for the award of any degree, diploma, or financial sponsorship.")
 
-# Student signature table
-tbl_sig = doc.add_table(rows=5, cols=4)
+# Student signature table (Updated: 2 Members)
+tbl_sig = doc.add_table(rows=3, cols=4)
 tbl_sig.alignment = WD_TABLE_ALIGNMENT.CENTER
 sig_headers = ["Sl.", "Name of Student", "USN", "Signature with Date"]
 for i, h in enumerate(sig_headers):
@@ -527,9 +525,7 @@ for i, h in enumerate(sig_headers):
 
 sig_data = [
     ("1", "THANMAY M (Team Leader)", "1BY24MC095", "\n\n________________________"),
-    ("2", "KEERTHANA", "1BY24MC045", "\n\n________________________"),
-    ("3", "MOHAN", "1BY24MC058", "\n\n________________________"),
-    ("4", "MONICA", "1BY24MC061", "\n\n________________________")
+    ("2", "MOHIT S", "1BY24MC063", "\n\n________________________")
 ]
 for r_i, row in enumerate(sig_data):
     r = tbl_sig.rows[r_i+1]
@@ -542,7 +538,7 @@ for r_i, row in enumerate(sig_data):
 doc.add_paragraph().paragraph_format.space_after = Pt(12)
 
 add_section_title("ENDORSEMENT BY PROJECT GUIDE, HOD & HEAD OF INSTITUTION")
-add_body_p("This is to certify that the project proposal entitled 'Agri Rover Robo: Smartphone-Controlled Agricultural Robotic Vehicle for Precision Chemical Micro-Spraying and Remote Teleoperation' submitted by Thanmay M, Keerthana, Mohan, and Monica, final year MCA students of BMSITM, is an original research and engineering endeavor. The project has been reviewed and endorsed for submission under the 50th Series of the Student Project Programme (SPP: 2026–2027) of the Karnataka State Council for Science and Technology (KSCST).")
+add_body_p("This is to certify that the project proposal entitled 'Agri Rover Robo: Smartphone-Controlled Agricultural Robotic Vehicle for Precision Chemical Micro-Spraying and Remote Teleoperation' submitted by Thanmay M and Mohit S, final year MCA students of BMSITM, is an original research and engineering endeavor. The project has been reviewed and endorsed for submission under the 50th Series of the Student Project Programme (SPP: 2026–2027) of the Karnataka State Council for Science and Technology (KSCST).")
 
 # Institutional Endorsements Table
 tbl_end = doc.add_table(rows=1, cols=3)

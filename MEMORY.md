@@ -143,6 +143,16 @@ Agri Rover is an autonomous cyber-physical robotic platform developed as a Maste
   5. **Interactive Moisture Threshold Slider & Direct 12V Power Bus:** Integrated an interactive UI slider in the mobile cockpit (`/probe_threshold?val=...`) allowing operators to set the dry moisture trigger limit ($10\%\sim 80\%$, default $35\%$). Addressed pump motor stall by routing switched $+12.6\text{V}$ battery power (via the blue wire to L298N 12V block) into Relay `COM`, and Relay `NO` to Pump (+). The pump now receives full battery power while remaining digitally switched by ESP32 GPIO 2.
 - **Rationale:** Minimizes added payload weight, avoids redundant battery packs, ensures probe longevity without corrosion, guarantees zero brownouts through mechanical-electrical interlocks, gives the operator dynamic control over irrigation thresholds, and enables rapid bench completion within 2–3 days.
 
+### ADR-013: KSCST 50th Series SPP Proposal & 2-Member Team Configuration
+- **Date:** 2026-11-26
+- **Status:** Approved & Formatted
+- **Context:** Urgent institutional submission for Karnataka State Council for Science and Technology (KSCST) 50th Series Student Project Programme (deadline today before 3:00 PM IST).
+- **Decisions:**
+  1. **Team Composition:** Finalized 2-member team consisting of Thanmay M (Team Leader, `1BY24MC095`) and Mohit S (`1BY24MC063`). Keerthana, Mohan, and Monica removed per departmental confirmation.
+  2. **Institutional Leadership:** Project Guide Dr. Dwarakanath G V (Associate Professor, Dept. of MCA), HOD Dr. M. Sridevi (Dept. of MCA), College SPP Coordinator Dr. Manjunath (Assistant Professor, Dept. of Mechanical Engineering), and Principal Dr. Mohan Babu G N.
+  3. **Architecture & Scope Alignment:** Highlighted Raspberry Pi 4 Model B, Dual BTS7960 43A motor drivers, 10–20 kg heavy-load torque derivation ($34.76\text{ kg}\cdot\text{cm}$ total demand vs $60.0\text{ kg}\cdot\text{cm}$ rated / $140.0\text{ kg}\cdot\text{cm}$ stall supply), smartphone app teleoperation (virtual joystick, low-latency camera stream), and dual-nozzle solenoid chemical micro-spraying. Fully purged legacy NPK sensor references.
+  4. **Strict 1-Page Endorsement Form:** Formatted `KSCST_Declaration_and_Endorsement_Form.pdf` to fit on exactly one printable page for immediate physical signing today.
+
 ---
 
 ## 3. Hardware Pinout & Electrical Quick-Reference

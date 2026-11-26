@@ -13,7 +13,7 @@
    - Print [KSCST_Declaration_and_Endorsement_Form.pdf](file:///f:/agrirover%20phase%202/KSCST_Declaration_and_Endorsement_Form.pdf) (EXACTLY 1 PAGE — Ready for physical signatures).
    - Print [KSCST_SPP_AgriRover_Project_Proposal.pdf](file:///f:/agrirover%20phase%202/KSCST_SPP_AgriRover_Project_Proposal.pdf) (6 Pages — Full Proposal with Figures, Torque Calculations, & Budget).
 2. **Collect Physical Signatures & College Seal Today:**
-   - **Student Team:** Thanmay M (Team Leader), Keerthana, Mohan, Monica.
+   - **Student Team:** Thanmay M (Team Leader), Mohit S.
    - **Project Guide:** Dr. Dwarakanath G V (Project Coordinator / Associate Professor, Dept. of MCA).
    - **Head of Department (HOD):** Dr. M. Sridevi (Head of Department, Dept. of MCA).
    - **Principal:** Dr. Mohan Babu G N (Principal, BMSITM) + Official College Seal Stamp.
@@ -81,8 +81,8 @@
 
 ---
 
-### 4. Student Team Details (Max 4 Members)
-* **Number of Students in Team:** `4`
+### 4. Student Team Details (2 Members)
+* **Number of Students in Team:** `2`
 
 #### Team Leader (Student 1):
 * **Full Name:** `Thanmay M`
@@ -92,26 +92,14 @@
 * **Mobile Number:** `+91 9880123456` *(Confirm your exact mobile number)*
 
 #### Student 2:
-* **Full Name:** `Keerthana`
-* **USN:** `1BY24MC045` *(Confirm exact USN)*
-* **Email ID:** `keerthana.mca@bmsit.in`
-* **Mobile Number:** `+91 9845123456`
-
-#### Student 3:
-* **Full Name:** `Mohan`
-* **USN:** `1BY24MC058` *(Confirm exact USN)*
-* **Email ID:** `mohan.mca@bmsit.in`
-* **Mobile Number:** `+91 9742123456`
-
-#### Student 4:
-* **Full Name:** `Monica`
-* **USN:** `1BY24MC061` *(Confirm exact USN)*
-* **Email ID:** `monica.mca@bmsit.in`
-* **Mobile Number:** `+91 9611123456`
+* **Full Name:** `Mohit S`
+* **USN:** `1BY24MC063`
+* **Email ID:** `mohit.mca@bmsit.in` *(or Mohit's personal email)*
+* **Mobile Number:** `+91 9845012345` *(or Mohit's mobile number)*
 
 ---
 
-### 5. Technical Proposal Narrative Fields (NPK Sensor Removed, App & Load Proof Added)
+### 5. Technical Proposal Narrative Fields
 
 #### Field: Project Abstract / Executive Summary (Copy & Paste)
 ```
@@ -176,7 +164,7 @@ The methodology of Agri Rover Robo is strictly focused on executing human-in-the
 1. **Upload Project Proposal PDF:**  
    Upload: [KSCST_SPP_AgriRover_Project_Proposal.pdf](file:///f:/agrirover%20phase%202/KSCST_SPP_AgriRover_Project_Proposal.pdf)
 2. **Upload Declaration & Endorsement Form:**  
-   Upload: [KSCST_Declaration_and_Endorsement_Form.pdf](file:///f:/agrirover%20phase%202/KSCST_Declaration_and_Endorsement_Form.pdf) *(Signed by Students, Guide Dr. Dwarakanath G V, HOD Dr. M. Sridevi, and Principal Dr. Mohan Babu G N with College Seal)*
+   Upload: [KSCST_Declaration_and_Endorsement_Form.pdf](file:///f:/agrirover%20phase%202/KSCST_Declaration_and_Endorsement_Form.pdf) *(Signed by Thanmay M, Mohit S, Guide Dr. Dwarakanath G V, HOD Dr. M. Sridevi, and Principal Dr. Mohan Babu G N with College Seal)*
 3. **Upload Proof of Processing Fee Payment:**  
    Upload: *Screenshot / PDF receipt of your Rs. 1,180/- UPI/NEFT payment.*
 

@@ -111,32 +111,30 @@ def build_endorsement_pdf():
     story.append(t_meta)
     story.append(Spacer(1, 4))
 
-    # Declaration by Students
+    # Declaration by Students (Updated: 2 Members)
     story.append(Paragraph("DECLARATION BY STUDENTS", h1_style))
     story.append(Paragraph("We, the undersigned final year students of the Department of Master of Computer Applications (MCA), BMS Institute of Technology & Management, Bengaluru, hereby declare that the project proposal entitled <b>'Agri Rover Robo: Smartphone-Controlled Agricultural Robotic Vehicle for Precision Chemical Micro-Spraying and Remote Teleoperation'</b> is a bona fide record of independent research and engineering work planned and executed by us under the guidance of Dr. Dwarakanath G V. This proposal has not been submitted previously to any other university, organization, or funding agency for the award of any degree, diploma, or financial sponsorship.", body_style))
 
     sig_table_data = [
         [Paragraph("Sl.", table_header_style), Paragraph("Name of Student", table_header_style), Paragraph("USN", table_header_style), Paragraph("Signature with Date", table_header_style)],
         [Paragraph("1", table_cell_style), Paragraph("<b>THANMAY M (Team Leader)</b>", table_cell_style), Paragraph("1BY24MC095", table_cell_style), Paragraph("<br/><br/>____________________________", table_cell_style)],
-        [Paragraph("2", table_cell_style), Paragraph("KEERTHANA", table_cell_style), Paragraph("1BY24MC045", table_cell_style), Paragraph("<br/><br/>____________________________", table_cell_style)],
-        [Paragraph("3", table_cell_style), Paragraph("MOHAN", table_cell_style), Paragraph("1BY24MC058", table_cell_style), Paragraph("<br/><br/>____________________________", table_cell_style)],
-        [Paragraph("4", table_cell_style), Paragraph("MONICA", table_cell_style), Paragraph("1BY24MC061", table_cell_style), Paragraph("<br/><br/>____________________________", table_cell_style)],
+        [Paragraph("2", table_cell_style), Paragraph("<b>MOHIT S</b>", table_cell_style), Paragraph("1BY24MC063", table_cell_style), Paragraph("<br/><br/>____________________________", table_cell_style)]
     ]
     t_sig = Table(sig_table_data, colWidths=[20, 195, 115, 185])
     t_sig.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#1E3A8A")),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#CBD5E1")),
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-        ('TOPPADDING', (0,0), (-1,-1), 3),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
+        ('TOPPADDING', (0,0), (-1,-1), 4),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
     ]))
     story.append(t_sig)
-    story.append(Spacer(1, 5))
+    story.append(Spacer(1, 6))
 
     # Institutional Endorsements
     story.append(Paragraph("ENDORSEMENT BY PROJECT GUIDE, HOD & HEAD OF INSTITUTION", h1_style))
-    story.append(Paragraph("This is to certify that the project proposal entitled <b>'Agri Rover Robo: Smartphone-Controlled Agricultural Robotic Vehicle for Precision Chemical Micro-Spraying and Remote Teleoperation'</b> submitted by Thanmay M, Keerthana, Mohan, and Monica, final year MCA students of BMSITM, is an original research and engineering endeavor. The project has been reviewed and endorsed for submission under the 50th Series of the Student Project Programme (SPP: 2026–2027) of KSCST.", body_style))
-    story.append(Spacer(1, 3))
+    story.append(Paragraph("This is to certify that the project proposal entitled <b>'Agri Rover Robo: Smartphone-Controlled Agricultural Robotic Vehicle for Precision Chemical Micro-Spraying and Remote Teleoperation'</b> submitted by Thanmay M and Mohit S, final year MCA students of BMSITM, is an original research and engineering endeavor. The project has been reviewed and endorsed for submission under the 50th Series of the Student Project Programme (SPP: 2026–2027) of KSCST.", body_style))
+    story.append(Spacer(1, 4))
 
     end_boxes_data = [
         [
@@ -151,8 +149,8 @@ def build_endorsement_pdf():
         ('BOX', (0,0), (-1,-1), 0.5, colors.HexColor("#CBD5E1")),
         ('INNERGRID', (0,0), (-1,-1), 0.5, colors.HexColor("#CBD5E1")),
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('TOPPADDING', (0,0), (-1,-1), 6),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 6),
         ('LEFTPADDING', (0,0), (-1,-1), 5),
         ('RIGHTPADDING', (0,0), (-1,-1), 5),
     ]))

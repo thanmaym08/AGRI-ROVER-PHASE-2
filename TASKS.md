@@ -202,6 +202,8 @@ Phase 2 transitions Agri Rover from a single-rover prototype with color-threshol
 *Target: Official submission for Karnataka State Council for Science and Technology (KSCST) 50th Series Student Project Programme sponsorship.*
 
 - [x] **TASK-218: KSCST 50th Series SPP Project Proposal & Submission Package**
-  - Authored comprehensive KSCST SPP Project Proposal document based on Raspberry Pi 4 Model B, Dual BTS7960 43A motor drivers, OpenCV edge vision, and in-situ soil probing (`KSCST_SPP_AgriRover_Project_Proposal.docx` & `KSCST_SPP_AgriRover_Project_Proposal.pdf`).
-  - Generated standalone 1-page Declaration and Endorsement form for Guide (Dr. Dwarakanath G V), HOD (Dr. Aparna K), and Principal (Dr. Mohan Babu G N) signatures (`KSCST_Declaration_and_Endorsement_Form.pdf`).
-  - Created complete Google Form submission guide with exact copy-paste fields for `https://forms.gle/VPPewZnbUhw1V8KdA` (`KSCST_GOOGLE_FORM_SUBMISSION_GUIDE.md`).
+  - Authored comprehensive KSCST SPP Project Proposal document based on Raspberry Pi 4 Model B, Dual BTS7960 43A motor drivers, 10–20 kg heavy-load torque derivation, smartphone app teleoperation, and precision solenoid chemical micro-spraying (`KSCST_SPP_AgriRover_Project_Proposal.docx` & `KSCST_SPP_AgriRover_Project_Proposal.pdf`).
+  - Student Team updated to 2 members: Thanmay M (Team Leader, `1BY24MC095`) and Mohit S (`1BY24MC063`). Keerthana, Mohan, and Monica removed per user instruction.
+  - Institutional Leadership synchronized: Project Guide Dr. Dwarakanath G V, HOD Dr. M. Sridevi (Dept. of MCA), College SPP Coordinator Dr. Manjunath (Dept. of Mechanical Engineering), and Principal Dr. Mohan Babu G N.
+  - Generated standalone 1-page Declaration and Endorsement form strictly formatted for institutional signing today (`KSCST_Declaration_and_Endorsement_Form.pdf`).
+  - Created complete Google Form submission guide with exact copy-paste fields and instructions for `https://forms.gle/VPPewZnbUhw1V8KdA` (`KSCST_GOOGLE_FORM_SUBMISSION_GUIDE.md`).

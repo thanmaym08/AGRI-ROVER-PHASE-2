@@ -186,22 +186,20 @@ def build_pdf():
     story.append(t_meta)
     story.append(Spacer(1, 5))
 
-    # Team Table
-    story.append(Paragraph("<b>Table 2: Student Project Team Details (Maximum 4 Students)</b>", caption_style))
+    # Team Table (Updated: 2 Members)
+    story.append(Paragraph("<b>Table 2: Student Project Team Details</b>", caption_style))
     team_table_data = [
         [Paragraph("Sl.", table_header_style), Paragraph("Student Name", table_header_style), Paragraph("USN", table_header_style), Paragraph("Mobile No.", table_header_style), Paragraph("Email ID", table_header_style)],
         [Paragraph("1", table_cell_style), Paragraph("<b>THANMAY M (Team Leader)</b>", table_cell_style), Paragraph("1BY24MC095", table_cell_style), Paragraph("+91 9880123456", table_cell_style), Paragraph("thanmaym08@gmail.com", table_cell_style)],
-        [Paragraph("2", table_cell_style), Paragraph("KEERTHANA", table_cell_style), Paragraph("1BY24MC045", table_cell_style), Paragraph("+91 9845123456", table_cell_style), Paragraph("keerthana.mca@bmsit.in", table_cell_style)],
-        [Paragraph("3", table_cell_style), Paragraph("MOHAN", table_cell_style), Paragraph("1BY24MC058", table_cell_style), Paragraph("+91 9742123456", table_cell_style), Paragraph("mohan.mca@bmsit.in", table_cell_style)],
-        [Paragraph("4", table_cell_style), Paragraph("MONICA", table_cell_style), Paragraph("1BY24MC061", table_cell_style), Paragraph("+91 9611123456", table_cell_style), Paragraph("monica.mca@bmsit.in", table_cell_style)],
+        [Paragraph("2", table_cell_style), Paragraph("<b>MOHIT S</b>", table_cell_style), Paragraph("1BY24MC063", table_cell_style), Paragraph("+91 9845012345", table_cell_style), Paragraph("mohit.mca@bmsit.in", table_cell_style)]
     ]
     t_team = Table(team_table_data, colWidths=[25, 175, 80, 85, 140])
     t_team.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#1E3A8A")),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#CBD5E1")),
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-        ('TOPPADDING', (0,0), (-1,-1), 2.5),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 2.5),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
         ('LEFTPADDING', (0,0), (-1,-1), 4),
         ('RIGHTPADDING', (0,0), (-1,-1), 4),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#F8FAFC")]),
@@ -264,7 +262,6 @@ def build_pdf():
 
     story.append(Paragraph("<b>Smartphone Mobile Cockpit Application:</b> The operator connects to the rover's high-power local Wi-Fi Access Point ('AgriRobo_Net', IP: 192.168.4.1). No internet or cellular connectivity is required in remote fields. Port 80 serves the touch web application, Port 8080 manages the bi-directional JSON WebSocket control/telemetry pipe at 20 Hz, and Port 8081 delivers the live low-latency MJPEG video feed directly to the operator's viewport.", body_style))
 
-    # Two column image
     if os.path.exists("extracted_pdf_p18_8__Image95.png"):
         img_cam = Image("extracted_pdf_p18_8__Image95.png", width=3.2*inch, height=1.75*inch)
     else:
@@ -330,7 +327,6 @@ def build_pdf():
                            "• <b>Safety Factor on Level Loose Soil (Req: 3.13 kg-cm): SF = 15.0 / 3.13 = 4.79x (Outstanding Headroom)</b>.", body_style))
     story.append(Spacer(1, 4))
 
-    # Physical Chassis Photo
     if os.path.exists("extracted_pdf_p20_11__Image102.png"):
         story.append(Image("extracted_pdf_p20_11__Image102.png", width=4.5*inch, height=2.1*inch))
         story.append(Paragraph("Fig. 4: Fabricated 4WD Hardware Chassis & Dual BTS7960 Motor Driver Stage", caption_style))
@@ -393,7 +389,7 @@ def build_pdf():
 
     story.append(PageBreak())
 
-    # Section 9: Declarations & Endorsements
+    # Section 9: Declarations & Endorsements (Updated: 2 Members)
     story.append(Paragraph("DECLARATION BY STUDENTS", h1_style))
     story.append(Paragraph("We, the undersigned final year students of the Department of Master of Computer Applications (MCA), BMS Institute of Technology & Management, Bengaluru, hereby declare that the project proposal entitled <b>'Agri Rover Robo: Smartphone-Controlled Agricultural Robotic Vehicle for Precision Chemical Micro-Spraying and Remote Teleoperation'</b> is a bona fide record of independent research and engineering work planned and executed by us under the guidance of Dr. Dwarakanath G V. This proposal has not been submitted previously to any other university or funding agency.", body_style))
     story.append(Spacer(1, 4))
@@ -401,9 +397,7 @@ def build_pdf():
     sig_table_data = [
         [Paragraph("Sl.", table_header_style), Paragraph("Student Name", table_header_style), Paragraph("USN", table_header_style), Paragraph("Signature with Date", table_header_style)],
         [Paragraph("1", table_cell_style), Paragraph("<b>THANMAY M (Team Leader)</b>", table_cell_style), Paragraph("1BY24MC095", table_cell_style), Paragraph("<br/><br/>____________________________", table_cell_style)],
-        [Paragraph("2", table_cell_style), Paragraph("KEERTHANA", table_cell_style), Paragraph("1BY24MC045", table_cell_style), Paragraph("<br/><br/>____________________________", table_cell_style)],
-        [Paragraph("3", table_cell_style), Paragraph("MOHAN", table_cell_style), Paragraph("1BY24MC058", table_cell_style), Paragraph("<br/><br/>____________________________", table_cell_style)],
-        [Paragraph("4", table_cell_style), Paragraph("MONICA", table_cell_style), Paragraph("1BY24MC061", table_cell_style), Paragraph("<br/><br/>____________________________", table_cell_style)],
+        [Paragraph("2", table_cell_style), Paragraph("<b>MOHIT S</b>", table_cell_style), Paragraph("1BY24MC063", table_cell_style), Paragraph("<br/><br/>____________________________", table_cell_style)]
     ]
     t_sig = Table(sig_table_data, colWidths=[25, 185, 115, 180])
     t_sig.setStyle(TableStyle([
@@ -417,7 +411,7 @@ def build_pdf():
     story.append(Spacer(1, 10))
 
     story.append(Paragraph("ENDORSEMENT BY PROJECT GUIDE, HOD & HEAD OF INSTITUTION", h1_style))
-    story.append(Paragraph("This is to certify that the project proposal entitled <b>'Agri Rover Robo: Smartphone-Controlled Agricultural Robotic Vehicle for Precision Chemical Micro-Spraying and Remote Teleoperation'</b> submitted by Thanmay M, Keerthana, Mohan, and Monica is an original research and engineering endeavor. The project has been reviewed and endorsed for submission under the 50th Series of the Student Project Programme (SPP: 2026–2027) of KSCST.", body_style))
+    story.append(Paragraph("This is to certify that the project proposal entitled <b>'Agri Rover Robo: Smartphone-Controlled Agricultural Robotic Vehicle for Precision Chemical Micro-Spraying and Remote Teleoperation'</b> submitted by Thanmay M and Mohit S is an original research and engineering endeavor. The project has been reviewed and endorsed for submission under the 50th Series of the Student Project Programme (SPP: 2026–2027) of KSCST.", body_style))
     story.append(Spacer(1, 6))
 
     end_boxes_data = [
