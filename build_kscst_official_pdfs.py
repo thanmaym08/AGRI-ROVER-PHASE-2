@@ -621,7 +621,7 @@ end_table_data = [
     [
         Paragraph("<b>Signature of Project Guide:</b><br/><br/><br/>___________________________<br/><b>Dr. DWARAKANATH G V</b><br/>Project Coordinator / Assoc. Prof<br/>Dept. of MCA, BMSITM<br/>Date: 26/11/2026", table_text),
         Paragraph("<b>Signature of HOD:</b><br/><br/><br/>___________________________<br/><b>Dr. M. SRIDEVI</b><br/>Head of the Department<br/>Dept. of MCA, BMSITM<br/>Date: 26/11/2026", table_text),
-        Paragraph("<b>Signature of Principal:</b><br/><br/><br/>___________________________<br/><b>Dr. MOHAN BABU G N</b><br/>Principal / Head of Institution<br/>BMSITM, Bengaluru<br/><b>(Official College Seal)</b>", table_text)
+        Paragraph("<b>Signature of Principal:</b><br/><br/><br/>___________________________<br/><b>Dr. SANJAY H.A</b><br/>Principal / Head of Institution<br/>BMSITM, Bengaluru<br/><b>(Official College Seal)</b>", table_text)
     ]
 ]
 tbl_end_pdf = Table(end_table_data, colWidths=[173, 173, 173])

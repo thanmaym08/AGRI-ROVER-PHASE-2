@@ -702,7 +702,7 @@ end_blocks = [
     "Signature of Guide:\n\n\n___________________\nDr. DWARAKANATH G V\nAssoc. Professor\nDept. of MCA, BMSITM\n(Guide Seal)",
     "Signature of SPP Coord:\n\n\n___________________\nDr. MANJUNATH C\nAssistant Professor\nDept. of Mech Engg\n(Coordinator Seal)",
     "Signature of HOD:\n\n\n___________________\nDr. M. SRIDEVI\nHead of Department\nDept. of MCA, BMSITM\n(HOD Seal)",
-    "Signature of Principal:\n\n\n___________________\nDr. MOHAN BABU G N\nPrincipal\nBMSITM, Bengaluru\n(Official College Seal)"
+    "Signature of Principal:\n\n\n___________________\nDr. SANJAY H.A\nPrincipal\nBMSITM, Bengaluru\n(Official College Seal)"
 ]
 for c_i, t in enumerate(end_blocks):
     cell = tbl_endorsers.rows[0].cells[c_i]
@@ -832,7 +832,7 @@ row_agrirover = [
     "manjuc@bmsit.in",
     "9880744476",
     "Dr.",
-    "MOHAN BABU G N",
+    "SANJAY H.A",
     "principal@bmsit.in",
     "080-68730444",
     "DODDABALLAPUR MAIN ROAD, AVALAHALLI, YELAHANKA, BENGALURU, KARNATAKA - 560064",

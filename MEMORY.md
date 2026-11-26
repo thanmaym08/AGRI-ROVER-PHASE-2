@@ -149,7 +149,7 @@ Agri Rover is an autonomous cyber-physical robotic platform developed as a Maste
 - **Context:** Urgent institutional submission for Karnataka State Council for Science and Technology (KSCST) 50th Series Student Project Programme (deadline today before 3:00 PM IST).
 - **Decisions:**
   1. **Team Composition:** Finalized 2-member team consisting of Thanmay M (Team Leader, `1BY24MC095`) and Mohit S (`1BY24MC063`). Keerthana, Mohan, and Monica removed per departmental confirmation.
-  2. **Institutional Leadership:** Project Guide Dr. Dwarakanath G V (Associate Professor, Dept. of MCA), HOD Dr. M. Sridevi (Dept. of MCA), College SPP Coordinator Dr. Manjunath (Assistant Professor, Dept. of Mechanical Engineering), and Principal Dr. Mohan Babu G N.
+  2. **Institutional Leadership:** Project Guide Dr. Dwarakanath G V (Associate Professor, Dept. of MCA), HOD Dr. M. Sridevi (Dept. of MCA), College SPP Coordinator Dr. Manjunath (Assistant Professor, Dept. of Mechanical Engineering), and Principal Dr. Sanjay H.A.
   3. **Architecture & Scope Alignment:** Highlighted Raspberry Pi 4 Model B, Dual BTS7960 43A motor drivers, 10–20 kg heavy-load torque derivation ($34.76\text{ kg}\cdot\text{cm}$ total demand vs $60.0\text{ kg}\cdot\text{cm}$ rated / $140.0\text{ kg}\cdot\text{cm}$ stall supply), smartphone app teleoperation (virtual joystick, low-latency camera stream), and dual-nozzle solenoid chemical micro-spraying. Fully purged legacy NPK sensor references.
   4. **Strict 1-Page Endorsement Form:** Formatted `KSCST_Declaration_and_Endorsement_Form.pdf` to fit on exactly one printable page for immediate physical signing today.
 

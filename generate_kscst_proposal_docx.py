@@ -546,7 +546,7 @@ tbl_end.alignment = WD_TABLE_ALIGNMENT.CENTER
 end_boxes = [
     "Signature of Project Guide:\n\n\n\n_________________________\nDr. DWARAKANATH G V\nProject Coordinator / Faculty\nDept. of MCA, BMSITM\nDate: 26/11/2026",
     "Signature of HOD:\n\n\n\n_________________________\nDr. M. SRIDEVI\nHead of the Department\nDept. of MCA, BMSITM\nDate: 26/11/2026",
-    "Signature of Principal:\n\n\n\n_________________________\nDr. MOHAN BABU G N\nPrincipal / Head of Institution\nBMSITM, Bengaluru\n(Official College Seal)"
+    "Signature of Principal:\n\n\n\n_________________________\nDr. SANJAY H.A\nPrincipal / Head of Institution\nBMSITM, Bengaluru\n(Official College Seal)"
 ]
 for c_i, text in enumerate(end_boxes):
     cell = tbl_end.rows[0].cells[c_i]

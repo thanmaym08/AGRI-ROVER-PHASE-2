@@ -140,7 +140,7 @@ def build_endorsement_pdf():
         [
             Paragraph("<b>Signature of Project Guide:</b><br/><br/><br/><br/>___________________________<br/><b>Dr. DWARAKANATH G V</b><br/>Project Coordinator / Assoc. Prof<br/>Dept. of MCA, BMSITM<br/>Date: 26/11/2026", table_cell_style),
             Paragraph("<b>Signature of HOD:</b><br/><br/><br/><br/>___________________________<br/><b>Dr. M. SRIDEVI</b><br/>Head of the Department<br/>Dept. of MCA, BMSITM<br/>Date: 26/11/2026", table_cell_style),
-            Paragraph("<b>Signature of Principal:</b><br/><br/><br/><br/>___________________________<br/><b>Dr. MOHAN BABU G N</b><br/>Principal / Head of Institution<br/>BMSITM, Bengaluru<br/>(Official College Seal)", table_cell_style)
+            Paragraph("<b>Signature of Principal:</b><br/><br/><br/><br/>___________________________<br/><b>Dr. SANJAY H.A</b><br/>Principal / Head of Institution<br/>BMSITM, Bengaluru<br/>(Official College Seal)", table_cell_style)
         ]
     ]
     t_end = Table(end_boxes_data, colWidths=[170, 175, 170])

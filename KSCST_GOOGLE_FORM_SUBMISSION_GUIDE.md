@@ -45,7 +45,7 @@ Also available for local editing:
 | **Project Guide Mobile** | `9886026526` | Project Guide phone |
 | **Head of Department (HOD)** | `Dr. M. SRIDEVI` | Head of the Department, Dept. of MCA |
 | **HOD Email** | `hod_mca@bmsit.in` | Official HOD email |
-| **Principal / Head of Institution** | `Dr. MOHAN BABU G N` | Principal, BMSITM |
+| **Principal / Head of Institution** | `Dr. SANJAY H.A` | Principal, BMSITM |
 | **Principal Email** | `principal@bmsit.in` | Official Principal email |
 
 ---
@@ -199,7 +199,7 @@ The single row data for our project is exported in **[1BY_BMSITM_SPP2026-27_Agri
 | 20 | SPP COORDINATOR EMAIL ID | `manjuc@bmsit.in` |
 | 21 | SPP COORDINATOR CONTACT NUMBER | `9880744476` |
 | 22 | TITLE OF PRINCIPAL | `Dr.` |
-| 23 | NAME OF PRINCIPAL | `MOHAN BABU G N` |
+| 23 | NAME OF PRINCIPAL | `SANJAY H.A` |
 | 24 | PRINCIPAL OFFICIAL EMAIL ID | `principal@bmsit.in` |
 | 25 | PRINCIPAL CONTACT NUMBER | `080-68730444` |
 | 26 | COMPLETE POSTAL ADDRESS OF INSTITUTION | `DODDABALLAPUR MAIN ROAD, AVALAHALLI, YELAHANKA, BENGALURU, KARNATAKA - 560064` |
