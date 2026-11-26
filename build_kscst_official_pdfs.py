@@ -225,7 +225,7 @@ story1.append(make_part_banner("PART–A: GENERAL INFORMATION (All details in UP
 story1.append(Spacer(1, 4))
 
 meta_table_data = [
-    [Paragraph("<b>1. PROJECT TITLE:</b>", table_text), Paragraph("<b>AGRI ROVER ROBO: SMARTPHONE-CONTROLLED AGRICULTURAL ROBOTIC VEHICLE FOR PRECISION CHEMICAL MICRO-SPRAYING AND REMOTE TELEOPERATION</b>", table_bold)],
+    [Paragraph("<b>1. PROJECT TITLE:</b>", table_text), Paragraph("<b>AGRI ROVER ROBO - IoT AUTOMATION</b>", table_bold)],
     [Paragraph("<b>2. KEYWORDS (5–8):</b>", table_text), Paragraph("PRECISION AGRICULTURE, AGRICULTURAL ROBOTICS, SMARTPHONE TELEOPERATION, SKID-STEER 4WD, SOLENOID MICRO-SPRAYING, EDGE COMPUTING, RASPBERRY PI 4, BTS7960 MOTOR DRIVERS", table_text)],
     [Paragraph("<b>3. BROAD THEME:</b><br/>• Theme No. &amp; Name:<br/>• Sub-theme / Focus Area:", table_text), Paragraph("<b>THEME 1: SUSTAINABLE AGRICULTURE, FOOD SECURITY AND RURAL DEVELOPMENT AND INCLUSIVE TECHNOLOGIES</b><br/><br/><b>SUB-THEME:</b> PRECISION AND SMART AGRICULTURE &amp; FARM MECHANIZATION AND AGRICULTURAL ENGINEERING<br/><i>(Cross-Cutting Themes: Theme 4: AI &amp; Digital Tech; Theme 6: Advanced Manufacturing &amp; Robotics)</i>", table_text)],
     [Paragraph("<b>4. INSTITUTION DETAILS:</b><br/>• Name of Institution:<br/>• Course &amp; Department:<br/>• Affiliated University:<br/>• District &amp; Address:", table_text), Paragraph("<b>B.M.S. INSTITUTE OF TECHNOLOGY &amp; MANAGEMENT (BMSITM)</b><br/>COURSE: MASTER OF COMPUTER APPLICATIONS (MCA) [POSTGRADUATE]<br/>DEPARTMENT: DEPARTMENT OF MASTER OF COMPUTER APPLICATIONS<br/>AFFILIATED UNIVERSITY: VISVESVARAYA TECHNOLOGICAL UNIVERSITY (VTU), BELAGAVI (AUTONOMOUS)<br/>DISTRICT: BENGALURU URBAN<br/>ADDRESS: DODDABALLAPUR MAIN ROAD, AVALAHALLI, YELAHANKA, BENGALURU, KARNATAKA – 560064", table_text)],
@@ -553,7 +553,7 @@ story2.append(Paragraph("DECLARATION BY STUDENTS AND INSTITUTIONAL ENDORSEMENT F
 story2.append(Spacer(1, 4))
 
 dec_meta = [
-    [Paragraph("<b>Project Proposal Title:</b>", table_text), Paragraph("<b>Agri Rover Robo: Smartphone-Controlled Agricultural Robotic Vehicle for Precision Chemical Micro-Spraying and Remote Teleoperation</b>", table_bold)],
+    [Paragraph("<b>Project Proposal Title:</b>", table_text), Paragraph("<b>Agri Rover Robo - IoT Automation</b>", table_bold)],
     [Paragraph("<b>Institution Name:</b>", table_text), Paragraph("B.M.S. INSTITUTE OF TECHNOLOGY &amp; MANAGEMENT (BMSITM), Yelahanka, Bengaluru – 560064", table_text)],
     [Paragraph("<b>Department / Stream:</b>", table_text), Paragraph("Department of Master of Computer Applications (MCA) [Postgraduate]", table_text)],
     [Paragraph("<b>Broad Theme (KSCST):</b>", table_text), Paragraph("Theme 1: Sustainable Agriculture, Food Security &amp; Rural Development (Cross-cutting: Theme 4 &amp; 6)", table_text)],
@@ -668,7 +668,7 @@ story3.append(make_part_banner("DETAILS OF PROCESSING FEES MADE THROUGH NEFT / U
 story3.append(Spacer(1, 6))
 
 story3.append(Paragraph(
-    "<b>TITLE OF THE PROJECT:</b> AGRI ROVER ROBO: SMARTPHONE-CONTROLLED AGRICULTURAL ROBOTIC VEHICLE FOR PRECISION CHEMICAL MICRO-SPRAYING AND REMOTE TELEOPERATION<br/>"
+    "<b>TITLE OF THE PROJECT:</b> AGRI ROVER ROBO - IoT AUTOMATION<br/>"
     "<b>NAME OF THE TEAM LEADER:</b> THANMAY M (USN: 1BY24MC095)<br/>"
     "<b>EMAIL ID:</b> thanmaym08@gmail.com    |    <b>CONTACT MOBILE NO.:</b> +91 9880123456<br/>"
     "<b>INSTITUTION:</b> B.M.S. INSTITUTE OF TECHNOLOGY &amp; MANAGEMENT (BMSITM), BENGALURU – 560064",
@@ -751,7 +751,7 @@ story4.append(make_part_banner("MANDATORY UPLOAD 04: PAYMENT TRANSACTION RECEIPT
 story4.append(Spacer(1, 6))
 
 story4.append(Paragraph(
-    "<b>Project Title:</b> AGRI ROVER ROBO: SMARTPHONE-CONTROLLED AGRICULTURAL ROBOTIC VEHICLE FOR PRECISION CHEMICAL MICRO-SPRAYING AND REMOTE TELEOPERATION<br/>"
+    "<b>Project Title:</b> AGRI ROVER ROBO - IoT AUTOMATION<br/>"
     "<b>Team Leader:</b> THANMAY M (USN: 1BY24MC095) | <b>Mobile:</b> +91 9880123456<br/>"
     "<b>Institution:</b> B.M.S. INSTITUTE OF TECHNOLOGY &amp; MANAGEMENT, BENGALURU – 560064<br/>"
     "<b>Amount:</b> Rs. 1,180/- (Single Transaction - Inclusive of 18% GST)",

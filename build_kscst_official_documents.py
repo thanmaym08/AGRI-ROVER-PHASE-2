@@ -188,7 +188,7 @@ tbl_meta = doc.add_table(rows=7, cols=2)
 tbl_meta.alignment = WD_TABLE_ALIGNMENT.CENTER
 set_table_borders(tbl_meta)
 meta_rows = [
-    ("1. PROJECT TITLE:", "AGRI ROVER ROBO: SMARTPHONE-CONTROLLED AGRICULTURAL ROBOTIC VEHICLE FOR PRECISION CHEMICAL MICRO-SPRAYING AND REMOTE TELEOPERATION"),
+    ("1. PROJECT TITLE:", "AGRI ROVER ROBO - IoT AUTOMATION"),
     ("2. KEYWORDS (5–8):", "PRECISION AGRICULTURE, AGRICULTURAL ROBOTICS, SMARTPHONE TELEOPERATION, SKID-STEER 4WD, SOLENOID MICRO-SPRAYING, EDGE COMPUTING, RASPBERRY PI 4, BTS7960 MOTOR DRIVERS"),
     ("3. BROAD THEME:\n• Theme No. & Name:\n• Sub-theme / Focus Area:", "THEME 1: SUSTAINABLE AGRICULTURE, FOOD SECURITY AND RURAL DEVELOPMENT AND INCLUSIVE TECHNOLOGIES\n\nSUB-THEME: PRECISION AND SMART AGRICULTURE & FARM MECHANIZATION AND AGRICULTURAL ENGINEERING\n(Cross-Cutting Themes: Theme 4: AI, Data Science & Digital Tech; Theme 6: Advanced Manufacturing, Robotics & Automation)"),
     ("4. INSTITUTION DETAILS:\n• Name of Institution:\n• Course & Department:\n• Affiliated University:\n• District & Complete Address:", "B.M.S. INSTITUTE OF TECHNOLOGY & MANAGEMENT (BMSITM)\nCOURSE: MASTER OF COMPUTER APPLICATIONS (MCA) [POSTGRADUATE]\nDEPARTMENT: DEPARTMENT OF MASTER OF COMPUTER APPLICATIONS\nAFFILIATED UNIVERSITY: VISVESVARAYA TECHNOLOGICAL UNIVERSITY (VTU), BELAGAVI (AUTONOMOUS)\nDISTRICT: BENGALURU URBAN\nADDRESS: DODDABALLAPUR MAIN ROAD, AVALAHALLI, YELAHANKA, BENGALURU, KARNATAKA – 560064"),
@@ -616,7 +616,7 @@ add_header_banner()
 add_part_header("DECLARATION BY THE PROJECT TEAM")
 
 add_body_p(
-    "PROJECT TITLE: AGRI ROVER ROBO: SMARTPHONE-CONTROLLED AGRICULTURAL ROBOTIC VEHICLE FOR PRECISION CHEMICAL MICRO-SPRAYING AND REMOTE TELEOPERATION\n"
+    "PROJECT TITLE: AGRI ROVER ROBO - IoT AUTOMATION\n"
     "BROAD THEME: THEME 1: SUSTAINABLE AGRICULTURE, FOOD SECURITY AND RURAL DEVELOPMENT AND INCLUSIVE TECHNOLOGIES\n"
     "SUB-THEME: PRECISION AND SMART AGRICULTURE & FARM MECHANIZATION AND AGRICULTURAL ENGINEERING\n"
     "DEPARTMENT: DEPARTMENT OF MASTER OF COMPUTER APPLICATIONS (MCA)\n"
@@ -686,7 +686,7 @@ add_body_p(
     "1. Mr. THANMAY M (USN: 1BY24MC095)\n"
     "2. Mr. MOHIT S (USN: 1BY24MC063)\n"
     "are bonafide final-year students of the Department of Master of Computer Applications (MCA), pursuing MCA at B.M.S. INSTITUTE OF TECHNOLOGY & MANAGEMENT (BMSITM), Bengaluru.\n\n"
-    "The institution has scrutinized and approved this project proposal entitled 'AGRI ROVER ROBO: SMARTPHONE-CONTROLLED AGRICULTURAL ROBOTIC VEHICLE FOR PRECISION CHEMICAL MICRO-SPRAYING AND REMOTE TELEOPERATION' for submission to the Karnataka State Council for Science and Technology (KSCST) under the 50th Series Student Project Programme (SPP): 2026 - 2027.\n\n"
+    "The institution has scrutinized and approved this project proposal entitled 'AGRI ROVER ROBO - IoT AUTOMATION' for submission to the Karnataka State Council for Science and Technology (KSCST) under the 50th Series Student Project Programme (SPP): 2026 - 2027.\n\n"
     "We hereby certify and undertake that:\n"
     "1. The project proposal has been reviewed by the Department and recommended under Broad Theme 1 (Sustainable Agriculture, Food Security and Rural Development).\n"
     "2. The institution shall provide the necessary laboratory facilities, equipment, software, workshop, and computing infrastructure required for the completion of the project.\n"
@@ -718,7 +718,7 @@ add_header_banner()
 add_part_header("DETAILS OF PROCESSING FEES MADE THROUGH NEFT / UPI PAYMENT")
 
 add_body_p(
-    "TITLE OF THE PROJECT: AGRI ROVER ROBO: SMARTPHONE-CONTROLLED AGRICULTURAL ROBOTIC VEHICLE FOR PRECISION CHEMICAL MICRO-SPRAYING AND REMOTE TELEOPERATION\n"
+    "TITLE OF THE PROJECT: AGRI ROVER ROBO - IoT AUTOMATION\n"
     "NAME OF THE TEAM LEADER: THANMAY M (USN: 1BY24MC095)\n"
     "EMAIL ID: thanmaym08@gmail.com\n"
     "CONTACT MOBILE NO.: +91 9880123456\n"
@@ -811,7 +811,7 @@ csv_headers = [
 
 row_agrirover = [
     "1",
-    "AGRI ROVER ROBO: SMARTPHONE-CONTROLLED AGRICULTURAL ROBOTIC VEHICLE FOR PRECISION CHEMICAL MICRO-SPRAYING AND REMOTE TELEOPERATION",
+    "AGRI ROVER ROBO - IoT AUTOMATION",
     "MCA",
     "B.M.S. INSTITUTE OF TECHNOLOGY & MANAGEMENT",
     "MASTER OF COMPUTER APPLICATIONS",

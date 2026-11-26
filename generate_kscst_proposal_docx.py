@@ -165,7 +165,7 @@ meta_data = [
     ("Name of the Institution:", "B.M.S. INSTITUTE OF TECHNOLOGY & MANAGEMENT (BMSITM)\nDoddaballapur Main Road, Avalahalli, Yelahanka, Bengaluru – 560064"),
     ("Department / Programme:", "Department of Master of Computer Applications (MCA) [Postgraduate - 2-Year Program]"),
     ("Broad Indicative Theme (KSCST):", "Theme 1: Sustainable Agriculture, Food Security and Rural Development and Inclusive Technologies\n(Interdisciplinary cross-cutting: Theme 4: AI & Digital Tech; Theme 6: Robotics & Automation)"),
-    ("Project Proposal Title:", "Agri Rover Robo: Smartphone-Controlled Agricultural Robotic Vehicle for Precision Chemical Micro-Spraying and Remote Teleoperation"),
+    ("Project Proposal Title:", "Agri Rover Robo - IoT Automation"),
     ("Project Duration / Schedule:", "Date of Commencement: 01/10/2025    |    Probable Date of Completion: 31/05/2027"),
     ("College KSCST SPP Coordinator:", "Dr. MANJUNATH, Assistant Professor\nDepartment of Mechanical Engineering, BMSITM | Email: manjuc@bmsit.in | Mobile: +91 9880744476"),
     ("Project Coordinator & Guide:", "Dr. DWARAKANATH G V, Project Coordinator & Associate Professor\nDepartment of MCA, BMSITM | Email: dwarakanath.gv@bmsit.in | Mobile: +91 9886026526")
@@ -510,7 +510,7 @@ doc.add_page_break()
 
 # ==================== DECLARATIONS & ENDORSEMENTS ====================
 add_section_title("DECLARATION BY STUDENTS")
-add_body_p("We, the undersigned final year students of the Department of Master of Computer Applications (MCA), BMS Institute of Technology & Management, Bengaluru, hereby declare that the project proposal entitled 'Agri Rover Robo: Smartphone-Controlled Agricultural Robotic Vehicle for Precision Chemical Micro-Spraying and Remote Teleoperation' is a bona fide record of independent research and engineering work planned and executed by us under the guidance of Dr. Dwarakanath G V.")
+add_body_p("We, the undersigned final year students of the Department of Master of Computer Applications (MCA), BMS Institute of Technology & Management, Bengaluru, hereby declare that the project proposal entitled 'Agri Rover Robo - IoT Automation' is a bona fide record of independent research and engineering work planned and executed by us under the guidance of Dr. Dwarakanath G V.")
 add_body_p("We further declare that this project proposal has not been submitted previously to any other university, organization, or funding agency for the award of any degree, diploma, or financial sponsorship.")
 
 # Student signature table (Updated: 2 Members)
@@ -538,7 +538,7 @@ for r_i, row in enumerate(sig_data):
 doc.add_paragraph().paragraph_format.space_after = Pt(12)
 
 add_section_title("ENDORSEMENT BY PROJECT GUIDE, HOD & HEAD OF INSTITUTION")
-add_body_p("This is to certify that the project proposal entitled 'Agri Rover Robo: Smartphone-Controlled Agricultural Robotic Vehicle for Precision Chemical Micro-Spraying and Remote Teleoperation' submitted by Thanmay M and Mohit S, final year MCA students of BMSITM, is an original research and engineering endeavor. The project has been reviewed and endorsed for submission under the 50th Series of the Student Project Programme (SPP: 2026–2027) of the Karnataka State Council for Science and Technology (KSCST).")
+add_body_p("This is to certify that the project proposal entitled 'Agri Rover Robo - IoT Automation' submitted by Thanmay M and Mohit S, final year MCA students of BMSITM, is an original research and engineering endeavor. The project has been reviewed and endorsed for submission under the 50th Series of the Student Project Programme (SPP: 2026–2027) of the Karnataka State Council for Science and Technology (KSCST).")
 
 # Institutional Endorsements Table
 tbl_end = doc.add_table(rows=1, cols=3)
