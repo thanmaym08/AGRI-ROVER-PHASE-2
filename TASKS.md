@@ -95,6 +95,8 @@ All tasks listed below have been completed, verified on physical hardware and/or
 - [x] **TASK-P08: SoftAP Modem Sleep & Micro-Disconnect Elimination** (Pure `WIFI_AP`, `WiFi.setSleep(false)`, `19.5dBm` TX power, 200ms `AbortController` latch release, `img.onerror` auto-reconnect)
 - [x] **TASK-P09: Client-Side Hardware-Accelerated Camera Stream Rotation & Orientation Persistence** (One-touch on-screen quick-rotate button `[🔄 0°]`, 4-quadrant orientation grid in Settings modal, horizontal mirror flip, 0% CPU ESP32 load, and localStorage persistence)
 - [x] **TASK-P10: Post-Camera LEDC Initialization & Motor Channel Integrity** (Moved motor PWM attachment after `esp_camera_init` to prevent peripheral driver reset, restoring motor drive signals on pins 14, 15, 13, 12)
+- [x] **TASK-P11: Native Android Teleoperation App (mohitsarode/Rover-App) Integration & Direct 12V Pump Virtual Verification** (100% REST API compatibility, Gson POJO schema match, 3-mode kinematics, 12V direct relay bus isolation, and 8/8 automated virtual test passes)
+- [x] **TASK-P12: Rover-App Feature Expansion & Live Demo Bench Diagnostics** (Added relay active-high/low polarity selector, continuous pump priming & line draining, camera horizontal mirror flip, and in-app hardware wheel diagnostic routines; verified with 11/11 automated tests in commit `2780d71`)
 
 ---
 

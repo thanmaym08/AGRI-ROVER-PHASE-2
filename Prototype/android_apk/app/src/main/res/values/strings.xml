@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Agri Rover Teleop</string>
+    <string name="brand_title">AGRI ROVER</string>
+    <string name="brand_sub">CAM COCKPIT</string>
+    <string name="status_offline">OFFLINE</string>
+    <string name="status_online">ONLINE</string>
+    <string name="status_connecting">CONNECTING</string>
+    <string name="speed_regime">SPEED REGIME</string>
+    <string name="speed_slow">SLOW 35%</string>
+    <string name="speed_med">MED 65%</string>
+    <string name="speed_fast">FAST 100%</string>
+    <string name="spray_burst">💦 SPRAY BURST (200ms)</string>
+    <string name="flash_btn">💡 FLASH</string>
+    <string name="probe_btn">🌱 SOIL PROBE</string>
+    <string name="estop_btn">🛑 E-STOP</string>
+    <string name="settings_title">Rover Calibration &amp; Connection</string>
+</resources>

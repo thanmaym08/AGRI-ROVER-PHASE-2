@@ -145,13 +145,47 @@ Agri Rover is an autonomous cyber-physical robotic platform developed as a Maste
 
 ### ADR-013: KSCST 50th Series SPP Proposal & 2-Member Team Configuration
 - **Date:** 2026-11-26
-- **Status:** Approved & Formatted
+- **Status:** Approved & Formatted (FROZEN)
 - **Context:** Urgent institutional submission for Karnataka State Council for Science and Technology (KSCST) 50th Series Student Project Programme (deadline today before 3:00 PM IST).
 - **Decisions:**
   1. **Team Composition:** Finalized 2-member team consisting of Thanmay M (Team Leader, `1BY24MC095`) and Mohit S (`1BY24MC063`). Keerthana, Mohan, and Monica removed per departmental confirmation.
   2. **Institutional Leadership:** Project Guide Dr. Dwarakanath G V (Associate Professor, Dept. of MCA), HOD Dr. M. Sridevi (Dept. of MCA), College SPP Coordinator Dr. Manjunath (Assistant Professor, Dept. of Mechanical Engineering), and Principal Dr. Sanjay H.A.
   3. **Architecture & Scope Alignment:** Highlighted Raspberry Pi 4 Model B, Dual BTS7960 43A motor drivers, 10–20 kg heavy-load torque derivation ($34.76\text{ kg}\cdot\text{cm}$ total demand vs $60.0\text{ kg}\cdot\text{cm}$ rated / $140.0\text{ kg}\cdot\text{cm}$ stall supply), smartphone app teleoperation (virtual joystick, low-latency camera stream), and dual-nozzle solenoid chemical micro-spraying. Fully purged legacy NPK sensor references.
   4. **Strict 1-Page Endorsement Form:** Formatted `KSCST_Declaration_and_Endorsement_Form.pdf` to fit on exactly one printable page for immediate physical signing today.
+
+### ADR-014: Live Hardware Demonstration Focus & Complete KSCST Scope Freeze
+- **Date:** 2026-11-28
+- **Status:** Accepted (Active Mandate)
+- **Context:** The user explicitly mandated zero modifications to any KSCST documentation, submission packages, or grant materials. The project scope is 100% focused on the upcoming physical Agri Rover live demonstration.
+- **Decisions:**
+  1. **Strict Freeze on KSCST Assets:** `KSCST_Submission_Package/`, KSCST proposal DOCX/PDFs, CSV records, and endorsement forms are locked and untouched.
+  2. **Live Demonstration Priority Matrix:** Prioritize end-to-end execution of:
+     - Robust Wi-Fi SoftAP connection to mobile phone (`AgriRover-CAM-AP`).
+     - Real-time Port 81 video stream latency and aspect orientation.
+     - Symmetrical 4WD skid-steer locomotion without brownouts or motor stalls.
+     - Calibrated 12V water pump micro-spraying (1000ms pulse).
+     - Automated in-situ soil moisture probing (MG996R servo descent $\to$ capacitive reading $\to$ retraction $\to$ conditional spot sprinkling).
+     - Failsafe watchdog auto-braking and demo crash prevention.
+
+### ADR-015: mohitsarode/Rover-App Native Android Client Verification & Direct 12V Pump Interlock
+- **Date:** 2026-11-28
+- **Status:** Verified & Accepted
+- **Context:** Project partner Mohit Sarode published the native Android teleoperation client (`https://github.com/mohitsarode/Rover-App`). User requested verifying app code compatibility and simulating the physical direct 12V pump wiring.
+- **Verification & Findings:**
+  1. **100% API Alignment:** `RoverApiClient.java` perfectly implements the ESP32-CAM REST contract (`/drive`, `/spray`, `/flash`, `/probe`, `/probe_status`, `/probe_threshold`). The `ProbeStatus` POJO mirrors firmware `snprintf` JSON serialization field-for-field (`state`, `dry`, `raw`, `percent`, `threshold`, `status`, `idle`).
+  2. **Multi-Modal UI:** Successfully implements 3 control modes (`Dual Thumbs`, `Single Stick 360°`, `D-Pad Tactile`) with 60ms D-Pad pulse loop and native Port 81 multipart MJPEG stream decoding via `MjpegStreamer.java`.
+  3. **Direct 12V Pump Circuit Verification:** Routing switched raw +12.6V battery bus into Relay `COM` and Relay `NO` to Pump (+) isolates the LM2596 5V logic rail from pump inrush transients while delivering maximum hydrodynamic pressure.
+  4. **Virtual Integration Suite:** Verified via automated testbench `Prototype/scripts/test_rover_app_integration.py` with 8/8 test passes covering kinematics, drive lockout, FSM polling, and emergency stopping.
+
+### ADR-016: Rover-App Feature Expansion (Relay Polarity, Continuous Priming, Video Mirror & Bench Diagnostics)
+- **Date:** 2026-11-28
+- **Status:** Implemented & Verified in Commit `2780d71`
+- **Context:** Audit of Mohit's app revealed missing operational controls: lack of relay active-high/low toggle in settings, no manual pump prime/drain switch, missing camera mirror flip, stream rotation visual glitch (`streamRotationDeg` not applied to `ImageView`), and absence of hardware bench diagnostic buttons.
+- **Decisions & Implementation:**
+  1. **Relay Module Polarity Toggle:** Added `cfg_relay_polarity` setting in `RoverConfig.java`, UI checkboxes in `dialog_settings.xml` and `activity_main.xml`, and `/spray?polarity=high|low` API call in `RoverApiClient.java`. Eliminates pump false-triggering across different 5V relay modules.
+  2. **Manual Continuous Pump Priming / Line Draining:** Added `/spray?state=on|off` trigger in `RoverApiClient.java` and a one-touch toggle button (`[ Prime / Drain Pump ]`) in the app. Allows operators to easily purge air from fluid lines before live demos.
+  3. **Stream Rotation & Horizontal Mirror Flip:** Fixed missing `ivCameraStream.setRotation(streamRotationDeg)` in `MainActivity.java` and added `config.isMirrorStream()` with `setScaleX(-1f)` support for upside-down/mirrored camera mounting.
+  4. **Hardware Bench Diagnostics Suite:** Added dedicated pre-flight test buttons for Left Wheels (180 PWM, 1.2s), Right Wheels (180 PWM, 1.2s), and All 4 Wheels directly within the app, verified by 11/11 automated tests in `test_rover_app_integration.py`.
 
 ---
 

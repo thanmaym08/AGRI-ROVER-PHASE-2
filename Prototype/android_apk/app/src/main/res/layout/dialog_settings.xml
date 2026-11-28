@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_card"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/settings_title"
+            android:textColor="@color/text_title"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="14dp"
+            android:background="@color/border_light" />
+
+        <!-- Turn Sensitivity (K_steer) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:text="Turn Sensitivity (K_steer):"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_dialog_turn_sens_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-bold"
+                android:text="0.75x"
+                android:textColor="@color/accent_green"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/sb_dialog_turn_sens"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:max="90"
+            android:progress="45"
+            android:progressTint="@color/accent_green"
+            android:thumbTint="@color/accent_green" />
+
+        <!-- Straight-line Drift Trim -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:text="Straight-Line Drift Trim:"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_dialog_trim_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-bold"
+                android:text="0%"
+                android:textColor="@color/accent_green"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/sb_dialog_trim"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:max="50"
+            android:progress="25"
+            android:progressTint="@color/accent_green"
+            android:thumbTint="@color/accent_green" />
+
+        <!-- Invert Toggles -->
+        <CheckBox
+            android:id="@+id/cb_invert_throttle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:buttonTint="@color/accent_green"
+            android:fontFamily="sans-serif"
+            android:text="Invert Throttle (Forward ↔ Reverse)"
+            android:textColor="@color/text_body"
+            android:textSize="13sp" />
+
+        <CheckBox
+            android:id="@+id/cb_invert_steer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/accent_green"
+            android:fontFamily="sans-serif"
+            android:text="Invert Steering (Left ↔ Right)"
+            android:textColor="@color/text_body"
+            android:textSize="13sp" />
+
+        <CheckBox
+            android:id="@+id/cb_dialog_mirror_stream"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/accent_green"
+            android:fontFamily="sans-serif"
+            android:text="Mirror Camera Feed (Flip Horizontal)"
+            android:textColor="@color/text_body"
+            android:textSize="13sp" />
+
+        <CheckBox
+            android:id="@+id/cb_dialog_relay_active_low"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/accent_green"
+            android:fontFamily="sans-serif"
+            android:text="Relay Active-LOW Logic (Uncheck for Active-HIGH)"
+            android:textColor="@color/text_body"
+            android:textSize="13sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="14dp"
+            android:background="@color/border_light" />
+
+        <!-- Network IP & Ports -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Rover Host / IP:"
+                    android:textColor="@color/text_muted"
+                    android:textSize="11sp" />
+
+                <EditText
+                    android:id="@+id/et_dialog_host"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_button_tactical"
+                    android:fontFamily="sans-serif-medium"
+                    android:inputType="textUri"
+                    android:paddingHorizontal="10dp"
+                    android:text="192.168.4.1"
+                    android:textColor="@color/text_title"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Ctrl Port:"
+                    android:textColor="@color/text_muted"
+                    android:textSize="11sp" />
+
+                <EditText
+                    android:id="@+id/et_dialog_ctrl_port"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_button_tactical"
+                    android:fontFamily="sans-serif-medium"
+                    android:inputType="number"
+                    android:paddingHorizontal="10dp"
+                    android:text="80"
+                    android:textColor="@color/text_title"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Stream Port:"
+                    android:textColor="@color/text_muted"
+                    android:textSize="11sp" />
+
+                <EditText
+                    android:id="@+id/et_dialog_stream_port"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_button_tactical"
+                    android:fontFamily="sans-serif-medium"
+                    android:inputType="number"
+                    android:paddingHorizontal="10dp"
+                    android:text="81"
+                    android:textColor="@color/text_title"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Soil Moisture Dry Threshold (API Specification Section 4.3) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:text="Soil Dry Threshold (Auto-Sprinkle Limit):"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_dialog_probe_threshold_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-bold"
+                android:text="35%"
+                android:textColor="@color/accent_blue"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/sb_dialog_probe_threshold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:max="70"
+            android:progress="25"
+            android:progressTint="@color/accent_blue"
+            android:thumbTint="@color/accent_blue" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="sans-serif"
+            android:text="Range: 10% (Arid) to 80% (Saturated). Soil below this triggers 2.5s pump."
+            android:textColor="@color/text_muted"
+            android:textSize="11sp" />
+
+        <!-- Spray Pulse ms -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:text="Chemical Spray Pulse Duration (ms):"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/et_dialog_spray_ms"
+                android:layout_width="90dp"
+                android:layout_height="44dp"
+                android:background="@drawable/bg_button_tactical"
+                android:fontFamily="sans-serif-bold"
+                android:gravity="center"
+                android:inputType="number"
+                android:text="1000"
+                android:textColor="@color/text_title"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Actions -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_dialog_reset"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_tactical"
+                android:fontFamily="sans-serif-bold"
+                android:text="Reset Defaults"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/btn_dialog_save"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
+                android:background="@drawable/bg_button_tactical_active"
+                android:fontFamily="sans-serif-bold"
+                android:text="Save &amp; Apply"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

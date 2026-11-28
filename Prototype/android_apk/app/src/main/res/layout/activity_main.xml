@@ -1,0 +1,2150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    tools:context=".MainActivity">
+
+    <!-- ==================== 1. TOP MINIMAL BRAND & STATUS BAR ==================== -->
+    <LinearLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/bg_main"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.08"
+                android:text="AGRI ROVER"
+                android:textColor="@color/text_title"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_top_status_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_badge_offline"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="1"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp"
+                android:singleLine="true"
+                android:text="OFFLINE"
+                android:textColor="@color/status_offline"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!-- Right Quick Vitals (Latency & Battery) -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_top_ping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="-- ms"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@drawable/bg_pill_neutral"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="8dp">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_battery" />
+
+                <TextView
+                    android:id="@+id/tv_top_battery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="—"
+                    android:textColor="@color/text_body"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ==================== 2. MAIN CONTENT SECTIONS CONTAINER ==================== -->
+    <FrameLayout
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_nav_dock"
+        android:layout_below="@id/top_bar">
+
+        <!-- ==================== TAB 1: HOME / DISCOVER ==================== -->
+        <ScrollView
+            android:id="@+id/section_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            android:paddingHorizontal="18dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp"
+            android:scrollbars="none"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Rover Hero Card with Futuristic Illustration -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_futuristic"
+                    android:elevation="3dp"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <!-- Keep the title/connection details and rover illustration in separate columns. -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingEnd="8dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-medium"
+                                android:letterSpacing="0.06"
+                                android:text="ROBOTIC FIELD PLATFORM"
+                                android:textColor="@color/accent_coral"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:fontFamily="sans-serif-medium"
+                                android:maxLines="2"
+                                android:text="Agri Rover MK-II"
+                                android:textColor="@color/text_title"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/tv_home_ip"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:ellipsize="end"
+                                android:fontFamily="sans-serif"
+                                android:maxLines="2"
+                                android:text="192.168.4.1&#10;AgriRover-CAM-AP"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/iv_home_rover_hero"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            android:layout_marginStart="8dp"
+                            android:contentDescription="Agri Rover illustration"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_rover_hero" />
+                    </LinearLayout>
+
+                    <!-- Start Mission / Teleoperation Action Button -->
+                    <Button
+                        android:id="@+id/btn_home_start_control"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="18dp"
+                        android:background="@drawable/bg_button_coral_gradient"
+                        android:elevation="4dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.08"
+                        android:text="START REMOTE CONTROL  ›"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <!-- Compact telemetry cards: only values supported by the rover are shown. -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.08"
+                    android:text="ROVER OVERVIEW"
+                    android:textColor="@color/text_muted"
+                    android:textSize="10sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/card_home_soil"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_card_futuristic"
+                        android:elevation="2dp"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:letterSpacing="0.06"
+                            android:text="SOIL MOISTURE"
+                            android:textColor="@color/text_muted"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tv_home_soil_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="—%"
+                            android:textColor="@color/accent_coral"
+                            android:textSize="26sp" />
+
+                        <TextView
+                            android:id="@+id/tv_home_soil_desc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:fontFamily="sans-serif"
+                            android:text="No probe reading yet"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_card_futuristic"
+                        android:elevation="2dp"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:letterSpacing="0.06"
+                            android:text="DRIVE SYSTEM"
+                            android:textColor="@color/text_muted"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tv_home_motion_tag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="STOPPED"
+                            android:textColor="@color/text_title"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:fontFamily="sans-serif"
+                            android:text="4WD skid-steer"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Driving Architecture Selection Cards -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.06"
+                    android:text="SELECT DRIVING ARCHITECTURE"
+                    android:textColor="@color/text_muted"
+                    android:textSize="11sp" />
+
+                <!-- Mode 1: Dual Thumbs -->
+                <LinearLayout
+                    android:id="@+id/card_home_mode_dual"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_mode_card"
+                    android:clickable="true"
+                    android:elevation="2dp"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_button_coral_pill"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="II"
+                        android:textColor="@color/accent_coral"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="14dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Dual Thumbs (Split Axis)"
+                            android:textColor="@color/text_title"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Left vertical throttle, right horizontal steering."
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="›"
+                        android:textColor="@color/accent_coral"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+                <!-- Mode 2: Single Stick -->
+                <LinearLayout
+                    android:id="@+id/card_home_mode_single"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_mode_card"
+                    android:clickable="true"
+                    android:elevation="2dp"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_button_coral_pill"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="360°"
+                        android:textColor="@color/accent_coral"
+                        android:textSize="13sp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="14dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Single Stick (Omnidirectional)"
+                            android:textColor="@color/text_title"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Fluid 360° analog joystick with speed presets."
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="›"
+                        android:textColor="@color/accent_coral"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+                <!-- Mode 3: D-Pad Tactile -->
+                <LinearLayout
+                    android:id="@+id/card_home_mode_dpad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/bg_mode_card"
+                    android:clickable="true"
+                    android:elevation="2dp"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_button_coral_pill"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="╋"
+                        android:textColor="@color/accent_coral"
+                        android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="14dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="D-Pad Tactile (Step Drive)"
+                            android:textColor="@color/text_title"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Dedicated press-and-hold buttons for row alignment."
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="›"
+                        android:textColor="@color/accent_coral"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- ==================== TAB 2: REMOTE CONTROL COCKPIT ==================== -->
+        <LinearLayout
+            android:id="@+id/section_remote"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Motion Status Pill -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="6dp">
+
+                <TextView
+                    android:id="@+id/tv_hud_motion_vector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_pill_neutral"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingHorizontal="14dp"
+                    android:text="STOPPED | L:0 R:0"
+                    android:textColor="@color/text_body"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <!-- Middle Viewport & Cockpit Controls -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <!-- Left Side Controls Panel (Dual Thumbs & D-Pad) -->
+                <LinearLayout
+                    android:id="@+id/left_side_panel"
+                    android:layout_width="128dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/bg_main"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <!-- Dual Thumbs Left: Speed + Throttle -->
+                    <LinearLayout
+                        android:id="@+id/left_dual_controls"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <!-- Speed Pills -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_card_futuristic"
+                            android:orientation="vertical"
+                            android:padding="6dp">
+
+                            <TextView
+                                android:id="@+id/tv_dual_speed_val"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-medium"
+                                android:gravity="center"
+                                android:text="65%"
+                                android:textColor="@color/accent_coral"
+                                android:textSize="10sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="26dp"
+                                android:layout_marginTop="4dp"
+                                android:orientation="horizontal">
+
+                                <Button
+                                    android:id="@+id/btn_dual_speed_35"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="2dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/bg_button_tactical"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:padding="0dp"
+                                    android:text="35"
+                                    android:textColor="@color/text_body"
+                                    android:textSize="9sp" />
+
+                                <Button
+                                    android:id="@+id/btn_dual_speed_65"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="2dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/bg_button_tactical_active"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:padding="0dp"
+                                    android:text="65"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="9sp" />
+
+                                <Button
+                                    android:id="@+id/btn_dual_speed_100"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/bg_button_tactical"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:padding="0dp"
+                                    android:text="100"
+                                    android:textColor="@color/text_body"
+                                    android:textSize="9sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <!-- Vertical Throttle Slider -->
+                        <com.agrirover.teleop.AxisSliderView
+                            android:id="@+id/slider_throttle"
+                            android:layout_width="96dp"
+                            android:layout_height="160dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <!-- D-Pad Left: FWD / REV -->
+                    <LinearLayout
+                        android:id="@+id/left_dpad_controls"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <Button
+                            android:id="@+id/btn_dpad_fwd"
+                            android:layout_width="match_parent"
+                            android:layout_height="62dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="▲ FORWARD"
+                            android:textColor="@color/text_title"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_dpad_rev"
+                            android:layout_width="match_parent"
+                            android:layout_height="62dp"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="▼ REVERSE"
+                            android:textColor="@color/text_title"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!-- Left Utility: LED Flash -->
+                    <Button
+                        android:id="@+id/btn_side_flash"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_button_flash"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="LIGHT"
+                        android:textColor="@color/accent_amber_text"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <!-- Center Camera Stream Viewport -->
+                <RelativeLayout
+                    android:id="@+id/stream_container"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card_futuristic"
+                    android:clipToOutline="true">
+
+                    <ImageView
+                        android:id="@+id/iv_camera_stream"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#1C1816"
+                        android:contentDescription="Live Camera Feed"
+                        android:scaleType="fitCenter" />
+
+                    <!-- Offline Placeholder -->
+                    <LinearLayout
+                        android:id="@+id/layout_stream_placeholder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ProgressBar
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            android:indeterminate="true"
+                            android:indeterminateTint="@color/accent_coral" />
+
+                        <TextView
+                            android:id="@+id/tv_stream_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:gravity="center"
+                            android:text="Connecting to ESP32-CAM..."
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_retry_stream"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/bg_button_coral_gradient"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingHorizontal="16dp"
+                            android:text="Reconnect"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <!-- Reticle -->
+                    <View
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/bg_reticle_dashed" />
+
+                    <!-- FPS Badge -->
+                    <TextView
+                        android:id="@+id/tv_hud_fps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/bg_card_translucent"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="3dp"
+                        android:text="0 FPS"
+                        android:textColor="@color/accent_coral"
+                        android:textSize="10sp" />
+
+                    <!-- Rotation Pill -->
+                    <Button
+                        android:id="@+id/btn_rotate_stream"
+                        android:layout_width="wrap_content"
+                        android:layout_height="28dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/bg_card_translucent"
+                        android:fontFamily="sans-serif-medium"
+                        android:minWidth="0dp"
+                        android:paddingHorizontal="8dp"
+                        android:text="ROTATE 270°"
+                        android:textColor="@color/text_title"
+                        android:textSize="10sp" />
+
+                    <!-- Spray Active Alert -->
+                    <TextView
+                        android:id="@+id/tv_spray_alert_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/bg_button_spray"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:letterSpacing="0.08"
+                        android:text="CHEMICAL SPRAY ACTIVE"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:visibility="gone" />
+
+                    <!-- Soil Reading Chip -->
+                    <TextView
+                        android:id="@+id/tv_probe_moisture_val"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/bg_card_translucent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp"
+                        android:text="Soil: 38% | Limit: 35%"
+                        android:textColor="@color/accent_coral"
+                        android:textSize="11sp" />
+                </RelativeLayout>
+
+                <!-- Right Side Controls Panel (Dual Thumbs & D-Pad) -->
+                <LinearLayout
+                    android:id="@+id/right_side_panel"
+                    android:layout_width="128dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/bg_main"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <!-- Dual Thumbs Right: Spray + Steering -->
+                    <LinearLayout
+                        android:id="@+id/right_dual_controls"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <!-- Spray Button & Duration -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_card_futuristic"
+                            android:orientation="vertical"
+                            android:padding="6dp">
+
+                            <Button
+                                android:id="@+id/btn_dual_spray"
+                                android:layout_width="match_parent"
+                                android:layout_height="36dp"
+                                android:background="@drawable/bg_button_coral_gradient"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="SPRAY (1.0s)"
+                                android:textColor="#FFFFFF"
+                                android:textSize="10sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="24dp"
+                                android:layout_marginTop="4dp"
+                                android:orientation="horizontal">
+
+                                <Button
+                                    android:id="@+id/btn_dual_spray_05"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="2dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/bg_button_tactical"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:padding="0dp"
+                                    android:text="0.5s"
+                                    android:textColor="@color/text_body"
+                                    android:textSize="9sp" />
+
+                                <Button
+                                    android:id="@+id/btn_dual_spray_10"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="2dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/bg_button_spray_pill_active"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:padding="0dp"
+                                    android:text="1.0s"
+                                    android:textColor="@color/accent_coral_text"
+                                    android:textSize="9sp" />
+
+                                <Button
+                                    android:id="@+id/btn_dual_spray_20"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/bg_button_tactical"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:padding="0dp"
+                                    android:text="2.0s"
+                                    android:textColor="@color/text_body"
+                                    android:textSize="9sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <!-- Horizontal Steering Slider -->
+                        <com.agrirover.teleop.AxisSliderView
+                            android:id="@+id/slider_steering"
+                            android:layout_width="match_parent"
+                            android:layout_height="68dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <!-- D-Pad Right: LEFT / RIGHT -->
+                    <LinearLayout
+                        android:id="@+id/right_dpad_controls"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <Button
+                            android:id="@+id/btn_dpad_left"
+                            android:layout_width="match_parent"
+                            android:layout_height="62dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="◄ LEFT"
+                            android:textColor="@color/text_title"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_dpad_right"
+                            android:layout_width="match_parent"
+                            android:layout_height="62dp"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="RIGHT ►"
+                            android:textColor="@color/text_title"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!-- Shared Bottom Right: Probe + E-Stop -->
+                    <Button
+                        android:id="@+id/btn_side_probe"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_button_coral_pill"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="PROBE"
+                        android:textColor="@color/accent_coral_text"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btn_side_estop"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_button_estop"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="E-STOP"
+                        android:textColor="@color/accent_red_text"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Bottom Sub-Panel: Single Stick Mode Cockpit -->
+            <LinearLayout
+                android:id="@+id/single_stick_bottom_panel"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.95"
+                android:background="@color/bg_main"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <!-- Left: 360° Joystick Card -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card_futuristic"
+                    android:elevation="2dp"
+                    android:gravity="center"
+                    android:padding="6dp">
+
+                    <com.agrirover.teleop.JoystickView
+                        android:id="@+id/joystick_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+
+                <!-- Right: Speed, Spray, Actions Card -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1.2"
+                    android:background="@drawable/bg_card_futuristic"
+                    android:elevation="2dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <!-- Speed Regime -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="SPEED"
+                            android:textColor="@color/text_muted"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tv_single_speed_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="65% (MED)"
+                            android:textColor="@color/accent_coral"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_single_speed_35"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingHorizontal="0dp"
+                            android:text="SLOW"
+                            android:textColor="@color/text_body"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/btn_single_speed_65"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_tactical_active"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingHorizontal="0dp"
+                            android:text="MED"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/btn_single_speed_100"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingHorizontal="0dp"
+                            android:text="FAST"
+                            android:textColor="@color/text_body"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <!-- Chemical Spray Burst -->
+                    <Button
+                        android:id="@+id/btn_single_spray"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_button_coral_gradient"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="SPRAY BURST (1.0s)"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="26dp"
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_single_spray_05"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingHorizontal="0dp"
+                            android:text="0.5s"
+                            android:textColor="@color/text_body"
+                            android:textSize="9sp" />
+
+                        <Button
+                            android:id="@+id/btn_single_spray_10"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_spray_pill_active"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingHorizontal="0dp"
+                            android:text="1.0s"
+                            android:textColor="@color/accent_coral_text"
+                            android:textSize="9sp" />
+
+                        <Button
+                            android:id="@+id/btn_single_spray_20"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingHorizontal="0dp"
+                            android:text="2.0s"
+                            android:textColor="@color/text_body"
+                            android:textSize="9sp" />
+                    </LinearLayout>
+
+                    <!-- Single Stick Utilities -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_single_flash"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_flash"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingHorizontal="0dp"
+                            android:text="LIGHT"
+                            android:textColor="@color/accent_amber_text"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/btn_single_probe"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_coral_pill"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingHorizontal="0dp"
+                            android:text="PROBE"
+                            android:textColor="@color/accent_coral_text"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/btn_single_calib"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingHorizontal="0dp"
+                            android:text="TUNE"
+                            android:textColor="@color/text_title"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/btn_single_estop"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.2"
+                            android:background="@drawable/bg_button_estop"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingHorizontal="0dp"
+                            android:text="STOP"
+                            android:textColor="@color/accent_red_text"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Mode Switcher Pill Dock inside Remote -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="14dp">
+
+                <Button
+                    android:id="@+id/btn_mode_dual_thumbs"
+                    android:layout_width="0dp"
+                    android:layout_height="34dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_button_tactical_active"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingHorizontal="2dp"
+                    android:text="Dual Thumbs"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp" />
+
+                <Button
+                    android:id="@+id/btn_mode_single_stick"
+                    android:layout_width="0dp"
+                    android:layout_height="34dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_button_tactical"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingHorizontal="2dp"
+                    android:text="Single Stick"
+                    android:textColor="@color/text_body"
+                    android:textSize="10sp" />
+
+                <Button
+                    android:id="@+id/btn_mode_dpad"
+                    android:layout_width="0dp"
+                    android:layout_height="34dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="0.85"
+                    android:background="@drawable/bg_button_tactical"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingHorizontal="2dp"
+                    android:text="D-Pad"
+                    android:textColor="@color/text_body"
+                    android:textSize="10sp" />
+
+                <SeekBar
+                    android:id="@+id/sb_speed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:max="100"
+                    android:progress="65"
+                    android:progressTint="@color/accent_coral"
+                    android:thumbTint="@color/accent_coral" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ==================== TAB 3: TELEMETRY / INTELLIGENCE ==================== -->
+        <ScrollView
+            android:id="@+id/section_intelligence"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            android:paddingHorizontal="18dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp"
+            android:scrollbars="none"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Soil Hydration Analytics Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_futuristic"
+                    android:elevation="3dp"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="SUBSURFACE SOIL MOISTURE"
+                                android:textColor="@color/text_muted"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/tv_intel_moisture_large"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="—%"
+                                android:textColor="@color/accent_coral"
+                                android:textSize="40sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_intel_status_badge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/bg_status_badge"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="5dp"
+                            android:text="NOT MEASURED"
+                            android:textColor="@color/text_muted"
+                            android:textSize="10sp" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="SENSOR PLACEMENT"
+                        android:textColor="@color/text_muted"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:lineSpacingExtra="3dp"
+                        android:fontFamily="sans-serif"
+                        android:text="One capacitive sensor is lowered to approximately 50 mm for a reading. Separate topsoil and root-zone measurements are not available."
+                        android:textColor="@color/text_secondary"
+                        android:textSize="13sp" />
+
+                    <Button
+                        android:id="@+id/btn_intel_trigger_probe"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/bg_button_coral_gradient"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="DEPLOY SUBSOIL PROBE"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Hardware & Microcontroller Diagnostics Card -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.06"
+                    android:text="HARDWARE HEALTH"
+                    android:textColor="@color/text_muted"
+                    android:textSize="11sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_futuristic"
+                    android:elevation="3dp"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif"
+                                android:text="ESP32 Watchdog"
+                                android:textColor="@color/text_muted"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="1200ms Active"
+                                android:textColor="@color/status_online"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif"
+                                android:text="Relay Sprinkler"
+                                android:textColor="@color/text_muted"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="Active-HIGH"
+                                android:textColor="@color/text_title"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="12dp"
+                        android:background="@color/border_light" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif"
+                                android:text="SoftAP Signal"
+                                android:textColor="@color/text_muted"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="Not reported by firmware"
+                                android:textColor="@color/text_title"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif"
+                                android:text="Core Voltage"
+                                android:textColor="@color/text_muted"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="Not reported by firmware"
+                                android:textColor="@color/text_title"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Hardware Bench Diagnostics Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_card_futuristic"
+                    android:elevation="3dp"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="⚡ Hardware Bench Diagnostics"
+                        android:textColor="@color/text_title"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Elevate wheels on bench to verify physical wiring before live demo."
+                        android:textColor="@color/text_muted"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="12dp"
+                        android:background="@color/border_light" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_bench_test_left"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Left Wheels"
+                            android:textColor="@color/text_title"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_bench_test_right"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Right Wheels"
+                            android:textColor="@color/text_title"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_bench_test_both"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="All 4 Wheels"
+                            android:textColor="@color/text_title"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_bench_prime_pump"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.2"
+                            android:background="@drawable/bg_button_coral_gradient"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Prime / Drain Pump"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- ==================== TAB 4: SETTINGS & CALIBRATION ==================== -->
+        <ScrollView
+            android:id="@+id/section_settings"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            android:paddingHorizontal="18dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp"
+            android:scrollbars="none"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_futuristic"
+                    android:elevation="3dp"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Telemetry &amp; Kinematics Tuning"
+                        android:textColor="@color/text_title"
+                        android:textSize="17sp" />
+
+                    <!-- Soil Moisture Trigger Limit -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Soil Dry Threshold Limit:"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_settings_probe_threshold_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="35%"
+                            android:textColor="@color/accent_coral"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <SeekBar
+                        android:id="@+id/sb_settings_probe_threshold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:max="70"
+                        android:progress="25"
+                        android:progressTint="@color/accent_coral"
+                        android:thumbTint="@color/accent_coral" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="14dp"
+                        android:background="@color/border_light" />
+
+                    <!-- Turn Sensitivity -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Turn Sensitivity (K_steer):"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_settings_turn_sens_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="0.75x"
+                            android:textColor="@color/accent_coral"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <SeekBar
+                        android:id="@+id/sb_settings_turn_sens"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:max="90"
+                        android:progress="45"
+                        android:progressTint="@color/accent_coral"
+                        android:thumbTint="@color/accent_coral" />
+
+                    <!-- Drift Trim -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Straight-Line Drift Trim:"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_settings_trim_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="0%"
+                            android:textColor="@color/accent_coral"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <SeekBar
+                        android:id="@+id/sb_settings_trim"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:max="50"
+                        android:progress="25"
+                        android:progressTint="@color/accent_coral"
+                        android:thumbTint="@color/accent_coral" />
+
+                    <!-- Invert Toggles -->
+                    <CheckBox
+                        android:id="@+id/cb_settings_invert_throttle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:buttonTint="@color/accent_coral"
+                        android:fontFamily="sans-serif"
+                        android:text="Invert Throttle (Forward ↔ Reverse)"
+                        android:textColor="@color/text_body"
+                        android:textSize="13sp" />
+
+                    <CheckBox
+                        android:id="@+id/cb_settings_invert_steer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/accent_coral"
+                        android:fontFamily="sans-serif"
+                        android:text="Invert Steering (Left ↔ Right)"
+                        android:textColor="@color/text_body"
+                        android:textSize="13sp" />
+
+                    <CheckBox
+                        android:id="@+id/cb_settings_mirror_stream"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/accent_coral"
+                        android:fontFamily="sans-serif"
+                        android:text="Mirror Camera Feed (Flip Horizontal)"
+                        android:textColor="@color/text_body"
+                        android:textSize="13sp" />
+
+                    <CheckBox
+                        android:id="@+id/cb_settings_relay_active_low"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/accent_coral"
+                        android:fontFamily="sans-serif"
+                        android:text="Relay Active-LOW Logic (Uncheck for Active-HIGH)"
+                        android:textColor="@color/text_body"
+                        android:textSize="13sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="14dp"
+                        android:background="@color/border_light" />
+
+                    <!-- Network Host & Ports -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="6dp"
+                            android:layout_weight="1.8"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="Host IP:"
+                                android:textColor="@color/text_muted"
+                                android:textSize="11sp" />
+
+                            <EditText
+                                android:id="@+id/et_settings_host"
+                                android:layout_width="match_parent"
+                                android:layout_height="42dp"
+                                android:background="@drawable/bg_button_tactical"
+                                android:fontFamily="sans-serif-medium"
+                                android:paddingHorizontal="10dp"
+                                android:text="192.168.4.1"
+                                android:textColor="@color/text_title"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="6dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="Ctrl Port:"
+                                android:textColor="@color/text_muted"
+                                android:textSize="11sp" />
+
+                            <EditText
+                                android:id="@+id/et_settings_ctrl_port"
+                                android:layout_width="match_parent"
+                                android:layout_height="42dp"
+                                android:background="@drawable/bg_button_tactical"
+                                android:fontFamily="sans-serif-medium"
+                                android:inputType="number"
+                                android:paddingHorizontal="10dp"
+                                android:text="80"
+                                android:textColor="@color/text_title"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="Stream Port:"
+                                android:textColor="@color/text_muted"
+                                android:textSize="11sp" />
+
+                            <EditText
+                                android:id="@+id/et_settings_stream_port"
+                                android:layout_width="match_parent"
+                                android:layout_height="42dp"
+                                android:background="@drawable/bg_button_tactical"
+                                android:fontFamily="sans-serif-medium"
+                                android:inputType="number"
+                                android:paddingHorizontal="10dp"
+                                android:text="81"
+                                android:textColor="@color/text_title"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Chemical Spray Pulse ms -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Chemical Spray Duration (ms):"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="13sp" />
+
+                        <EditText
+                            android:id="@+id/et_settings_spray_ms"
+                            android:layout_width="85dp"
+                            android:layout_height="42dp"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:text="1000"
+                            android:textColor="@color/text_title"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <!-- Action Buttons -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_settings_reset"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Reset"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_settings_save"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.3"
+                            android:background="@drawable/bg_button_coral_gradient"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Save &amp; Apply"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Hardware Bench Diagnostics Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_card_futuristic"
+                    android:elevation="3dp"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="⚡ Hardware Bench Diagnostics"
+                        android:textColor="@color/text_title"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Elevate wheels on bench to verify physical wiring before live demo."
+                        android:textColor="@color/text_muted"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="12dp"
+                        android:background="@color/border_light" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_bench_test_left"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Left Wheels"
+                            android:textColor="@color/text_title"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_bench_test_right"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Right Wheels"
+                            android:textColor="@color/text_title"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_bench_test_both"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_button_tactical"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="All 4 Wheels"
+                            android:textColor="@color/text_title"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_bench_prime_pump"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.2"
+                            android:background="@drawable/bg_button_coral_gradient"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Prime / Drain Pump"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </FrameLayout>
+
+    <!-- ==================== 3. MINIMAL FLOATING BOTTOM NAVIGATION BAR ==================== -->
+    <LinearLayout
+        android:id="@+id/bottom_nav_dock"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_bottom_nav"
+        android:elevation="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp">
+
+        <!-- Tab 1: Home -->
+        <LinearLayout
+            android:id="@+id/nav_tab_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_nav_home"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_nav_home"
+                android:tint="@color/accent_coral" />
+
+            <TextView
+                android:id="@+id/tv_nav_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Home"
+                android:textColor="@color/accent_coral"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!-- Tab 2: Remote -->
+        <LinearLayout
+            android:id="@+id/nav_tab_remote"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_nav_remote"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_nav_remote"
+                android:tint="@color/text_muted" />
+
+            <TextView
+                android:id="@+id/tv_nav_remote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Remote"
+                android:textColor="@color/text_muted"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!-- Tab 3: Intelligence -->
+        <LinearLayout
+            android:id="@+id/nav_tab_intelligence"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_nav_intelligence"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_nav_intelligence"
+                android:tint="@color/text_muted" />
+
+            <TextView
+                android:id="@+id/tv_nav_intelligence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Intelligence"
+                android:textColor="@color/text_muted"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!-- Tab 4: Settings -->
+        <LinearLayout
+            android:id="@+id/nav_tab_settings"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_nav_settings"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_nav_settings"
+                android:tint="@color/text_muted" />
+
+            <TextView
+                android:id="@+id/tv_nav_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Settings"
+                android:textColor="@color/text_muted"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

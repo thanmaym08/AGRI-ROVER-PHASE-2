@@ -1,0 +1,32 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.AgriRover" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <!-- Mars Rover Coral Primary Accents -->
+        <item name="colorPrimary">@color/accent_coral</item>
+        <item name="colorPrimaryVariant">@color/accent_coral_dark</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">@color/accent_coral</item>
+        <item name="colorSecondaryVariant">@color/accent_coral_glow</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+
+        <item name="android:statusBarColor">@color/bg_main</item>
+        <item name="android:navigationBarColor">@color/bg_card</item>
+        <item name="android:windowBackground">@color/bg_main</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+
+        <!-- Zero-inset and un-tinted buttons so XML backgrounds & clear text are respected -->
+        <item name="materialButtonStyle">@style/Widget.AgriRover.Button</item>
+    </style>
+
+    <style name="Widget.AgriRover.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="backgroundTint">@null</item>
+    </style>
+</resources>

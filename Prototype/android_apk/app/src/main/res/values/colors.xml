@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Mars Rover Premium Warm & Futuristic Palette -->
+    <color name="bg_main">#F8F9FF</color>
+    <color name="bg_dark">#181514</color>
+    <color name="bg_card">#FFFFFF</color>
+    <color name="bg_card_warm">#F2F3F9</color>
+    <color name="bg_card_elevated">#ECEEF3</color>
+    <color name="bg_card_highlight">#E6E8ED</color>
+    <color name="bg_glass">#D9FFFFFF</color>
+    
+    <color name="border_light">#E0BFBA</color>
+    <color name="border_subtle">#D8C7C3</color>
+    <color name="border_active">#FF6F59</color>
+
+    <!-- Coral & Warm Terracotta Gradient Accents -->
+    <color name="accent_coral">#FF6F59</color>
+    <color name="accent_coral_start">#FC9174</color>
+    <color name="accent_coral_end">#AC3323</color>
+    <color name="accent_coral_light">#FFDAD4</color>
+    <color name="accent_coral_glow">#FFB4A7</color>
+    <color name="accent_coral_dark">#8A1A0E</color>
+    <color name="accent_coral_text">#6E0400</color>
+    
+    <!-- Secondary Warm Accents -->
+    <color name="accent_peach">#FFB4A1</color>
+    <color name="accent_peach_bg">#FFDBD2</color>
+    <color name="accent_terracotta">#9A442D</color>
+    <color name="accent_sand">#FFDDC4</color>
+    <color name="accent_sand_dark">#8C716C</color>
+
+    <!-- Status Indicators -->
+    <color name="status_online">#2E7D5B</color>
+    <color name="status_online_bg">#EBF5F0</color>
+    <color name="status_offline">#DC2626</color>
+    <color name="status_offline_bg">#FEE2E2</color>
+    <color name="status_warning">#D97706</color>
+    <color name="status_warning_bg">#FEF3C7</color>
+
+    <!-- Typography (Warm Slate & Deep Graphite) -->
+    <color name="text_title">#191C20</color>
+    <color name="text_body">#2E3135</color>
+    <color name="text_secondary">#58413D</color>
+    <color name="text_muted">#8C716C</color>
+
+    <!-- Backward compatibility color tokens -->
+    <color name="accent_green">#2E7D5B</color>
+    <color name="accent_green_glow">#4E9F76</color>
+    <color name="accent_green_dark">#1E563E</color>
+    <color name="accent_green_bg">#EBF5F0</color>
+    <color name="accent_green_text">#1E563E</color>
+    
+    <color name="accent_blue">#FF6F59</color>
+    <color name="accent_blue_glow">#FFA18C</color>
+    <color name="accent_blue_dark">#E04B28</color>
+    <color name="accent_blue_bg">#FFF0EC</color>
+    <color name="accent_blue_text">#D84315</color>
+    <color name="accent_cyan">#FF6F59</color>
+    
+    <color name="accent_amber">#D97706</color>
+    <color name="accent_amber_bg">#FEF3C7</color>
+    <color name="accent_amber_text">#92400E</color>
+    
+    <color name="accent_red">#DC2626</color>
+    <color name="accent_red_bg">#FEE2E2</color>
+    <color name="accent_red_text">#991B1B</color>
+</resources>
